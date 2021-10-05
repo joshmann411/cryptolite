@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cryptolte", "cryptolte\cryptolte.csproj", "{B4641801-BC5B-498A-A6D7-D4BDAA0FD04B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4641801-BC5B-498A-A6D7-D4BDAA0FD04B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4641801-BC5B-498A-A6D7-D4BDAA0FD04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4641801-BC5B-498A-A6D7-D4BDAA0FD04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4641801-BC5B-498A-A6D7-D4BDAA0FD04B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B776C33C-C242-402D-8054-6CF7845DB11C}
+	EndGlobalSection
+EndGlobal
