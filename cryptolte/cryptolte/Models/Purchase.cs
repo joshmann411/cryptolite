@@ -11,7 +11,7 @@ namespace cryptolte.Models
         [Key]
         public int Id { get; set; }
         public string Asset { get; set; }
-        public Contact ContactDetails { get; set; }
+        public int ContactDetailsId { get; set; }
         public string Amount { get; set; } //this should be followed by a well detailed message and possibly an email
     }
 }

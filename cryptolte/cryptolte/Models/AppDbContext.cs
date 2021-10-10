@@ -50,28 +50,14 @@ namespace cryptolte.Models
                     Id = 1,
                     Amount = "10.00",
                     Asset = _configuration.GetSection("crypto").Value.Split(",")[0] ?? "bitcoin",
-                    ContactDetails = new Contact
-                    {
-                        ContactId = 1,
-                        Firstname = "John",
-                        Surname = "Doe",
-                        Email = "johndoe@test.com",
-                        Cell = "+1234567654"
-                    }
+                    ContactDetailsId = 1
                 },
                 new Purchase
                 {
                     Id = 2,
                     Amount = "101.00",
                     Asset = _configuration.GetSection("crypto").Value.Split(",")[2] ?? "bitcoin",
-                    ContactDetails = new Contact
-                    {
-                        ContactId = 2,
-                        Firstname = "Eric",
-                        Surname = "Miller",
-                        Email = "ericmiller@test.com",
-                        Cell = "+27987654"
-                    }
+                    ContactDetailsId = 2
                 });
         }
     }

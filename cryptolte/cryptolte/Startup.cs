@@ -1,3 +1,6 @@
+using cryptolte.Interfaces;
+using cryptolte.Models;
+using cryptolte.Repositories.SqlRepo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace cryptolte
 {
@@ -26,6 +32,29 @@ namespace cryptolte
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<AppDbContext>(
+              options => options.UseSqlServer(Configuration.GetConnectionString("cryptoDBConnection"))
+           );
+
+            //Enale CORS
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+            //permit json serialization
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()
+            );
+
+            //services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<IContact, SqlContactRepository>();
+            services.AddScoped<IPurchase, SqlPurchaseRepository>();
+
+            //Add Identity
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,6 +67,8 @@ namespace cryptolte
         {
             //configure logging
             loggerFactory.AddFile("Logs/ts-{Date}.txt");
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
