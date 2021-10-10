@@ -16,6 +16,15 @@ namespace cryptolte.Repositories.SqlRepo
             _context = context;
         }
 
+
+        public string CreateContact(Contact contact)
+        {
+            _context.Add(contact);
+            _context.SaveChanges();
+            return "Contact added successfully";
+        }
+
+
         public string DeleteContact(int contactId)
         {
             //_logger.LogInformation("Deleting team detail of ID: " + softwareId);

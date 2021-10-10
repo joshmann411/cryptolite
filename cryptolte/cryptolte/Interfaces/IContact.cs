@@ -10,6 +10,7 @@ namespace cryptolte.Interfaces
     {
         IEnumerable<Contact> GetContacts();
         Contact GetContact(int contactId);
+        string CreateContact(Contact contact);
         string UpdateContact(Contact contactChanges);
         string DeleteContact(int contactId);
     }
