@@ -76,7 +76,7 @@ namespace cryptolte.Controllers
 
         [HttpPost]
         [Route("Post")]
-        [Route("Post/{purchase}")]
+        //[Route("Post/{purchase}")]
         public JsonResult Post([FromBody] Purchase purchase)
         {
             try
