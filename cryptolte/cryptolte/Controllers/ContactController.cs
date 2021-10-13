@@ -138,8 +138,5 @@ namespace cryptolte.Controllers
                 return new JsonResult("Error while deleting contact", ex.Message.ToString());
             }
         }
-
-
-
     }
 }

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace cryptolte
 {
@@ -48,12 +51,63 @@ namespace cryptolte
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()
             );
 
+            //Add Identity
+            services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredLength = 4;
+
+                opt.User.RequireUniqueEmail = true;
+                //opt.SignIn.RequireConfirmedEmail = true;
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            services.AddAuthentication(cfg =>
+            {
+                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+                    ValidIssuer = Configuration["Token:Issuer"],
+                    ValidateIssuer = true,
+                    ValidateAudience = false
+                };
+            });
+
+
+            services.AddAuthorization(options =>
+            {
+                //any user which is a ManagerDevelopers must have: 
+                // > a claim Title = Customer
+                // > a role: manager
+                options.AddPolicy("CustomerRole", md =>
+                {
+                    md.RequireClaim("claimtitle", "Customer");
+                    md.RequireRole("Customer");
+                });
+
+                //any user which is a AdminDevelopers must have: 
+                // > a claim Title = Admin
+                // > a role: Administrator
+                options.AddPolicy("AdminRole", ad =>
+                {
+                    ad.RequireClaim("claimtitle", "Admin");
+                    ad.RequireRole("Administrator");
+                });
+            });
+
+
             //services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IContact, SqlContactRepository>();
             services.AddScoped<IPurchase, SqlPurchaseRepository>();
-
-            //Add Identity
-
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -79,6 +133,8 @@ namespace cryptolte
 
             app.UseRouting();
 
+            app.UseAuthentication();
+                
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
