@@ -40,10 +40,10 @@ namespace cryptolte.Controllers
         {
             _logger.LogInformation($"Initiate user registration. Username: {model.Username}");
 
-            if (!await _roleManager.RoleExistsAsync(model.Role))
-            {
-                await _roleManager.CreateAsync(new IdentityRole(model.Role));
-            }
+            //if (!await _roleManager.RoleExistsAsync(model.Role))
+            //{
+            //    await _roleManager.CreateAsync(new IdentityRole(model.Role));
+            //}
 
             var userToCreate = new IdentityUser
             {
@@ -57,18 +57,19 @@ namespace cryptolte.Controllers
 
             if (result.Succeeded)
             {
-                var userFromDb = await _userManager.FindByNameAsync(userToCreate.UserName);
+                //var userFromDb = await _userManager.FindByNameAsync(userToCreate.UserName);
 
                 //add role to user
-                _logger.LogInformation($"Attach user from DB: {userFromDb} to role: {model.Role}");
+                //_logger.LogInformation($"Attach user from DB: {userFromDb} to role: {model.Role}");
 
-                await _userManager.AddToRoleAsync(userFromDb, model.Role);
+                //await _userManager.AddToRoleAsync(userFromDb, model.Role);
 
-                var claim = new Claim("ClaimTitle", model.ClaimTitle);
+                //create claim and add to the user
+                //var claim = new Claim("ClaimTitle", model.ClaimTitle);
 
-                _logger.LogInformation($"Add claim {claim} to user from DB");
+                //_logger.LogInformation($"Add claim {claim} to user from DB");
 
-                await _userManager.AddClaimAsync(userFromDb, claim);
+                //await _userManager.AddClaimAsync(userFromDb, claim);
 
                 return Ok(result);
             }
@@ -83,6 +84,7 @@ namespace cryptolte.Controllers
         {
             _logger.LogInformation($"Initiate Login");
 
+            //find out if user exists in the database (by name or email ?)
             //var user = await _userManager.FindByEmailAsync(loginModel.Email);
             var user = await _userManager.FindByNameAsync(loginModel.Username);
 
@@ -93,6 +95,7 @@ namespace cryptolte.Controllers
                 return BadRequest();
             }
 
+            //check that the password provided was valid
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginModel.Password, false);
 
             if (!result.Succeeded)
@@ -115,6 +118,7 @@ namespace cryptolte.Controllers
                 result = result,
                 username = user.UserName,
                 email = user.Email,
+                token = "Token goes here"
                 //token = _jwtTokenGenerator.generateToken(user, roles, claims)
                 //token = JwtTokenGeneratorMachine(user)
             });

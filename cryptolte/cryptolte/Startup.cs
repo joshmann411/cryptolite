@@ -64,45 +64,45 @@ namespace cryptolte
                 //opt.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
-            services.AddAuthentication(cfg =>
-            {
-                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
+            //services.AddAuthentication(cfg =>
+            //{
+            //    cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(options =>
+            //{
+            //    options.RequireHttpsMetadata = false;
 
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
-                    ValidIssuer = Configuration["Token:Issuer"],
-                    ValidateIssuer = true,
-                    ValidateAudience = false
-                };
-            });
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+            //        ValidIssuer = Configuration["Token:Issuer"],
+            //        ValidateIssuer = true,
+            //        ValidateAudience = false
+            //    };
+            //});
 
 
-            services.AddAuthorization(options =>
-            {
-                //any user which is a ManagerDevelopers must have: 
-                // > a claim Title = Customer
-                // > a role: manager
-                options.AddPolicy("CustomerRole", md =>
-                {
-                    md.RequireClaim("claimtitle", "Customer");
-                    md.RequireRole("Customer");
-                });
+            //services.AddAuthorization(options =>
+            //{
+            //    //any user which is a ManagerDevelopers must have: 
+            //    // > a claim Title = Customer
+            //    // > a role: manager
+            //    options.AddPolicy("CustomerRole", md =>
+            //    {
+            //        md.RequireClaim("claimtitle", "Customer");
+            //        md.RequireRole("Customer");
+            //    });
 
-                //any user which is a AdminDevelopers must have: 
-                // > a claim Title = Admin
-                // > a role: Administrator
-                options.AddPolicy("AdminRole", ad =>
-                {
-                    ad.RequireClaim("claimtitle", "Admin");
-                    ad.RequireRole("Administrator");
-                });
-            });
+            //    //any user which is a AdminDevelopers must have: 
+            //    // > a claim Title = Admin
+            //    // > a role: Administrator
+            //    options.AddPolicy("AdminRole", ad =>
+            //    {
+            //        ad.RequireClaim("claimtitle", "Admin");
+            //        ad.RequireRole("Administrator");
+            //    });
+            //});
 
 
             //services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();

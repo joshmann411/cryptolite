@@ -17,8 +17,8 @@ namespace cryptolte.Models.Auth
         [Required]
         public string Password { get; set; }
 
-        public string Role { get; set; }
+        //public string Role { get; set; }
 
-        public string ClaimTitle { get; set; }
+        //public string ClaimTitle { get; set; }
     }
 }
