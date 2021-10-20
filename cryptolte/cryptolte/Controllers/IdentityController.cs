@@ -1,4 +1,5 @@
-﻿using cryptolte.Models.Auth;
+﻿using cryptolte.Interfaces;
+using cryptolte.Models.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +19,19 @@ namespace cryptolte.Controllers
         private ILogger _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        //private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public IdentityController(UserManager<IdentityUser> userManager,
                                     ILoggerFactory loggerFactory,
-                                    //IJwtTokenGenerator jwtTokenGenerator,
+                                    IJwtTokenGenerator jwtTokenGenerator,
                                     RoleManager<IdentityRole> roleManager,
                                     SignInManager<IdentityUser> signInManager)
         {
             _logger = loggerFactory.CreateLogger(typeof(IdentityController));
             _userManager = userManager;
             _signInManager = signInManager;
-            //_jwtTokenGenerator = jwtTokenGenerator;
+            _jwtTokenGenerator = jwtTokenGenerator;
             _roleManager = roleManager;
         }
 
@@ -40,10 +41,10 @@ namespace cryptolte.Controllers
         {
             _logger.LogInformation($"Initiate user registration. Username: {model.Username}");
 
-            //if (!await _roleManager.RoleExistsAsync(model.Role))
-            //{
-            //    await _roleManager.CreateAsync(new IdentityRole(model.Role));
-            //}
+            if (!await _roleManager.RoleExistsAsync(model.Role ?? "Client"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(model.Role ?? "Client"));
+            }
 
             var userToCreate = new IdentityUser
             {
@@ -57,22 +58,24 @@ namespace cryptolte.Controllers
 
             if (result.Succeeded)
             {
-                //var userFromDb = await _userManager.FindByNameAsync(userToCreate.UserName);
+                var userFromDb = await _userManager.FindByNameAsync(userToCreate.UserName);
 
                 //add role to user
-                //_logger.LogInformation($"Attach user from DB: {userFromDb} to role: {model.Role}");
+                _logger.LogInformation($"Attach user from DB: {userFromDb} to role: {model.Role ?? "Client"}");
 
-                //await _userManager.AddToRoleAsync(userFromDb, model.Role);
+                await _userManager.AddToRoleAsync(userFromDb, model.Role ?? "Client");
 
                 //create claim and add to the user
-                //var claim = new Claim("ClaimTitle", model.ClaimTitle);
+                var claim = new Claim("ClaimTitle", model.ClaimTitle ?? "Client Title");
 
-                //_logger.LogInformation($"Add claim {claim} to user from DB");
+                _logger.LogInformation($"Add claim {claim} to user from DB");
 
-                //await _userManager.AddClaimAsync(userFromDb, claim);
+                await _userManager.AddClaimAsync(userFromDb, claim);
 
                 return Ok(result);
             }
+
+            //send email 
 
             return BadRequest(result);
         }
@@ -118,7 +121,8 @@ namespace cryptolte.Controllers
                 result = result,
                 username = user.UserName,
                 email = user.Email,
-                token = "Token goes here"
+                //token = "Token goes here"\
+                token = _jwtTokenGenerator.generateToken(user)
                 //token = _jwtTokenGenerator.generateToken(user, roles, claims)
                 //token = JwtTokenGeneratorMachine(user)
             });

@@ -64,23 +64,24 @@ namespace cryptolte
                 //opt.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
-            //services.AddAuthentication(cfg =>
-            //{
-            //    cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.RequireHttpsMetadata = false;
+            //give the application the ability to authenticate jwt tokens
+            services.AddAuthentication(cfg =>
+            {
+                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
 
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
-            //        ValidIssuer = Configuration["Token:Issuer"],
-            //        ValidateIssuer = true,
-            //        ValidateAudience = false
-            //    };
-            //});
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+                    ValidIssuer = Configuration["Token:Issuer"],
+                    ValidateIssuer = true,
+                    ValidateAudience = false
+                };
+            });
 
 
             //services.AddAuthorization(options =>
@@ -105,7 +106,7 @@ namespace cryptolte
             //});
 
 
-            //services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IContact, SqlContactRepository>();
             services.AddScoped<IPurchase, SqlPurchaseRepository>();
 

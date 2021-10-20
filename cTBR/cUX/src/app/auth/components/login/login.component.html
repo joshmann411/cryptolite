@@ -1,22 +1,22 @@
-<div class="row">
-    <div class="col-md-6 offset-md-3 mt4">
-        <h3>Login</h3>
+<div class="box">
+        <h2>Login</h2>
         <form #f="ngForm" (ngSubmit)="onSubmit(f)">
            
             <!-- <p>Form value: {{ f.value | json }}</p>
             <p>Form valid: {{ f.valid }}</p> -->
             
-            <div class="form-group">
-              <label for="loginUsername">Username</label>
+            <div class="inputBox">
+              <!-- <label for="loginUsername">Username</label> -->
               <input 
                     type="text" 
+                    class="form-control" 
                     name="username" 
                     ngModel 
                     required 
-                    #username="ngModel"
-                    class="form-control" 
-                    id="loginUsername"
-                    placeholder="Enter username">
+                    #username=ngModel
+                    >
+
+                    <label for="">Username</label>
               <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                     
                     <!-- <p>Username value: {{ username.value }}</p>
@@ -24,25 +24,25 @@
                     <p>Username dirty: {{ username.dirty }}</p>
                     <p>Username touched: {{ username.touched }}</p> -->
             </div>
-            <div class="form-group">
-              <label for="loginPassword">Password</label>
+            <div class="inputBox">
+              <!-- <label for="loginPassword">Password</label> -->
               <input 
                     type="password" 
+                    class="form-control"
                     name="password" 
                     ngModel 
                     required 
                     #password="ngModel"
-                    class="form-control" 
-                    id="loginPassword" 
-                    placeholder="Enter password">
+                    >
 
+                    <label for="">Password</label>
                     <!-- <p>Password value: {{ password.value }}</p>
                     <p>Password valid: {{ password.valid }}</p>
                     <p>Password dirty: {{ password.dirty }}</p>
                     <p>Password touched: {{ password.touched }}</p> -->
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <a [routerLink]="['../reset-password']">Forgot Password</a>
                 
                 <br>
@@ -54,8 +54,9 @@
                             login
                         </span>
                 </button>
-            </div>
+            </div> -->
+
+            <input type="submit" [disabled]="f.invalid" name="" value="Submit">
             <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
           </form>
-    </div>
 </div>

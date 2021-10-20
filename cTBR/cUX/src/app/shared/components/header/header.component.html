@@ -1,4 +1,66 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+      <button mat-icon-button>
+          <!-- <mat-icon>menu</mat-icon> -->
+          <mat-icon>dynamic_feed</mat-icon>
+      </button>
+      <span>Dynamo Crypto</span>
+
+      <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+        <ul fxLayout="row" fxLayoutGap="20px">
+          <li>
+            <!-- should only be visible to customers -->
+            <button mat-icon-button (click)="login()">  
+                Login <mat-icon>login</mat-icon>
+            </button>
+        </li>
+
+        <li>
+          <!-- should only be visible to customers -->
+          <button mat-icon-button (click)="register()">  
+            Register <mat-icon>person outline</mat-icon>
+          </button>
+        </li>
+
+       
+        </ul>
+      </div>
+
+      <!-- <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" *ngIf="loggedIn()"> -->
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+          <ul fxLayout="row" fxLayoutGap="20px">
+              <li>
+                  <!-- should only be visible to customers -->
+                  <button mat-icon-button>  
+                      <mat-icon>settings</mat-icon>
+                  </button>
+              </li>
+              <li>
+                  <!-- should only be visible to customers -->
+                  <button mat-icon-button>
+                      <mat-icon>help_outline</mat-icon>
+                  </button>
+              </li>
+              <li>
+                  <!-- should only be visible to customers -->
+                  <button mat-button [matMenuTriggerFor]="menu">
+                      <mat-icon>person outline</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                  <button mat-menu-item>
+                      <!-- should only be visible to customers -->
+                      <mat-icon>exit_to_app</mat-icon>
+                      sign out
+                  </button>
+                  </mat-menu>
+              </li>
+          </ul>
+      </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
             <span class="material-icons">
                 dynamic_feed
@@ -16,9 +78,6 @@
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <!-- <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li> -->
         <li class="nav-item">
           <a class="nav-link" 
               [routerLink]="['register']"
@@ -34,27 +93,12 @@
           [routerLink]="['reset-password']"
           routerLinkActive="active">Reset Password</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li> -->
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
-  </nav>
+  </nav> -->
+
+ 

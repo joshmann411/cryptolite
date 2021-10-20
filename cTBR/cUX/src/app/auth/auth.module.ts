@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     AuthRoutingModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   exports: [
     LoginComponent,
