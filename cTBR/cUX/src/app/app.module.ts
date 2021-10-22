@@ -15,6 +15,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProgressbarService } from './shared/services/progressbar.service';
 import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { LayoutSideModule } from './layouts/layout-side/layout-side.module';
+import { LayoutFullModule } from './layouts/layout-full/layout-full.module';
+import { HomeComponent } from './pages/home/home.component';
+import { RowExampleComponent } from './pages/row-example/row-example.component';
+import { ColExampleComponent } from './pages/col-example/col-example.component';
+
 
 @NgModule({
   declarations: [ 
@@ -25,6 +31,8 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    LayoutSideModule,
+    LayoutFullModule,
     AuthModule,
     MatTableModule,
     CommonModule,

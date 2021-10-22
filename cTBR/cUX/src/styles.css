@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body { 
+  height: 100%; 
+  margin: 0px;
+  padding: 0px
+}
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -13,5 +17,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-left: 5px solid #a94442; /* red */
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Temporary Styles */
+.content {
+    height: 800px;
+    background-color: #eee;
+  }
+  .container-outer {
+    border: solid 3px #ffc300;
+    padding: 10px;
+  }
+  .container {
+    border: solid 3px #900c3f;
+    padding: 10px;
+  }
+  .container-inner {
+    border: solid 3px #ff5733;
+    padding: 10px;
+  }
+  .container-element {
+    border: solid 3px #c70039;
+    padding: 10px;
+  }
