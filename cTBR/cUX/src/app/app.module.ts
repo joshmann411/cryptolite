@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
@@ -17,14 +16,18 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LayoutSideModule } from './layouts/layout-side/layout-side.module';
 import { LayoutFullModule } from './layouts/layout-full/layout-full.module';
-import { HomeComponent } from './pages/home/home.component';
-import { RowExampleComponent } from './pages/row-example/row-example.component';
-import { ColExampleComponent } from './pages/col-example/col-example.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { RegisterComponent } from './pages/register/register.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { MaterialModule } from './material/material.module';
+import { AuthModule } from './auth/auth.module';
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [ 
-    AppComponent
+    AppComponent, LoginComponent, RegisterComponent, ResetPasswordComponent, DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -33,15 +36,17 @@ import { ColExampleComponent } from './pages/col-example/col-example.component';
     SharedModule,
     LayoutSideModule,
     LayoutFullModule,
-    AuthModule,
+    HttpClientModule,
     MatTableModule,
     CommonModule,
     FontAwesomeModule,
     RouterModule,
     MatSidenavModule,
     FlexLayoutModule,
+    FormsModule,
+    MatStepperModule,
+    AuthModule,
     // AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: 'right'})
-    MatStepperModule
   ],
   providers: [
     {

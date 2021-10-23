@@ -2,3 +2,13 @@ ul li{
     list-style: none;
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover{
+    color: white;
+}
+
+

@@ -1,6 +1,18 @@
 <app-header></app-header>
 
-<div fxLayout="row" fxLayoutAlign="space-between start">
+<!-- 
+    fxLayout.lt-md: basically translates to saying
+    when the screensize < medium, use column 
+
+    fxLayoutAlign.lt-md: basically translates to saying
+    when the screensize < medium, stretch
+-->
+
+<div fxLayout="row" 
+    fxLayout.lt-md="column" 
+    fxLayoutAlign="space-between start"
+    fxLayoutAlign.lt-md="start stretch">
+    
     <div class="container-outer" fxFlex="20">
         <app-sidebar></app-sidebar>
     </div>

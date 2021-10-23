@@ -1,0 +1,105 @@
+<div class="box">
+    <h2>Register</h2>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="inputBox">
+          <!-- <label for="registerUsername">Username</label> -->
+          <input 
+                type="text"
+                class="form-control" 
+                name="username"
+                [(ngModel)]="model.Username"
+                ngModel 
+                required 
+                #username="ngModel"
+                >
+            <label for="">Username</label>
+          <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+        </div>
+
+        <div class="inputBox">
+            <!-- <label for="registerEmail">Email</label> -->
+            <input 
+                    type="email" 
+                    class="form-control"
+                    name="email"
+                    [(ngModel)]="model.Email"
+                    ngModel 
+                    required 
+                    #email="ngModel"
+                    >
+                <label for="">Email</label>
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+          </div>
+
+        <div class="inputBox">
+          <!-- <label for="registerPassword">Password</label> -->
+          <input 
+                type="password" 
+                class="form-control"
+                name="password"
+                [(ngModel)]="model.Password"
+                ngModel 
+                required 
+                #password="ngModel"
+                >
+            <label for="">Password</label>
+        </div>
+
+        <div class="inputBox">
+            <input type="password" 
+            class="form-control" 
+            name="ConfirmPassword"
+            ngModel 
+            required
+            #ConfirmPassword="ngModel"
+            >
+            <label for="ConfirmPassword">Confirm Password</label>
+        </div>
+
+        <div class="inputBox" hidden>
+            <input type="text" 
+            class="form-control" 
+            name="role"
+            [(ngModel)]="model.role"
+            ngModel 
+            
+            #role="ngModel"
+            ngModel
+            >
+
+            <label for="role">Role </label>
+        </div>
+
+        <div class="inputBox" hidden>
+            <input type="text" 
+            class="form-control" 
+            name="title"
+            [(ngModel)]="model.title"
+            ngModel 
+            
+            #title="ngModel"
+            >
+
+            <label for="title">Title </label>
+            
+        </div>
+
+        <!-- <div class="form-group">
+            <button type="submit"
+                    [disabled]="f.invalid"
+                    class="btn btn-primary">
+                    <span class="material-icons">
+                        send
+                    </span>
+                    Register
+                    
+            </button>
+        </div> -->
+
+            <button type="submit" class="btn btn-primary" [disabled]="f.invalid" value="">Submit</button>
+
+            <!-- <input type="submit" [disabled]="f.invalid" name="" value="Submit"> -->
+        
+        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+      </form>
+</div>

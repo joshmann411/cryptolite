@@ -1,25 +1,36 @@
+<ng-progress id="progressBar" 
+            [color]="progressBar.currentColor"></ng-progress>
+
+            <ngx-alerts></ngx-alerts>
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-      <button mat-icon-button>
-          <!-- <mat-icon>menu</mat-icon> -->
-          <mat-icon>dynamic_feed</mat-icon>
-      </button>
-      <span>Dynamo Crypto</span>
+      <a class="nav-link" 
+      [routerLink]="['']"
+      routerLinkActive="active" >
+        <button mat-icon-button>
+            <!-- <mat-icon>menu</mat-icon> -->
+            <mat-icon>dynamic_feed</mat-icon>
+        </button>
+        <span>Dynamo Crypto</span>
+      </a>
 
       <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
         <ul fxLayout="row" fxLayoutGap="20px">
           <li>
             <!-- should only be visible to customers -->
             <button mat-icon-button (click)="login()">  
-                Login <mat-icon>login</mat-icon>
+                <mat-icon>login</mat-icon>
             </button>
         </li>
 
         <li>
           <!-- should only be visible to customers -->
           <button mat-icon-button (click)="register()">  
-            Register <mat-icon>person outline</mat-icon>
+            <mat-icon>person outline</mat-icon>
           </button>
+          <!-- <button class="btn btn-primary" (click)="register()">  
+            <mat-icon>person outline</mat-icon>
+          </button> -->
         </li>
 
        
@@ -27,35 +38,33 @@
       </div>
 
       <!-- <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" *ngIf="loggedIn()"> -->
-        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+        <!-- should only be visible to customers -->
+        <!-- <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
           <ul fxLayout="row" fxLayoutGap="20px">
               <li>
-                  <!-- should only be visible to customers -->
+                  
                   <button mat-icon-button>  
                       <mat-icon>settings</mat-icon>
                   </button>
               </li>
               <li>
-                  <!-- should only be visible to customers -->
                   <button mat-icon-button>
                       <mat-icon>help_outline</mat-icon>
                   </button>
               </li>
               <li>
-                  <!-- should only be visible to customers -->
                   <button mat-button [matMenuTriggerFor]="menu">
                       <mat-icon>person outline</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
                   <button mat-menu-item>
-                      <!-- should only be visible to customers -->
                       <mat-icon>exit_to_app</mat-icon>
                       sign out
                   </button>
                   </mat-menu>
               </li>
           </ul>
-      </div>
+      </div> -->
   </mat-toolbar-row>
 </mat-toolbar>
 

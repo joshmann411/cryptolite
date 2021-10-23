@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class AuthService {
 
   // baseurl: string = environment.baseUrl;
   isLoggedIn: boolean = false;
+
+  helper = new JwtHelperService();
 
   // currentUser: IUser = {
   //   username: null,
@@ -54,6 +57,14 @@ export class AuthService {
       headers: headers
     }
     return this.http.post(this.authUrl + 'register', model, options)
+  }
+
+  loggedIn(): boolean {
+    const token = localStorage.getItem('token') ?? '';
+
+    // console.log('Token: ' + token);
+
+    return !this.helper.isTokenExpired(token);
   }
 
 }

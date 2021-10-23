@@ -80,3 +80,30 @@
 		width: 80%;
 	}
 }
+
+.box form .rst {
+    /* text-decoration-color: #FFF;
+    color: #FFF; */
+
+    color:#FFF;
+    margin-left: 10px;
+
+}
+
+.box form .rst {
+    /* text-decoration-color: #FFF;
+    color: #FFF; */
+
+    color:#FFF;
+    margin-left: 10px;
+}
+
+.box form .rst:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.box form button {
+	margin-top: 20px;
+}

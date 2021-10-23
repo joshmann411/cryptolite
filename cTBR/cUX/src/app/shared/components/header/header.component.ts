@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgProgress } from 'ngx-progressbar';
+import { ProgressbarService } from '../../services/progressbar.service';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +10,14 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+      private router: Router,
+      private progress: NgProgress,
+      public progressBar: ProgressbarService) { }
 
-  ngOnInit(): void {
+
+  ngOnInit() {
+    this.progressBar.progressRef = this.progress.ref('progressBar');
   }
 
   login(){
