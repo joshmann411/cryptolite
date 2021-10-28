@@ -24,10 +24,19 @@ import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MatCardModule } from '@angular/material/card';
+import { ShowDashboardComponent } from './pages/dashboard/show-dashboard/show-dashboard.component';
+import { AddEditDashboardComponent } from './pages/dashboard/add-edit-dashboard/add-edit-dashboard.component';
 
 @NgModule({
   declarations: [ 
-    AppComponent, LoginComponent, RegisterComponent, ResetPasswordComponent, DashboardComponent
+    AppComponent,  
+    LoginComponent, 
+    RegisterComponent, 
+    ResetPasswordComponent, 
+    DashboardComponent,
+    ShowDashboardComponent,
+    AddEditDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +55,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     FormsModule,
     MatStepperModule,
     AuthModule,
-    // AlertModule.forRoot({maxMessages: 5, timeout: 5000, positionX: 'right'})
+    MaterialModule,
+    MatCardModule
   ],
   providers: [
     {

@@ -5,8 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
-
+import { MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [],
@@ -17,7 +16,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatMenuModule,
     MatDividerModule,
     MatDividerModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatCardModule
   ],
   exports: [
     MatToolbarModule,
