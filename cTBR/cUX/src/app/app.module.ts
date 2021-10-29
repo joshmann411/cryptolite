@@ -27,6 +27,10 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MatCardModule } from '@angular/material/card';
 import { ShowDashboardComponent } from './pages/dashboard/show-dashboard/show-dashboard.component';
 import { AddEditDashboardComponent } from './pages/dashboard/add-edit-dashboard/add-edit-dashboard.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AddEditWalletComponent } from './pages/dashboard/add-edit-wallet/add-edit-wallet.component';
+import { PurchaseComponent } from './pages/dashboard/purchase/purchase.component';
+import { ConvertUSDToBTCPipe } from './pages/dashboard/purchase/convert-usdto-btc.pipe';
 
 @NgModule({
   declarations: [ 
@@ -36,7 +40,10 @@ import { AddEditDashboardComponent } from './pages/dashboard/add-edit-dashboard/
     ResetPasswordComponent, 
     DashboardComponent,
     ShowDashboardComponent,
-    AddEditDashboardComponent
+    AddEditDashboardComponent,
+    AddEditWalletComponent,
+    PurchaseComponent,
+    ConvertUSDToBTCPipe
   ],
   imports: [
     BrowserModule,
@@ -56,7 +63,8 @@ import { AddEditDashboardComponent } from './pages/dashboard/add-edit-dashboard/
     MatStepperModule,
     AuthModule,
     MaterialModule,
-    MatCardModule
+    MatCardModule,
+    MatTabsModule
   ],
   providers: [
     {

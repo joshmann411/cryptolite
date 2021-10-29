@@ -1,133 +1,272 @@
-<div class="row">
-    <!-- left space -->
-    <div class="col-md-2"></div>
-
-    <!-- middle pane -->
-    <div class="col-md-8">
-        
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary m-2" 
-            data-toggle="modal" data-target="#exampleModal"
-            (click)="addClick()" data-backdrop="static" data-keyboard="false">
-        Add Asset
-      </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-x1">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ modalTitle }}</h5>
+  <!-- Modal For coin -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-x1">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h1 
+              class="modal-title" 
+              id="exampleModalLabel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                  <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                  <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+                </svg>
+                {{ modalTitle }}
+              </h1>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                     (click)="closeClick()">
                 <span aria-hidden="true">&times;</span>
             </button>
-            </div>
-            <div class="modal-body">
-                <app-add-edit-dashboard [asset]="asset" *ngIf="activateAddEditDashboardCom">
+          </div>
+          <div class="modal-body">
+              <app-add-edit-dashboard [asset]="asset" *ngIf="activateAddEditDashboardCom">
 
-                </app-add-edit-dashboard>
-            </div>
-            <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
-        </div>
-        </div>
+              </app-add-edit-dashboard>
+
+
+              <app-add-edit-wallet [wallet]="wallet" *ngIf="activateAddEditWalletPortalCom">
+
+              </app-add-edit-wallet>
+
+              <app-purchase [asset]="asset" *ngIf="activatePurchaseCom">
+
+              </app-purchase>
+          </div>
+      </div>
     </div>
+  </div>
 
 
-        <div class="accordion" id="accordionExample">
-            <div class="card">
-              <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                  <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-                        <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-                    </svg>
-                      View Assets
-                  </button>
-                </h5>
+<div class="movingAdsTabs">
+</div>
+
+<div class="panels">
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Buy">
+      <!-- ADD Button trigger modal -->
+      <button 
+        type="button" 
+        class="btn btn-primary m-2" 
+        data-toggle="modal" 
+        data-target="#exampleModal"
+        (click)="addClick()" 
+        data-backdrop="static" 
+        data-keyboard="false"
+        hidden>
+          Add Asset
+      </button>
+
+      <hr>
+
+
+      <!-- Desktop Card -->
+      <div *ngFor="let asset of assetList">
+        <div 
+          class="card DesktopCard"
+          fxShow.gt-sm fxHide.lt-sm>
+
+          <div class="card-body">
+            <div class="row">
+              <div>
+                <img class="img img-circle"
+                src="{{ asset.imgPath }}" 
+                alt="BTC" 
+                style="max-width: 100px; max-height: 100px; float: right;"
+                width="40px" 
+                height="40px">
               </div>
           
-              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-                    <div *ngFor="let asset of assetList">
-                        <div class="card assetCard">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <img class="img img-thumbnail"
-                                    src="{{ asset.imgPath }}" 
-                                    alt="BTC" 
-                                    style="max-width: 100px; max-height: 100px;"
-                                    width="100px" 
-                                    height="100px">
-                                </div>
-
-                                <div class="col-sm-2 vl"></div>
-
-                                <div class="col-sm-4">
-                                    <p class="ast"> 
-                                        <b>{{ asset.assetShortCode }}</b>  
-                                    </p>
-                                </div>
-
-                                <div class="col-sm-2 mvmt">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-                                    </svg> 
-                                    <p> {{ asset.directionPercentage}} </p>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary ast" 
-                                            data-toggle="modal" data-target="#exampleModal" (click)="purchaseClick(asset)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                          </svg>    
-                                    </button>
-                                </div>
-                            </div>
-                    </div>
-                    </div>
+                <div class="coinNameSection">
+                  {{ asset.assetName }}
                 </div>
-              </div>
+                <div>
+                
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                  </svg> -->
+                </div>
             </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-4">
+                  <h5 class="card-title">Current COIN Price (approx)</h5>
+                  <p class="card-text btcPriceFnt">
+                    ${{ asset.price }}
+                  </p>
+                </div>
 
+                <div class="col-md-4 mvmt">
+                  <!-- some signals and indicators -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                </svg> 
+                
+                <p> {{ asset.directionPercentage}} </p>
+                </div>
 
-            <div class="card">
-              <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Collapsible Group Item #2
+                <div class="col-md-4 imgCol">
+                  <img class="img img-thumbnail"
+                        src="{{ asset.imgPath }}" 
+                        alt="BTC" 
+                        style="max-width: 100px; max-height: 100px; float: right;"
+                        width="100px" 
+                        height="100px">
+                </div>
+                
+              </div>
+              <hr>
+              <div class="row buyCustomFooter">
+                <div class="col-md-6">
+                  <button 
+                    class="btn btn-outline-primary"
+                    data-toggle="modal" 
+                    data-target="#exampleModal" 
+                    (click)="purchaseClick(asset)">
+                    Buy Now
                   </button>
-                </h5>
-              </div>
-              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Collapsible Group Item #3
-                  </button>
-                </h5>
-              </div>
-              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                
+                <div class="col-md-4"></div>
+
+                <div 
+                  class="col-md-2 favCoin" ngClick="changeColor()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                  </svg>
                 </div>
+
               </div>
-            </div>
           </div>
-    </div>
+        </div>
+      
+      </div>
 
-    <div class="col-md-2">
-    </div>
+      <!-- Small Device Card -->
+      <div *ngFor="let asset of assetList">
+        <div 
+          class="card SmallDeviceCard"
+          fxShow.lt-sm fxHide.lt-xl>
 
+          <div class="card-body">
+            <div class="row">
+              <div>
+                <img class="img img-circle"
+                src="{{ asset.imgPath }}" 
+                alt="BTC" 
+                style="max-width: 100px; max-height: 100px; float: right;"
+                width="40px" 
+                height="40px">
+              </div>
+          
+              <div class="coinNameSection">
+                {{ asset.assetName }}
+              </div>
+
+              <!-- <div style="float: right;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </div> -->
+            </div>
+              
+            <hr>
+
+            <div class="row">
+                <div>
+                  <h5 class="card-title">Current {{ asset.assetShortCode }} Price (approx)</h5>
+                  <p class="card-text btcPriceFnt">
+                    ${{ asset.price }}
+                  </p>
+                </div>
+
+                <div class="bodyImg">
+                  <img class="img img-circle"
+                        src="{{ asset.imgPath }}" 
+                        alt="BTC" 
+                        style="max-width: 50px; max-height: 50px;"
+                        width="40px" 
+                        height="40px">
+                </div>
+    
+                <!-- some signals and indicators -->
+                <!-- <div class="col-md-2 mvmt">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                </svg> 
+                
+                <p> {{ asset.directionPercentage}} </p>
+                </div> -->
+    
+                <div class="col-md-6">
+                  
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="smFooter">
+                <button 
+                  class="btn btn-outline-primary"
+                  data-toggle="modal" 
+                  data-target="#exampleModal" 
+                  (click)="purchaseClick(asset)">
+                  Buy Now
+                </button>
+                
+                  <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                  </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </mat-tab>
+
+
+
+    <mat-tab label="Wallet(s)">
+      <!-- ADD Button trigger modal -->
+      <button 
+        type="button" 
+        class="btn btn-outline-primary m-2" 
+        data-toggle="modal" 
+        data-target="#exampleModal"
+        (click)="addWalletClick()" 
+        data-backdrop="static" 
+        data-keyboard="false"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+          </svg>
+          Add Wallet
+      </button>
+
+      <hr>
+
+    </mat-tab>
+
+    <mat-tab label="Premium Coin">
+      Premium
+    </mat-tab>
+    <mat-tab label="Profile">
+      Profile
+    </mat-tab>
+  </mat-tab-group>
+  
+  <!-- <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+  </mat-tab-group>
+  
+  <mat-tab-group mat-align-tabs="end">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+  </mat-tab-group> -->
 </div>
+
+
+
 

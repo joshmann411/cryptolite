@@ -109,6 +109,7 @@ namespace cryptolte
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IContact, SqlContactRepository>();
             services.AddScoped<IPurchase, SqlPurchaseRepository>();
+            services.AddScoped<IBilling, SqlBillingRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -1,28 +1,74 @@
-.accordion{
+.accordion {
     margin-top: 50px;
     margin-bottom: 20px;
 }
 
-.assetCard{
-    margin-bottom: 20px;
+.assetCard {
+  margin: 0px 0px 20px 0px;
+
 }
 
 .vl {
     border-left: 6px solid green;
     height: inherit;
     margin: 10px 0px 10px 0px;
-    }
+}
 
-  .ast{
+/* .ast {
       margin-top: 35px;
       font-size: large;
-  }
+  } */
 
-  .mvmt svg{
+.mvmt svg {
     margin-top: 35px;
     color: green;
-  }
+}
 
-  .mvmt p{
-    color: green;
-  }
+.mvmt p {
+  color: green;
+}
+
+.movingAdsTabs{
+  height: 150px;
+}
+
+.panels{
+  margin: 0px 0px 0px 0px;
+}
+
+.DesktopCard {
+  margin: 0px 100px 20px 100px;
+}
+
+.SmallDeviceCard {
+  margin: 0px 0px 30px 0px;
+}
+
+.coinNameSection{
+  margin-left: 10px;
+  margin-top: 13px;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.buyCustomFooter{
+  margin-left: 1px;
+}
+
+.btcPriceFnt{
+  font-size: 30px;
+}
+
+.favCoin:hover{
+  color: blue;
+}
+
+.smFooter svg:hover{
+  color: blue;
+}
+
+.bodyImg {
+  margin-left: 150px;
+  /* float: right; */
+}
+

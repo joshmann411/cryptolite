@@ -1,0 +1,214 @@
+<div *ngIf="!isSubmitted">
+
+ 
+
+  <form>
+    <div class="form-group">
+        <label 
+            for="btcAmt">
+            <!-- Converted Amount: {{ dlr | convertUSDToBTC: asset.assetShortCode}} -->
+        </label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">USD</div>
+          </div>
+          <input 
+            type="number" 
+            class="form-control" 
+            id="btcAmt"
+            [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="dlr"
+            >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <!-- <label for="btcAmt">Converted Amount: {{btc}}</label> -->
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{asset.assetShortCode}}</div>
+          </div>
+          <input 
+            type="number" 
+            class="form-control"
+            id="btcAmt"
+            placeholder="{{ dlr | convertUSDToBTC: asset.assetShortCode}}"
+            disabled
+            >
+        </div>
+    </div>
+
+    <!-- diable button until a valid entry is provided -->
+    <div class="form-group">
+        <button 
+          class="btn btn-outline-primary" 
+          type="submit"
+          (click)="toggleSubmit()">
+            Submit
+        </button>
+    </div>
+
+  </form>
+
+</div>
+
+
+<!-- After Submit -->
+<div *ngIf="isSubmitted">
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+              <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+            </svg>
+            Pay with Master or Visa Card
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <!-- Credit card form -->
+          <section>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header py-3">
+                    <h3 class="mb-0">Biling details</h3>
+                  </div>
+                  <div class="card-body">
+                    <form>
+                      <!-- Text input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" id="form6Example3" class="form-control" />
+                        <label class="form-label" for="form6Example3">Name on card</label>
+                      </div>
+
+                      <!-- Text input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" id="form6Example4" class="form-control" />
+                        <label class="form-label" for="form6Example4">Credit card number</label>
+                      </div>
+
+                      <!-- 2 column grid layout with text inputs for the first and last names -->
+                      <div class="row mb-4">
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="form6Example1" class="form-control" />
+                            <label class="form-label" for="form6Example1">Expiration</label>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="form6Example2" class="form-control" />
+                            <label class="form-label" for="form6Example2">CVV</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Text input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" id="form6Example3" class="form-control" />
+                        <label class="form-label" for="form6Example3">Address</label>
+                      </div>
+
+                      <!-- Number input -->
+                      <div class="form-outline mb-4">
+                        <input type="number" id="form6Example6" class="form-control" />
+                        <label class="form-label" for="form6Example6">Phone</label>
+                      </div>
+
+                      <button class="btn btn-outline-primary btn-lg btn-block" type="submit">
+                        Pay Now
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- summary should display the amount that needs to be paid -->
+              <!-- To be updated -->
+              <!-- <div class="col-md-4 mb-4">
+                <div class="card mb-4">
+                  <div class="card-header py-3">
+                    <h5 class="mb-0">Summary</h5>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
+                      >
+                        Products
+                        <span>$53.98</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center px-0"
+                      >
+                        Shipping
+                        <span>Gratis</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3"
+                      >
+                        <div>
+                          <strong>Total amount</strong>
+                          <strong>
+                            <p class="mb-0">(including VAT)</p>
+                          </strong>
+                        </div>
+                        <span><strong>$53.98</strong></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </section>
+          <!-- Credit card form -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment with BTC -->
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-bitcoin" viewBox="0 0 16 16">
+              <path d="M5.5 13v1.25c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25V13h.5v1.25c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25V13h.084c1.992 0 3.416-1.033 3.416-2.82 0-1.502-1.007-2.323-2.186-2.44v-.088c.97-.242 1.683-.974 1.683-2.19C11.997 3.93 10.847 3 9.092 3H9V1.75a.25.25 0 0 0-.25-.25h-1a.25.25 0 0 0-.25.25V3h-.573V1.75a.25.25 0 0 0-.25-.25H5.75a.25.25 0 0 0-.25.25V3l-1.998.011a.25.25 0 0 0-.25.25v.989c0 .137.11.25.248.25l.755-.005a.75.75 0 0 1 .745.75v5.505a.75.75 0 0 1-.75.75l-.748.011a.25.25 0 0 0-.25.25v1c0 .138.112.25.25.25L5.5 13zm1.427-8.513h1.719c.906 0 1.438.498 1.438 1.312 0 .871-.575 1.362-1.877 1.362h-1.28V4.487zm0 4.051h1.84c1.137 0 1.756.58 1.756 1.524 0 .953-.626 1.45-2.158 1.45H6.927V8.539z"/>
+            </svg>
+            Pay with our coin partner(s)
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          Panel 2
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+              <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+            </svg>
+            Contact Us
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          If you are having trouble making payment, feel free to contact us by filling the form below          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
