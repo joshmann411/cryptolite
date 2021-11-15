@@ -8,6 +8,7 @@ namespace cryptolte.Models
 {
     public class Billing
     {
+        [Key]
         public int BillingId { get; set; }
         [Required]
         public string NameOnCard { get; set; }

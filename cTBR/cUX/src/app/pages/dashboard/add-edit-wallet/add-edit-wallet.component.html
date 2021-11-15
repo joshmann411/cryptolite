@@ -1,1 +1,147 @@
-<p>add-edit-wallet works!</p>
+<mat-horizontal-stepper>
+    <mat-step label="Add Account">
+        <div class="box">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                <!-- {{f.form.valid}}
+                <hr>
+                {{f.value | json }}
+                <hr>
+                {{AccountModel | json}}
+                <hr> -->
+        
+                 <!-- Email Address -->
+                <div class="form-group" hidden>
+                    <label for="Email">Email address</label>
+                    <input 
+                        type="email"
+                        class="form-control" 
+                        name="Email"
+                        [(ngModel)]="AccountModel.Email"
+                        placeholder="{{userEmail}}"
+                        value="{{userEmail}}"
+                        >
+                </div>
+        
+                <!-- Account Type -->
+                <div class="form-group">
+                    <label for="accountType">Account Type</label>
+                    <select 
+                        required
+                        class="form-control" 
+                        name="AccType"
+                        [(ngModel)]="AccountModel.AccountType"
+                        (change)='acc2Open(AccountModel.AccountType)'>
+                        
+                        <option>--select account type--</option>
+                        <option *ngFor="let accTps of genericAccountTypeList">
+                            {{ accTps.AccType }} - (Min. Deposit: ${{accTps.MinDeposit}})
+                        </option>
+                    </select>
+                </div>
+        
+                <!-- Account Name -->
+                <div class="form-group">
+                    <label for="AccountName">Account Name</label>
+                    <input 
+                        type="text" 
+                        class="form-control"
+                        name="AccoutName" 
+                        [(ngModel)]='AccountModel.AccountName'
+                        required>
+                </div>
+        
+                 <!-- Amount to Deposit into the account -->
+                <div class="form-group">
+                    <label for="CurrentAmount">Amount to Fund</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        [(ngModel)]='AccountModel.CurrentAmount'
+                        required
+                        min="{{minAmt}}"
+                        name="CurrentAmount"
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Minimum amount {{minAmt}}">
+                </div>
+        
+                <div class="form-group" hidden>
+                    <label for="ClientId">Client Id</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        [(ngModel)]='reqClientId'
+                        name="ClientId">
+                </div>
+        
+            
+                <div class="form-group">
+                    <button 
+                        type="submit" 
+                        class="btn btn-primary form-control" 
+                        [disabled]="f.invalid"
+                        matStepperNext>
+                        Proceed to Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </mat-step>
+
+    <mat-step label="Make Payment">
+        <div>
+            <form>
+                <div class="form-group">
+                    <label for="walletAddr">Pay to BTC Wallet</label>
+                    <input 
+                        type="text" 
+                        class="form-control"
+                        name="walletAddr" 
+                        value="{{walletAddr}}"
+                        [(ngModel)]='AccountModel.walletAddr'
+                        >
+                </div>
+                
+                <div class="form-group">
+                    <button 
+                        type="submit" 
+                        class="btn btn-primary form-control" 
+                        [disabled]="f.invalid"
+                        matStepperNext>
+                        Confirm Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </mat-step>
+
+    <mat-step label="feedback">
+        <div class="">
+            <form (ngSubmit)="refreshDashboard()">
+                <div class="form-group conf">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                      </svg>
+                      Confirmation
+                </div>  
+                
+                <div class="form-group">
+                    <button 
+                        type="submit" 
+                        class="btn btn-primary form-control" 
+                        matStepperNext>
+                        Go to dashboard
+                    </button>
+                </div>
+            </form>      
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
+
+
+
+
+  
+
+

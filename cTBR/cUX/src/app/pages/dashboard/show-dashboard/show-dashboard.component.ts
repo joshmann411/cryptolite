@@ -1,4 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AccountService } from 'src/app/shared/services/account.service';
+
+interface Acc {
+  AccountId: number;
+  email: string;
+  accType: string;
+  AccoutName: string;
+  MinDeposit: number;
+  CurrentAmount: number
+  clientId: number;
+}
 
 @Component({
   selector: 'app-show-dashboard',
@@ -6,13 +18,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./show-dashboard.component.css']
 })
 export class ShowDashboardComponent implements OnInit {
+  //===Variables Region===
   assetList: any = [];
 
   //coin modal activator
   activateAddEditDashboardCom: boolean = false;
 
-  //walet modal activator
-  activateAddEditWalletPortalCom: boolean = false;
+  //Account modal activator
+  activateAddEditAccountPortalCom: boolean = false;
 
    //coin modal activator
    activatePurchaseCom: boolean = false;
@@ -20,13 +33,49 @@ export class ShowDashboardComponent implements OnInit {
   modalTitle: string = '';
   walletModalTitle: string = '';
 
+
   asset: any;
 
-  wallet: any;
+  account: any;
 
-  constructor() { }
+  helper = new JwtHelperService();
+
+  //holds the username of currently logged in user
+  userEmail: string;
+
+  //holds accounts of current user
+  myAccounts: Acc[] = [];
+
+  //===Variables region ends===
+
+
+  constructor(private _accountService: AccountService) {
+    const token = localStorage.getItem('token')??'';
+
+    const decodedToken = this.helper.decodeToken(token);
+
+    //extract information form decoded token     
+    this.userEmail = decodedToken.email;
+    
+    console.log('User Email: ' + this.userEmail);
+
+
+    //make client service : data ready
+    //clientService.getClientByEmail(this.clientEmail);
+
+    //go fetch the accounts of the currently logged in user
+    // this._accountService.getAccountsOfClientByEmail(this.userEmail).subscribe(data => {
+    //   this.myAccounts = data;
+    //   console.log('first account: ' + this.myAccounts[0].AccoutName);
+    //   console.log('Length of my account: ' + this.myAccounts?.length);
+    // });
+    
+   }
+
+
 
   ngOnInit(): void {
+    //dummy data for list of assets
     this.assetList = [
       {
         assetName: "Bitcoin",
@@ -79,9 +128,21 @@ export class ShowDashboardComponent implements OnInit {
       },
     ]
   
+    //go fetch the accounts of the currently logged in user
+    this._accountService.getAccountsOfClientByEmail(this.userEmail).subscribe(data => {
+      this.myAccounts = data;
+      console.log('first account: ' + this.myAccounts[0].AccoutName);
+      console.log('Length of my account: ' + this.myAccounts?.length);
+    });
+
     this.activateAddEditDashboardCom = false;
-    this.activateAddEditWalletPortalCom = false;
+    this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
+  }
+
+  getAccounts(){
+    console.log('I am here with data: ' + this._accountService.getListOfAccounts())
+    return this._accountService.getListOfAccounts();
   }
 
   addClick(){
@@ -95,35 +156,41 @@ export class ShowDashboardComponent implements OnInit {
 
     this.modalTitle = "Add Asset";
 
-    this.activateAddEditWalletPortalCom = false;
+    this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
 
     this.activateAddEditDashboardCom = true;
   }
 
   addWalletClick() {
-    this.wallet = {
-      walletPlan: "",
-      AmountHolding: "",
+    //wallet = account
+    this.account = {
+      AccountId: "",
+      email: "",
+      accType: "",
+      AccoutName: "",
+      MinDeposit: "",
+      CurrentAmount: "",
+      clientId: 0
     }
 
-    this.modalTitle = "Add New Wallet";
+    this.modalTitle = "Add New Account";
 
     this.activatePurchaseCom = false;
     this.activateAddEditDashboardCom = false;
 
-    this.activateAddEditWalletPortalCom = true;
+    this.activateAddEditAccountPortalCom = true;
   }
 
   closeClick(){
      this.activateAddEditDashboardCom = false;
-      this.activateAddEditWalletPortalCom = false;
+      this.activateAddEditAccountPortalCom = false;
       this.activatePurchaseCom = false;
   }
 
   closeWalletClick(){
     this.activateAddEditDashboardCom = false;
-    this.activateAddEditWalletPortalCom = false;
+    this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
   }
 
@@ -131,7 +198,7 @@ export class ShowDashboardComponent implements OnInit {
     this.asset = selAsset;
     this.modalTitle = "Edit Asset";
 
-    this.activateAddEditWalletPortalCom = false;
+    this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
 
     this.activateAddEditDashboardCom = true;
@@ -142,7 +209,7 @@ export class ShowDashboardComponent implements OnInit {
     this.asset = selAsset;
     this.modalTitle = "Buy Now";
 
-    this.activateAddEditWalletPortalCom = false;
+    this.activateAddEditAccountPortalCom = false;
     this.activateAddEditDashboardCom = false;
     
     this.activatePurchaseCom = true;

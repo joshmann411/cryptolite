@@ -55,6 +55,14 @@
   margin-left: 1px;
 }
 
+.buyCustomFooter button {
+  margin-right: 10px;
+}
+
+.smFooter button{
+  margin-right: 10px;
+}
+
 .btcPriceFnt{
   font-size: 30px;
 }

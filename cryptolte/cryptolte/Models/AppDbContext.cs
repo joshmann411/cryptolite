@@ -20,6 +20,10 @@ namespace cryptolte.Models
 
         public DbSet<Contact> contacts { get; set; }
         public DbSet<Purchase> purchases { get; set; }
+        public DbSet<Account> accounts { get; set; }
+        public DbSet<AccountType> accountType { get; set; }
+        public DbSet<Billing> billings { get; set; }
+        public DbSet<Client> clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,6 +63,97 @@ namespace cryptolte.Models
                     Asset = _configuration.GetSection("crypto").Value.Split(",")[2] ?? "bitcoin",
                     ContactDetailsId = 2
                 });
+
+            modelBuilder.Entity<Billing>().HasData(
+                new Billing {
+                    BillingId = 1,
+                    NameOnCard = "John Doe",
+                    CCNumber = "1234567123456746274",
+                    Expiration = new DateTime(2022, 05, 14),
+                    Cvv = 123,
+                    Address = "123 Test Street, YouknowWhatItIs Road",
+                    Phone = "12345678909876"
+                },
+                new Billing
+                {
+                    BillingId = 2,
+                    NameOnCard = "Eric Klapson",
+                    CCNumber = "3589876543456787654",
+                    Expiration = new DateTime(2025, 07, 04),
+                    Cvv = 321,
+                    Address = "321 Test Street, yemen avenue",
+                    Phone = "87654345678"
+                });
+
+            modelBuilder.Entity<AccountType>().HasData(
+                new AccountType
+                {
+                    TypeId = 1,
+                    AccType = "Standard",
+                    MinDeposit = 250.00
+                },
+                new AccountType
+                {
+                    TypeId = 2,
+                    AccType = "Standard-Cent",
+                    MinDeposit = 150
+                },
+                new AccountType
+                {
+                    TypeId = 3,
+                    AccType = "Pro",
+                    MinDeposit = 1000
+                });
+
+            modelBuilder.Entity<Account>().HasData(
+                new Account
+                {
+                    AccoutId = 1,
+                    AccoutName = "First Test",
+                    Email = "firstest@gmail,com",
+                    accType = "Pro",
+                    clientId = 1,
+                    wallet = "et4yhtbveg4h576yujrb5gh7yh",
+                    confirmed = false,
+                    CurrentAmount = 1000
+                },
+                new Account
+                {
+                    AccoutId = 2,
+                    AccoutName = "Second Test",
+                    Email = "secondTest@gmail,com",
+                    accType = "Standard",
+                    clientId = 2,
+                    wallet = "iueyrvg4hj5t5847eudyhfn5jk43e87u",
+                    confirmed = false,
+                    CurrentAmount = 1000
+                });
+
+            modelBuilder.Entity<Client>().HasData(
+               new Client
+               {
+                   id = 1,
+                   firstname = "John",
+                   lastname = "Doe",
+                   address = "123 Yemen str Florida",
+                   email = "j@j.com",
+                   dateOfBirth = new DateTime(1990, 07, 21),
+                   gender = "Male",
+                   maritalStatus = "Single",
+                   phone = "1234567889"
+               },
+               new Client
+               {
+                   id = 2,
+                   firstname = "Kris",
+                   lastname = "Olaku",
+                   address = "123 NY road New York",
+                   email = "k@k.com",
+                   dateOfBirth = new DateTime(1987, 03, 13),
+                   gender = "Male",
+                   maritalStatus = "Single",
+                   phone = "1234567889"
+               });
         }
     }
 }

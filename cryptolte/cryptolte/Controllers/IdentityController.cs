@@ -21,16 +21,20 @@ namespace cryptolte.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IClient _client;
+        //private readonly _client
 
         public IdentityController(UserManager<IdentityUser> userManager,
                                     ILoggerFactory loggerFactory,
                                     IJwtTokenGenerator jwtTokenGenerator,
                                     RoleManager<IdentityRole> roleManager,
-                                    SignInManager<IdentityUser> signInManager)
+                                    SignInManager<IdentityUser> signInManager,
+                                    IClient client)
         {
             _logger = loggerFactory.CreateLogger(typeof(IdentityController));
             _userManager = userManager;
             _signInManager = signInManager;
+            _client = client;
             _jwtTokenGenerator = jwtTokenGenerator;
             _roleManager = roleManager;
         }
@@ -71,6 +75,15 @@ namespace cryptolte.Controllers
                 _logger.LogInformation($"Add claim {claim} to user from DB");
 
                 await _userManager.AddClaimAsync(userFromDb, claim);
+
+                //add info to client obj (at this point we only have email)
+                // --> populate other information at a later stage
+                _client.AddClient(new Models.Client
+                {
+                    email = model.Email
+                });
+
+                _logger.LogInformation($"Add client with email: {model.Email} and image anonymous.png");
 
                 return Ok(result);
             }

@@ -215,6 +215,101 @@ namespace cryptolte.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("cryptolte.Models.Account", b =>
+                {
+                    b.Property<int>("AccoutId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccoutName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("CurrentAmount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("accType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("clientId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("confirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("wallet")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AccoutId");
+
+                    b.ToTable("accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            AccoutId = 1,
+                            AccoutName = "First Test",
+                            CurrentAmount = 1000.0,
+                            Email = "firstest@gmail,com",
+                            accType = "Pro",
+                            clientId = 1,
+                            confirmed = false,
+                            wallet = "et4yhtbveg4h576yujrb5gh7yh"
+                        },
+                        new
+                        {
+                            AccoutId = 2,
+                            AccoutName = "Second Test",
+                            CurrentAmount = 1000.0,
+                            Email = "secondTest@gmail,com",
+                            accType = "Standard",
+                            clientId = 2,
+                            confirmed = false,
+                            wallet = "iueyrvg4hj5t5847eudyhfn5jk43e87u"
+                        });
+                });
+
+            modelBuilder.Entity("cryptolte.Models.AccountType", b =>
+                {
+                    b.Property<int>("TypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("MinDeposit")
+                        .HasColumnType("float");
+
+                    b.HasKey("TypeId");
+
+                    b.ToTable("accountType");
+
+                    b.HasData(
+                        new
+                        {
+                            TypeId = 1,
+                            AccType = "Standard",
+                            MinDeposit = 250.0
+                        },
+                        new
+                        {
+                            TypeId = 2,
+                            AccType = "Standard-Cent",
+                            MinDeposit = 150.0
+                        },
+                        new
+                        {
+                            TypeId = 3,
+                            AccType = "Pro",
+                            MinDeposit = 1000.0
+                        });
+                });
+
             modelBuilder.Entity("cryptolte.Models.Billing", b =>
                 {
                     b.Property<int>("BillingId")
@@ -269,6 +364,68 @@ namespace cryptolte.Migrations
                             Expiration = new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NameOnCard = "Eric Klapson",
                             Phone = "87654345678"
+                        });
+                });
+
+            modelBuilder.Entity("cryptolte.Models.Client", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("maritalStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("clients");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            address = "123 Yemen str Florida",
+                            dateOfBirth = new DateTime(1990, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            email = "j@j.com",
+                            firstname = "John",
+                            gender = "Male",
+                            lastname = "Doe",
+                            maritalStatus = "Single",
+                            phone = "1234567889"
+                        },
+                        new
+                        {
+                            id = 2,
+                            address = "123 NY road New York",
+                            dateOfBirth = new DateTime(1987, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            email = "k@k.com",
+                            firstname = "Kris",
+                            gender = "Male",
+                            lastname = "Olaku",
+                            maritalStatus = "Single",
+                            phone = "1234567889"
                         });
                 });
 

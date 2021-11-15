@@ -110,6 +110,9 @@ namespace cryptolte
             services.AddScoped<IContact, SqlContactRepository>();
             services.AddScoped<IPurchase, SqlPurchaseRepository>();
             services.AddScoped<IBilling, SqlBillingRepository>();
+            services.AddScoped<IAccount, SqlAccountRepository>();
+            services.AddScoped<IAccountType, SqlAccountTypeRepository>();
+            services.AddScoped<IClient, SqlClientRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

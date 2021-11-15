@@ -3,8 +3,8 @@
     <div class="modal-dialog modal-dialog-centered modal-x1">
       <div class="modal-content">
           <div class="modal-header">
-            <h1 
-              class="modal-title" 
+            <h1
+              class="modal-title"
               id="exampleModalLabel">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
                   <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
@@ -23,7 +23,7 @@
               </app-add-edit-dashboard>
 
 
-              <app-add-edit-wallet [wallet]="wallet" *ngIf="activateAddEditWalletPortalCom">
+              <app-add-edit-wallet [account]="account" *ngIf="activateAddEditAccountPortalCom">
 
               </app-add-edit-wallet>
 
@@ -41,15 +41,92 @@
 
 <div class="panels">
   <mat-tab-group mat-align-tabs="start">
+
+    <!-- Accounts Tab -->
+    <mat-tab label="Account(s)">
+      <!-- ADD Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-outline-primary m-2"
+        data-toggle="modal"
+        data-target="#exampleModal"
+        (click)="addWalletClick()"
+        data-backdrop="static"
+        data-keyboard="false">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+          </svg>
+          Add New Account
+      </button>
+
+      <hr>
+
+      <!-- Card for each account -->
+      <div *ngFor="let accn of myAccounts;let i=index">
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <div class="row">
+                <div class="col-md-8">
+                  <button 
+                    class="btn btn-link" 
+                    type="button" 
+                    data-toggle="collapse" 
+                    attr.data-target="#collapse_{{i}}" 
+                    aria-expanded="true">
+                    {{ accn.AccoutName}} ( ${{accn.CurrentAmount}} )
+                  </button>
+                </div>
+                <div class="col-md-4">
+                  <h3> Account Type: {{accn.accType }}</h3>
+                </div>
+              </div>
+            </div>
+        
+            <div id="collapse_{{i}}" class="show collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+                current amount: {{accn.CurrentAmount + 21 | currency:'USD':'symbol':'3.2-2'}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </mat-tab>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Purchase Tab -->
     <mat-tab label="Buy">
       <!-- ADD Button trigger modal -->
-      <button 
-        type="button" 
-        class="btn btn-primary m-2" 
-        data-toggle="modal" 
+      <button
+        type="button"
+        class="btn btn-primary m-2"
+        data-toggle="modal"
         data-target="#exampleModal"
-        (click)="addClick()" 
-        data-backdrop="static" 
+        (click)="addClick()"
+        data-backdrop="static"
         data-keyboard="false"
         hidden>
           Add Asset
@@ -60,7 +137,7 @@
 
       <!-- Desktop Card -->
       <div *ngFor="let asset of assetList">
-        <div 
+        <div
           class="card DesktopCard"
           fxShow.gt-sm fxHide.lt-sm>
 
@@ -68,18 +145,18 @@
             <div class="row">
               <div>
                 <img class="img img-circle"
-                src="{{ asset.imgPath }}" 
-                alt="BTC" 
+                src="{{ asset.imgPath }}"
+                alt="BTC"
                 style="max-width: 100px; max-height: 100px; float: right;"
-                width="40px" 
+                width="40px"
                 height="40px">
               </div>
-          
+
                 <div class="coinNameSection">
                   {{ asset.assetName }}
                 </div>
                 <div>
-                
+
                   <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                   </svg> -->
@@ -98,36 +175,45 @@
                   <!-- some signals and indicators -->
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-                </svg> 
-                
+                </svg>
+
                 <p> {{ asset.directionPercentage}} </p>
                 </div>
 
                 <div class="col-md-4 imgCol">
                   <img class="img img-thumbnail"
-                        src="{{ asset.imgPath }}" 
-                        alt="BTC" 
+                        src="{{ asset.imgPath }}"
+                        alt="BTC"
                         style="max-width: 100px; max-height: 100px; float: right;"
-                        width="100px" 
+                        width="100px"
                         height="100px">
                 </div>
-                
+
               </div>
               <hr>
               <div class="row buyCustomFooter">
                 <div class="col-md-6">
-                  <button 
+
+                  <button
                     class="btn btn-outline-primary"
-                    data-toggle="modal" 
-                    data-target="#exampleModal" 
+                    data-toggle="modal"
+                    data-target="#exampleModal"
                     (click)="purchaseClick(asset)">
-                    Buy Now
+                    Deposit
+                  </button>
+
+                  <button
+                    class="btn btn-outline-primary"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    (click)="purchaseClick(asset)">
+                    Withdraw
                   </button>
                 </div>
-                
+
                 <div class="col-md-4"></div>
 
-                <div 
+                <div
                   class="col-md-2 favCoin" ngClick="changeColor()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
@@ -137,12 +223,12 @@
               </div>
           </div>
         </div>
-      
+
       </div>
 
       <!-- Small Device Card -->
       <div *ngFor="let asset of assetList">
-        <div 
+        <div
           class="card SmallDeviceCard"
           fxShow.lt-sm fxHide.lt-xl>
 
@@ -150,13 +236,13 @@
             <div class="row">
               <div>
                 <img class="img img-circle"
-                src="{{ asset.imgPath }}" 
-                alt="BTC" 
+                src="{{ asset.imgPath }}"
+                alt="BTC"
                 style="max-width: 100px; max-height: 100px; float: right;"
-                width="40px" 
+                width="40px"
                 height="40px">
               </div>
-          
+
               <div class="coinNameSection">
                 {{ asset.assetName }}
               </div>
@@ -167,7 +253,7 @@
                 </svg>
               </div> -->
             </div>
-              
+
             <hr>
 
             <div class="row">
@@ -180,38 +266,46 @@
 
                 <div class="bodyImg">
                   <img class="img img-circle"
-                        src="{{ asset.imgPath }}" 
-                        alt="BTC" 
+                        src="{{ asset.imgPath }}"
+                        alt="BTC"
                         style="max-width: 50px; max-height: 50px;"
-                        width="40px" 
+                        width="40px"
                         height="40px">
                 </div>
-    
+
                 <!-- some signals and indicators -->
                 <!-- <div class="col-md-2 mvmt">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-                </svg> 
-                
+                </svg>
+
                 <p> {{ asset.directionPercentage}} </p>
                 </div> -->
-    
+
                 <div class="col-md-6">
-                  
+
                 </div>
             </div>
-            
+
             <hr>
-            
+
             <div class="smFooter">
-                <button 
+                <button
                   class="btn btn-outline-primary"
-                  data-toggle="modal" 
-                  data-target="#exampleModal" 
+                  data-toggle="modal"
+                  data-target="#exampleModal"
                   (click)="purchaseClick(asset)">
                   Buy Now
                 </button>
-                
+
+                <button
+                class="btn btn-outline-primary"
+                data-toggle="modal"
+                data-target="#exampleModal"
+                (click)="purchaseClick(asset)">
+                Withdraw
+                </button>
+
                   <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
                   </svg>
@@ -223,43 +317,23 @@
 
     </mat-tab>
 
-
-
-    <mat-tab label="Wallet(s)">
-      <!-- ADD Button trigger modal -->
-      <button 
-        type="button" 
-        class="btn btn-outline-primary m-2" 
-        data-toggle="modal" 
-        data-target="#exampleModal"
-        (click)="addWalletClick()" 
-        data-backdrop="static" 
-        data-keyboard="false"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-          </svg>
-          Add Wallet
-      </button>
-
-      <hr>
-
-    </mat-tab>
-
+    <!-- Premium Coin Tab -->
     <mat-tab label="Premium Coin">
       Premium
     </mat-tab>
+
+    <!-- Profile Tab -->
     <mat-tab label="Profile">
       Profile
     </mat-tab>
   </mat-tab-group>
-  
+
   <!-- <mat-tab-group mat-align-tabs="center">
     <mat-tab label="First">Content 1</mat-tab>
     <mat-tab label="Second">Content 2</mat-tab>
     <mat-tab label="Third">Content 3</mat-tab>
   </mat-tab-group>
-  
+
   <mat-tab-group mat-align-tabs="end">
     <mat-tab label="First">Content 1</mat-tab>
     <mat-tab label="Second">Content 2</mat-tab>

@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProgressbarService } from './shared/services/progressbar.service';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LayoutSideModule } from './layouts/layout-side/layout-side.module';
 import { LayoutFullModule } from './layouts/layout-full/layout-full.module';
@@ -31,6 +32,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AddEditWalletComponent } from './pages/dashboard/add-edit-wallet/add-edit-wallet.component';
 import { PurchaseComponent } from './pages/dashboard/purchase/purchase.component';
 import { ConvertUSDToBTCPipe } from './pages/dashboard/purchase/convert-usdto-btc.pipe';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [ 
@@ -64,7 +66,9 @@ import { ConvertUSDToBTCPipe } from './pages/dashboard/purchase/convert-usdto-bt
     AuthModule,
     MaterialModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [
     {
