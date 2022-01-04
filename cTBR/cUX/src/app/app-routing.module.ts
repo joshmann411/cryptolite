@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 import { LayoutFullComponent } from './layouts/layout-full/layout-full.component';
 import { LayoutSideComponent } from './layouts/layout-side/layout-side.component';
 import { ColExampleComponent } from './pages/col-example/col-example.component';
@@ -24,7 +25,8 @@ const routes: Routes = [
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
       {path: 'reset-password', component: ResetPasswordComponent},
-      {path: 'dashboard', component: DashboardComponent}
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'fileUpload',component: FileUploadComponent }
     ],
   },
   {

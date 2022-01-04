@@ -24,10 +24,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #eee;
   } */
 
-  .container-outer {
-    /* border: solid 3px #ffc300; */
-    padding: 10px;
-  }
+ 
   /* .container {
     border: solid 3px #900c3f;
     padding: 10px;
@@ -40,6 +37,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border: solid 3px #c70039;
     padding: 10px;
   }
+ 
 
 
   

@@ -22,7 +22,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { MaterialModule } from './material/material.module';
 import { AuthModule } from './auth/auth.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MatCardModule } from '@angular/material/card';
@@ -33,6 +33,7 @@ import { AddEditWalletComponent } from './pages/dashboard/add-edit-wallet/add-ed
 import { PurchaseComponent } from './pages/dashboard/purchase/purchase.component';
 import { ConvertUSDToBTCPipe } from './pages/dashboard/purchase/convert-usdto-btc.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   declarations: [ 
@@ -45,7 +46,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AddEditDashboardComponent,
     AddEditWalletComponent,
     PurchaseComponent,
-    ConvertUSDToBTCPipe
+    ConvertUSDToBTCPipe,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatCardModule,
     MatTabsModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
