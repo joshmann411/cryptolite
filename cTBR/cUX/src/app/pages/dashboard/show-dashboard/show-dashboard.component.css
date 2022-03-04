@@ -92,7 +92,6 @@
 
 .subText{
   font-size: 15px;
-  font-weight: bold;
 }
 
 .bodyImg {
@@ -100,6 +99,14 @@
   /* float: right; */
 }
 
+.removeLink{
+  float: right;
+  color: red;
+}
+
+.removeLink:hover{
+  color: yellow;
+}
 
 
 

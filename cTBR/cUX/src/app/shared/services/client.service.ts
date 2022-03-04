@@ -16,6 +16,16 @@ export class ClientService {
     );
   }
 
+  UpdateClientDetails(val: any): Observable<any>{
+    const body = val;
+
+    //alert('BODY to send: ' + JSON.stringify(body));
+
+    return this.http.put<any>(  
+        this.authUrl + 'Client/UpdateClientDetail', body, this.getHttpOptions()
+      );
+  }
+
   getHttpOptions(){
     const httpOptions = {
       headers: new HttpHeaders({

@@ -59,4 +59,12 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  notifySettings(){
+    this.alertSvc.info('Settings page in DEVELOPMENT. Try again later...');
+  }
+
+  notifyActivityLog(){
+    this.alertSvc.info('Activity log page in DEVELOPMENT. Try again later...');
+  }
+
 }

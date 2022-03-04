@@ -10,13 +10,18 @@ namespace cryptolte.Models
 {
     public class AppDbContext : IdentityDbContext
     {
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
 
-        public AppDbContext(IConfiguration configuration, 
-                            DbContextOptions<AppDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            _configuration = configuration;
+          
         }
+
+        //public AppDbContext(IConfiguration configuration, 
+        //                    DbContextOptions<AppDbContext> options) : base(options)
+        //{
+        //    _configuration = configuration;
+        //}
 
         public DbSet<Contact> contacts { get; set; }
         public DbSet<Purchase> purchases { get; set; }
@@ -53,7 +58,8 @@ namespace cryptolte.Models
                 {
                     Id = 1,
                     Amount = "10.00",
-                    Asset = _configuration.GetSection("crypto").Value.Split(",")[0] ?? "bitcoin",
+                    Asset = "bitcoin",
+                    //Asset = _configuration.GetSection("crypto").Value.Split(",")[0] ?? "bitcoin",
                     ContactDetailsId = 1, 
                     DateOfPurchase = DateTime.Today
                 },
@@ -61,7 +67,8 @@ namespace cryptolte.Models
                 {
                     Id = 2,
                     Amount = "101.00",
-                    Asset = _configuration.GetSection("crypto").Value.Split(",")[2] ?? "bitcoin",
+                    Asset = "bitcoin",
+                    //Asset = _configuration.GetSection("crypto").Value.Split(",")[2] ?? "bitcoin",
                     DateOfPurchase = DateTime.Today
                 });
 

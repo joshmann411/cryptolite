@@ -53,9 +53,15 @@ namespace cryptolte
                 CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
 
 
-            services.AddDbContext<AppDbContext>(
-              options => options.UseSqlServer(Configuration.GetConnectionString("cryptoDBConnection"))
-           );
+            // services.AddDbContext<AppDbContext>(
+            //   options => options.UseSqlServer(Configuration.GetConnectionString("cryptoDBConnection"))
+            //);
+
+            string mySqlConnectionStr = Configuration.GetConnectionString("cryptoDBConnection");
+
+            services.AddDbContextPool<AppDbContext>(options => options.UseMySql(
+                mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+
 
             //Enale CORS
             services.AddCors(c =>

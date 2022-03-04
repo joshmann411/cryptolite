@@ -90,6 +90,10 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
             "Serilog.Extensions.Logging.File": {
               "target": "Package",
               "version": "[2.0.0, )"
@@ -101,6 +105,10 @@
             "Swashbuckle.AspNetCore.Annotations": {
               "target": "Package",
               "version": "[6.2.2, )"
+            },
+            "WatsonORM.Mysql": {
+              "target": "Package",
+              "version": "[2.0.0.1, )"
             }
           },
           "imports": [

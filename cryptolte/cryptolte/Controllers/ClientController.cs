@@ -58,5 +58,29 @@ namespace cryptolte.Controllers
 
             return new JsonResult(BadRequest("Error occured with Email"));
         }
+    
+        [HttpPut]
+        [Route("UpdateClientDetail")]
+        public IActionResult UpdateClientDetail([FromBody] Client clientChanges)
+        {
+            try
+            {
+                _logger.LogInformation($"Updating client details {clientChanges.id}");
+
+                string msg = _client.UpdateClient(clientChanges);
+
+                _logger.LogInformation($"Client details of ID: {clientChanges.id} updated successfully");
+                
+                return new JsonResult(msg);
+            }
+            catch(Exception ex)
+            {
+                //log
+                _logger.LogError($"Error occurred while updating client details. Details: {ex.Message}");
+
+                //return
+                return new JsonResult("Error occurred");
+            }
+        }
     }
 }

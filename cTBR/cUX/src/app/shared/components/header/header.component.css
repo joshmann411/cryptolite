@@ -7,9 +7,13 @@ a {
     text-decoration: none;
 }
 
+.profileHeadText a{
+    color: black;
+
+}
+
 .profileHeadText a:hover{
     text-decoration: underline;
-    /* color: black; */
 }
 
 .app-toolbar{

@@ -1,8 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { AlertService } from 'ngx-alerts';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { ClientService } from 'src/app/shared/services/client.service';
+import { ProgressbarService } from 'src/app/shared/services/progressbar.service';
 
 interface Acc {
   AccoutId: number;
@@ -68,6 +70,8 @@ export class ShowDashboardComponent implements OnInit {
 
   constructor(
       private _accountService: AccountService,
+      private alertService: AlertService,
+      private progressService: ProgressbarService,
       private clientService: ClientService) {
     const token = localStorage.getItem('token')??'';
 
@@ -166,10 +170,33 @@ export class ShowDashboardComponent implements OnInit {
     this.clientService.getClientByEmail(this.userEmail).subscribe(data => {
       this.thisClient = data;
 
-      this.clientFirstname = this.thisClient.firstname ?? 'Enter Firstname';
-      this.clientLastname = this.thisClient.lastname ?? 'Enter Lastname';
-      this.clientEmail = this.thisClient.email ?? 'Enter email address';
-      this.clientPhone = this.thisClient.phone ?? 'Enter Phone number';
+      console.log('Profile Details From Endpoint: ' + JSON.stringify(this.thisClient));
+
+
+      //if (condition) ? (apply this) : (apply that)
+
+      //if client has a firstname and the firstname is not empty
+      this.clientFirstname = (
+                                (this.thisClient.firstname?.toLowerCase() != 'null') && 
+                                (this.thisClient.firstname != '')
+                              ) ? this.thisClient.firstname : 'Enter Firstname';
+
+
+      this.clientLastname = (
+                                (this.thisClient.lastname?.toLowerCase() != 'null') && 
+                                (this.thisClient.lastname != '')
+                              ) ? this.thisClient.lastname : 'Enter Lastname';
+
+      this.clientEmail = (
+                            (this.thisClient.email?.toLowerCase() != 'null') && 
+                            (this.thisClient.email != '')
+                          ) ? this.thisClient.email : 'Enter email address';
+      
+      
+      this.clientPhone = (
+                            (this.thisClient.phone?.toLowerCase() != 'null') && 
+                            (this.thisClient.phone != '')
+                          ) ? this.thisClient.phone : 'Enter Phone number';
 
       //alert('I am: ' + JSON.stringify(this.thisClient))
       // alert('firstname: '+ this.clientFirstname + ' | lastname: ' + this.clientLastname);
@@ -182,9 +209,65 @@ export class ShowDashboardComponent implements OnInit {
 
   OnSubmit(f: NgForm){
     //take the values
+    // console.log('Profile Details: ' + JSON.stringify(f.value));
 
-    //update the client information
+    if(
+      !f.value.firstname.includes('Enter Firstname') && 
+      !f.value.lastname.includes('Enter Lastname')){
 
+        //id, and other attributes should still be intact
+        this.thisClient.firstname = f.value.firstname ?? 'NULL';
+        this.thisClient.lastname = f.value.lastname ?? 'NULL';
+        this.thisClient.email = f.value.email ?? 'NULL';
+        this.thisClient.phone = f.value.phone ?? 'NULL';
+      
+    
+        //update the client information
+
+        this.alertService.info('Profile update in progress');
+        this.progressService.startLoading();
+
+
+        const depositIntoAccountObserver = {  
+          next: (x: any) => { 
+            this.progressService.setSuccess();
+            // console.log('New Account Created');
+            this.progressService.completeLoading();
+            this.alertService.success('Deposit saved!');
+            // this.router.navigate(['dashboard']);
+            // window.location.reload();
+          },
+          error: (err: Error) => {
+            this.progressService.setError();
+            console.error(err);
+            this.progressService.completeLoading();
+            this.alertService.danger('Deposit not successful');
+          }
+        };
+      
+      
+      
+        // alert('Subittion: ' + JSON.stringify(this.thisClient));
+      
+        this.clientService.UpdateClientDetails(this.thisClient).subscribe(data => {
+          // alert('Returned: ' + JSON.stringify(data));
+          this.progressService.completeLoading();
+          window.location.reload();
+          this.alertService.success('updated successfully');
+        })
+      }
+      else
+      {
+        this.alertService.danger('Please enter valid details');
+      }
+    
+
+  }
+
+
+  removeAccount(acct: any){
+    this.alertService.info("Requesting to remove account: " + acct.AccoutName);
+    this.alertService.info("Request sent for processing. Our agents will contact you with 72 hours")
   }
 
   getAccounts(){

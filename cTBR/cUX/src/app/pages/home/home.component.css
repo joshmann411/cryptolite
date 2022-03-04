@@ -16,6 +16,7 @@ body {
   h1, h2, h3, h4, h5, h6 {
 	font-family: "Poppins", sans-serif;
   }
+
   .pid {
 	font-size: larger;
   }
@@ -95,6 +96,7 @@ body {
 	  transform: rotate(360deg);
 	}
   }
+  
   /*--------------------------------------------------------------
   # Disable aos animation delay on mobile devices
   --------------------------------------------------------------*/
