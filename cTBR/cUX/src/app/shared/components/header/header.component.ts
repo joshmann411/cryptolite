@@ -12,6 +12,8 @@ import { ProgressbarService } from '../../services/progressbar.service';
 })
 export class HeaderComponent implements OnInit {
 
+  username: any;
+
   constructor(
       private router: Router,
       private progress: NgProgress,
@@ -22,6 +24,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.progressBar.progressRef = this.progress.ref('progressBar');
+     const usrn = localStorage.getItem('username') ?? "";
+     this.username = usrn;
   }
 
   login(){

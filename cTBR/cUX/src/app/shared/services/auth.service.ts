@@ -41,6 +41,7 @@ export class AuthService {
 
         localStorage.setItem('token', response.token);
         localStorage.setItem('email', response.email);
+        localStorage.setItem('username', response.username);
 
         return this.currentUser;
       })
@@ -69,7 +70,7 @@ export class AuthService {
     
     localStorage?.removeItem('email');
     localStorage?.removeItem('token');
-    
+
     localStorage?.clear;
   }
 

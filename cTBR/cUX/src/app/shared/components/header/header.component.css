@@ -3,13 +3,22 @@ ul li{
 }
 
 a {
-    color: black;
+    color: white;
     text-decoration: none;
 }
 
 .profileHeadText a:hover{
     text-decoration: underline;
     /* color: black; */
+}
+
+.app-toolbar{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(180deg, #5846f9 0%, #7b27d8 100%);
+    background-color: #7b27d8;
 }
 
 mat-toolbar{

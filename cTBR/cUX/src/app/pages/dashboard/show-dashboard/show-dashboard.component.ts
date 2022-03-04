@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountService } from 'src/app/shared/services/account.service';
+import { ClientService } from 'src/app/shared/services/client.service';
 
 interface Acc {
   AccoutId: number;
@@ -55,8 +57,18 @@ export class ShowDashboardComponent implements OnInit {
   innerWidth: any;
   //===Variables region ends===
 
+  //hold client info
+  thisClient: any;
 
-  constructor(private _accountService: AccountService) {
+  //hold model binding
+  clientFirstname: any;
+  clientLastname: any;
+  clientEmail: any;
+  clientPhone: any;
+
+  constructor(
+      private _accountService: AccountService,
+      private clientService: ClientService) {
     const token = localStorage.getItem('token')??'';
 
     const decodedToken = this.helper.decodeToken(token);
@@ -150,9 +162,29 @@ export class ShowDashboardComponent implements OnInit {
       console.log('Length of my account: ' + this.myAccounts?.length);
     });
 
+    //fetch the client information
+    this.clientService.getClientByEmail(this.userEmail).subscribe(data => {
+      this.thisClient = data;
+
+      this.clientFirstname = this.thisClient.firstname ?? 'Enter Firstname';
+      this.clientLastname = this.thisClient.lastname ?? 'Enter Lastname';
+      this.clientEmail = this.thisClient.email ?? 'Enter email address';
+      this.clientPhone = this.thisClient.phone ?? 'Enter Phone number';
+
+      //alert('I am: ' + JSON.stringify(this.thisClient))
+      // alert('firstname: '+ this.clientFirstname + ' | lastname: ' + this.clientLastname);
+    })
+
     this.activateAddEditDashboardCom = false;
     this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
+  }
+
+  OnSubmit(f: NgForm){
+    //take the values
+
+    //update the client information
+
   }
 
   getAccounts(){
