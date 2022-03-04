@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AccountService {
-  readonly authUrl = "http://localhost:50175/api/";
+  readonly authUrl = "https://localhost:5001/api/";
 
   constructor(private http: HttpClient) { }
   //this method will go create a new account for user x
@@ -21,6 +21,18 @@ export class AccountService {
       );
   }
 
+  updateAccount(val: any){
+    return this.http.post(
+      this.authUrl + 'Account/Put', val, this.getHttpOptions()
+    );
+  }
+
+  getWallet() : Observable<any> {
+    return this.http.get(
+      this.authUrl + 'Account/GetWalletAddress', this.getHttpOptions()
+    );
+  }
+
   //get the list of accounts - to be decommissoned
   getListOfAccounts() : Observable<any[]> {
     return this.http.get<any>(
@@ -31,6 +43,8 @@ export class AccountService {
   getAccountsOfClientByEmail(clientEmail: any): Observable<any>{
     return this.http.get<any>(this.authUrl + 'Account/GetAccountsOfClientByEmail/' + clientEmail, this.getHttpOptions()); 
   }
+
+
 
   getHttpOptions() {
     const httpOptions = {

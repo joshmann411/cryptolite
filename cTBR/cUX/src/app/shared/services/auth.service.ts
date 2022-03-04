@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  authUrl = "http://localhost:50175/api/Identity/";
+  authUrl = "https://localhost:5001/api/Identity/";
   confirmEmailUrl = "test.com";
 
   // baseurl: string = environment.baseUrl;
@@ -27,7 +28,8 @@ export class AuthService {
     email: null
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private router: Router) { }
 
   login(model: any){
     return this.http.post(this.authUrl + 'login', model).pipe(
@@ -38,14 +40,11 @@ export class AuthService {
         this.currentUser.email = response.email;
 
         localStorage.setItem('token', response.token);
+        localStorage.setItem('email', response.email);
 
         return this.currentUser;
       })
     )
-  }
-
-  logout(){
-    this.isLoggedIn = false;
   }
 
   register(model: any){
@@ -59,12 +58,19 @@ export class AuthService {
     return this.http.post(this.authUrl + 'register', model, options)
   }
 
-  loggedIn(): boolean {
-    const token = localStorage.getItem('token') ?? '';
-
-    // console.log('Token: ' + token);
-
-    return !this.helper.isTokenExpired(token);
+  loggedIn(): boolean{
+    const token = localStorage.getItem('token') ?? "";
+    return !this.helper.isTokenExpired(token); //not expired = still logged in (true)
+  }
+ 
+  logout(): void{
+    //go to login page
+    this.router.navigate(['login']); 
+    
+    localStorage?.removeItem('email');
+    localStorage?.removeItem('token');
+    
+    localStorage?.clear;
   }
 
 }

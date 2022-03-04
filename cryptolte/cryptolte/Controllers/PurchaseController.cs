@@ -74,6 +74,10 @@ namespace cryptolte.Controllers
             }
         }
 
+        //[HttpGet]
+        //[Route("GetById/{id}")]
+        //public JsonResult GetAccountsLinkedToById(int id)
+
         [HttpPost]
         [Route("Post")]
         //[Route("Post/{purchase}")]

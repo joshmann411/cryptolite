@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountService } from 'src/app/shared/services/account.service';
 
 interface Acc {
-  AccountId: number;
+  AccoutId: number;
   email: string;
   accType: string;
   AccoutName: string;
@@ -30,6 +30,9 @@ export class ShowDashboardComponent implements OnInit {
    //coin modal activator
    activatePurchaseCom: boolean = false;
 
+   //deposit modal activator (if you already have an account)
+   activateDepositCom: boolean = false;
+
   modalTitle: string = '';
   walletModalTitle: string = '';
 
@@ -37,6 +40,8 @@ export class ShowDashboardComponent implements OnInit {
   asset: any;
 
   account: any;
+
+  depWithAccount: any;
 
   helper = new JwtHelperService();
 
@@ -46,6 +51,8 @@ export class ShowDashboardComponent implements OnInit {
   //holds accounts of current user
   myAccounts: Acc[] = [];
 
+
+  innerWidth: any;
   //===Variables region ends===
 
 
@@ -73,8 +80,16 @@ export class ShowDashboardComponent implements OnInit {
    }
 
 
+   @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+      this.innerWidth = window.innerWidth;
+    }
+
 
   ngOnInit(): void {
+
+    this.innerWidth = window.innerWidth;
+
     //dummy data for list of assets
     this.assetList = [
       {
@@ -158,6 +173,7 @@ export class ShowDashboardComponent implements OnInit {
 
     this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
+    this.activateDepositCom = false;
 
     this.activateAddEditDashboardCom = true;
   }
@@ -165,7 +181,7 @@ export class ShowDashboardComponent implements OnInit {
   addWalletClick() {
     //wallet = account
     this.account = {
-      AccountId: "",
+      AccoutId: "",
       email: "",
       accType: "",
       AccoutName: "",
@@ -178,6 +194,7 @@ export class ShowDashboardComponent implements OnInit {
 
     this.activatePurchaseCom = false;
     this.activateAddEditDashboardCom = false;
+    this.activateDepositCom = false;
 
     this.activateAddEditAccountPortalCom = true;
   }
@@ -186,12 +203,14 @@ export class ShowDashboardComponent implements OnInit {
      this.activateAddEditDashboardCom = false;
       this.activateAddEditAccountPortalCom = false;
       this.activatePurchaseCom = false;
+      this.activateDepositCom = false;
   }
 
   closeWalletClick(){
     this.activateAddEditDashboardCom = false;
     this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
+    this.activateDepositCom = false;
   }
 
   editClick(selAsset: any){
@@ -200,6 +219,7 @@ export class ShowDashboardComponent implements OnInit {
 
     this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
+    this.activateDepositCom = false;
 
     this.activateAddEditDashboardCom = true;
   }
@@ -211,7 +231,40 @@ export class ShowDashboardComponent implements OnInit {
 
     this.activateAddEditAccountPortalCom = false;
     this.activateAddEditDashboardCom = false;
+    this.activateDepositCom = false;
     
     this.activatePurchaseCom = true;
+  }
+
+  makeDeposit(action: string, AccId: any, SelAccount: any){
+    if(action == 'Deposit'){
+      //build account obj
+      this.depWithAccount = {
+        AccoutId: SelAccount.AccoutId,
+        email: SelAccount.email,
+        accType: SelAccount.accType,
+        AccoutName: SelAccount.AccoutName,
+        MinDeposit: SelAccount.MinDeposit,
+        CurrentAmount: SelAccount.CurrentAmount,
+        clientId: SelAccount.clientId,
+        Action: action
+      }
+
+      // alert('Selected Account: ' + JSON.stringify(this.account));
+
+
+      this.modalTitle = "Deposit";
+
+      this.activateAddEditAccountPortalCom = false;
+      this.activateAddEditDashboardCom = false;
+      this.activatePurchaseCom = false; 
+      
+      this.activateDepositCom = true;
+    }
+    else{
+      alert('Contact Admin to process withdrawal');
+
+      window.location.reload();
+    }
   }
 }

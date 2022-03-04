@@ -2,52 +2,98 @@
 
  
 
-  <form>
-    <div class="form-group">
-        <label 
-            for="btcAmt">
-            <!-- Converted Amount: {{ dlr | convertUSDToBTC: asset.assetShortCode}} -->
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <div *ngIf="myAccounts.length > 0"> 
+      <div class="form-group">
+        
+        <label for="account2Invest">
+          <b>
+            Select Account 
+          </b> 
+          (View Balance)
         </label>
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text">USD</div>
-          </div>
-          <input 
-            type="number" 
-            class="form-control" 
-            id="btcAmt"
-            [ngModelOptions]="{standalone: true}"
-            [(ngModel)]="dlr"
-            >
-        </div>
-    </div>
+        
+          <select 
+              required
+              class="form-control" 
+              name="account2Invest"
+              [(ngModel)]="selectedAcc"
+              (change)='acc2Invest(selectedAcc)'>
+              <!-- <option>--select account--</option> -->
+              <option *ngFor="let accn of myAccounts">
+                  {{ accn.AccoutName }} ( Balance: {{ accn.CurrentAmount | currency:'USD':'symbol':'3.2-2' }})
+              </option>
+          </select>
 
-    <div class="form-group">
-        <!-- <label for="btcAmt">Converted Amount: {{btc}}</label> -->
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text">{{asset.assetShortCode}}</div>
-          </div>
-          <input 
-            type="number" 
-            class="form-control"
-            id="btcAmt"
-            placeholder="{{ dlr | convertUSDToBTC: asset.assetShortCode}}"
-            disabled
-            >
-        </div>
-    </div>
+      </div>
 
-    <!-- diable button until a valid entry is provided -->
-    <div class="form-group">
+      <div class="form-group">
+            <label 
+                for="btcAmt">
+                <!-- Converted Amount: {{ dlr | convertUSDToBTC: asset.assetShortCode}} -->
+            </label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">USD</div>
+              </div>
+              <input 
+                required
+                min="1"
+                max="{{maxDepo}}"
+                type="number" 
+                class="form-control" 
+                name="btcAmt"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="dlr"
+                >
+            </div>
+      </div>
+    
+      <div class="form-group">
+            <!-- <label for="btcAmt">Converted Amount: {{btc}}</label> -->
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">{{asset.assetShortCode}}</div>
+              </div>
+              <input 
+                type="number" 
+                class="form-control"
+                name="shortCode"
+                placeholder="{{ dlr | convertUSDToBTC: asset.assetShortCode}}"
+                disabled
+                >
+            </div>
+      </div>
+    
+      <!-- diable button until a valid entry is provided -->
+
+      <div class="form-group">
         <button 
-          class="btn btn-outline-primary" 
-          type="submit"
-          (click)="toggleSubmit()">
-            Submit
+            type="submit" 
+            class="btn btn-primary form-control" 
+            [disabled]="f.invalid">
+            Buy
         </button>
     </div>
+<!--     
+      <div class="form-group">
+            <button 
+              class="btn btn-outline-primary" 
+              type="submit"
+              (click)="toggleSubmit()">
+                Submit
+            </button>
+      </div> -->
 
+    </div>
+    
+
+    <div *ngIf="myAccounts.length == 0">
+        <p>
+          (0) account(s) found. Create new from <a href="">DASHBOARD</a> 
+        </p> 
+    </div>
+   
   </form>
 
 </div>

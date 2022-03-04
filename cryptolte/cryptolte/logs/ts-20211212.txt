@@ -1,0 +1,4 @@
+2021-12-12T13:40:08.4022029+02:00 0HMDSAUIPPTN2:00000003 [INF] Initiate Login (cc7ac176)
+2021-12-12T13:40:10.8057142+02:00 0HMDSAUIPPTN2:00000003 [INF] Logged in successfully (310801ef)
+2021-12-12T13:40:11.0221591+02:00 0HMDSAUIPPTN2:00000005 [INF] ==> Retrieving accounts with client email: "helli@gmail.com" (05ff8347)
+2021-12-12T13:40:11.0355516+02:00 0HMDSAUIPPTN2:00000005 [INF] <== Retrieving accounts with client email: "helli@gmail.com": (0e0b3ed8)

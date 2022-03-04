@@ -484,8 +484,11 @@ namespace cryptolte.Migrations
                     b.Property<string>("Asset")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ContactDetailsId")
+                    b.Property<int?>("ContactDetailsId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfPurchase")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -497,14 +500,15 @@ namespace cryptolte.Migrations
                             Id = 1,
                             Amount = "10.00",
                             Asset = "bitcoin (btc)",
-                            ContactDetailsId = 1
+                            ContactDetailsId = 1,
+                            DateOfPurchase = new DateTime(2022, 3, 4, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 2,
                             Amount = "101.00",
                             Asset = " ripple (xrp)",
-                            ContactDetailsId = 2
+                            DateOfPurchase = new DateTime(2022, 3, 4, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 

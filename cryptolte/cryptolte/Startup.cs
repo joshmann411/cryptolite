@@ -19,6 +19,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Net;
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace cryptolte
 {
@@ -35,6 +38,21 @@ namespace cryptolte
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.Configure<ForwardedHeadersOptions>(option =>
+            {
+                option.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+            services.AddHttpsRedirection(option =>
+            {
+                option.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
+                option.HttpsPort = 5001;
+            });
+
+            services.AddAuthentication(
+                CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+
+
             services.AddDbContext<AppDbContext>(
               options => options.UseSqlServer(Configuration.GetConnectionString("cryptoDBConnection"))
            );
@@ -42,7 +60,12 @@ namespace cryptolte
             //Enale CORS
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy("AllowOrigin", options =>
+                                                options
+                                                .AllowAnyOrigin()
+                                                .AllowAnyMethod()
+                                                .AllowAnyHeader()
+                                                .SetIsOriginAllowedToAllowWildcardSubdomains());
             });
 
             //permit json serialization
@@ -50,6 +73,16 @@ namespace cryptolte
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()
             );
+
+
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<IContact, SqlContactRepository>();
+            services.AddScoped<IPurchase, SqlPurchaseRepository>();
+            services.AddScoped<IBilling, SqlBillingRepository>();
+            services.AddScoped<IAccount, SqlAccountRepository>();
+            services.AddScoped<IAccountType, SqlAccountTypeRepository>();
+            services.AddScoped<IClient, SqlClientRepository>();
+
 
             //Add Identity
             services.AddIdentity<IdentityUser, IdentityRole>(opt =>
@@ -84,35 +117,27 @@ namespace cryptolte
             });
 
 
-            //services.AddAuthorization(options =>
-            //{
-            //    //any user which is a ManagerDevelopers must have: 
-            //    // > a claim Title = Customer
-            //    // > a role: manager
-            //    options.AddPolicy("CustomerRole", md =>
-            //    {
-            //        md.RequireClaim("claimtitle", "Customer");
-            //        md.RequireRole("Customer");
-            //    });
+            services.AddAuthorization(options =>
+            {
+                //any user which is a ManagerDevelopers must have: 
+                // > a claim Title = Customer
+                // > a role: manager
+                options.AddPolicy("CustomerRole", md =>
+                {
+                    md.RequireClaim("claimtitle", "Customer");
+                    md.RequireRole("Customer");
+                });
 
-            //    //any user which is a AdminDevelopers must have: 
-            //    // > a claim Title = Admin
-            //    // > a role: Administrator
-            //    options.AddPolicy("AdminRole", ad =>
-            //    {
-            //        ad.RequireClaim("claimtitle", "Admin");
-            //        ad.RequireRole("Administrator");
-            //    });
-            //});
+                //any user which is a AdminDevelopers must have: 
+                // > a claim Title = Admin
+                // > a role: Administrator
+                options.AddPolicy("AdminRole", ad =>
+                {
+                    ad.RequireClaim("claimtitle", "Admin");
+                    ad.RequireRole("Administrator");
+                });
+            });
 
-
-            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-            services.AddScoped<IContact, SqlContactRepository>();
-            services.AddScoped<IPurchase, SqlPurchaseRepository>();
-            services.AddScoped<IBilling, SqlBillingRepository>();
-            services.AddScoped<IAccount, SqlAccountRepository>();
-            services.AddScoped<IAccountType, SqlAccountTypeRepository>();
-            services.AddScoped<IClient, SqlClientRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -124,28 +149,53 @@ namespace cryptolte
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            //updates the Request.Scheme with the X-Forwarded-Proto header so that all redirects link
+            //generation uses the correct scheme
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
+
             //configure logging
             loggerFactory.AddFile("Logs/ts-{Date}.txt");
 
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseForwardedHeaders();
+                app.UseHsts();
+            }
+            else
             {
                 app.UseDeveloperExceptionPage();
+                app.UseForwardedHeaders();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "cryptolte v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ylem.businessapi v1"));
             }
 
+            
+            app.UseHttpsRedirection();
+            
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
                 
             app.UseAuthorization();
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAGn7zjisyXUqIYnWEPk/7KwAAAAACAAAAAAAQZgAAAAEAACAAAACvZsXbLDrPGOhJCPchIB5YZnS3J14r/MOw2x8EmxX+7wAAAAAOgAAAAAIAACAAAABZwZwwBOAun6+iVxOZVia1wbjqAFG1ECpQuWAmaytb+1AAAAAVXXauIHjBhX5UkShRj8DOZTkKEostDkjFCSTw+u4S1HGg3d/FCk2YkPhCclOiARF4csXQVjE/RNsGJCDVS75DMSOcvIKLfOgIlqtXh/a5MUAAAAD8tz7hVnXS2vUbK8zp9Y+0uZyewkok5Yb4YJ0+5s0LW6LIpRqje02/oaFEgiJwO0rEH6BlB0U47V8GbtBf/mWb</EncryptedPassword>
+    <History>False|2021-11-24T07:33:28.1798395Z;False|2021-11-24T08:40:57.6540790+02:00;False|2021-11-24T08:40:14.7878491+02:00;False|2021-11-24T08:32:47.6600330+02:00;False|2021-11-24T07:51:00.4614010+02:00;False|2021-11-24T07:47:18.0685362+02:00;False|2021-11-24T07:41:17.2584444+02:00;False|2021-11-24T07:35:05.0566584+02:00;False|2021-11-24T07:27:58.4192324+02:00;False|2021-11-24T07:27:40.1320356+02:00;False|2021-11-24T07:24:03.1698735+02:00;False|2021-11-23T20:38:15.9431625+02:00;False|2021-11-23T20:26:15.1654623+02:00;False|2021-11-23T20:25:33.4840327+02:00;False|2021-11-23T20:24:35.2813961+02:00;False|2021-11-23T20:24:20.2423796+02:00;False|2021-11-23T20:23:17.7701259+02:00;False|2021-11-23T20:16:06.2239746+02:00;False|2021-11-23T20:06:52.8114845+02:00;False|2021-11-23T19:46:12.8782712+02:00;False|2021-11-23T19:37:46.5807824+02:00;False|2021-11-23T19:20:23.1467639+02:00;False|2021-11-23T18:39:23.2291024+02:00;False|2021-11-23T18:38:05.6644919+02:00;False|2021-11-23T18:22:57.8824210+02:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="cryptoDBConnection">
+      <Value>server=EC2AMAZ-V3K21JG%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=5000</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="cryptolte.Models.AppDbContext">
+      <Value>server=EC2AMAZ-V3K21JG%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=5000</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

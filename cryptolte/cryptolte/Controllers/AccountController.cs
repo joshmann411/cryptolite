@@ -169,6 +169,27 @@ namespace cryptolte.Controllers
             return new JsonResult(BadRequest("Error occurred"));
         }
 
+        [HttpGet]
+        [Route("GetWalletAddress")]
+        public JsonResult GetWalletAddress()
+        {
+            try
+            {
+                //get defaulted wallet from appsettings
+                return new JsonResult(_configuration.GetSection("WalletAddress").Value);
+            }
+            catch(Exception ex)
+            {
+                //log 
+                _logger.LogError($"Error while attempting to get address. Error {ex.Message}");
+
+                return new JsonResult("Error occurred", ex.Message.ToString());
+            }
+            
+
+        }
+
+
         [HttpPut]
         [Route("Put")]
         public JsonResult Put([FromBody] Account accountChanges)

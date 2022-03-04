@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
 import { NgProgress } from 'ngx-progressbar';
+import { AuthService } from '../../services/auth.service';
 import { ProgressbarService } from '../../services/progressbar.service';
 
 @Component({
@@ -13,6 +15,8 @@ export class HeaderComponent implements OnInit {
   constructor(
       private router: Router,
       private progress: NgProgress,
+      private authSvc: AuthService,
+      private alertSvc: AlertService,
       public progressBar: ProgressbarService) { }
 
 
@@ -34,6 +38,21 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['register']); 
   
     // return this.authService.logout();
+  }
+
+  loggedIn(){
+    //if token is present, user is still logged in
+    console.log('is token there: ' + this.authSvc.loggedIn())
+    return this.authSvc.loggedIn();
+  }
+
+  logout(){
+    this.authSvc.logout();
+  }
+
+  notifyProfile(){
+    this.alertSvc.info('Select Profile in the tab below');
+
   }
 
 }

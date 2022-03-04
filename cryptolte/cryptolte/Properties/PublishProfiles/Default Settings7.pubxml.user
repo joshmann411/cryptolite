@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAGn7zjisyXUqIYnWEPk/7KwAAAAACAAAAAAAQZgAAAAEAACAAAACgYpvpF9tZSCnfBfUdOSzjhg+cJyAQ2qjOU4OAArlXRgAAAAAOgAAAAAIAACAAAAB/MBwpqFDvcSiD6kjPOYKF5rue61SPIW6R1YrBK/n5/lAAAAAAhF0MeMsidW8+RH3/HU8gukVSWukumxLyxIpeX+ShzZLstVxi4wi1DZysHlIzyp/Ll7xDjLGOUFpcCrBfel37BclSSVkByxzRF395bNkPiEAAAAAs2d0Nj1VAP3bdiHS9N7F3AnO+t9GqqRqUjYVkSzOVFmecVDSuqBmelcOVNjf8DDGSenip1uR7ZUZKBV17euE7</EncryptedPassword>
+    <History>False|2021-11-15T13:06:08.4875585Z;False|2021-11-15T15:05:37.7491216+02:00;False|2021-11-15T15:03:11.0612805+02:00;False|2021-11-15T15:01:26.4228703+02:00;False|2021-11-15T14:59:56.4970892+02:00;False|2021-11-15T14:58:27.9961394+02:00;False|2021-11-15T14:58:04.8302542+02:00;False|2021-11-15T14:57:20.0375203+02:00;False|2021-11-15T14:55:19.5641392+02:00;False|2021-11-15T14:43:31.6311845+02:00;False|2021-11-15T14:39:39.5817075+02:00;False|2021-11-15T14:38:18.9162828+02:00;False|2021-11-15T14:36:09.8926932+02:00;False|2021-11-15T14:27:34.4845063+02:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="cryptoDBConnection">
+      <Value>server=EC2AMAZ-PNUL4CJ%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=1000</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="cryptolte.Models.AppDbContext">
+      <Value>server=EC2AMAZ-PNUL4CJ%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=1000</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

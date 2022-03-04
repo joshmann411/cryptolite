@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAGn7zjisyXUqIYnWEPk/7KwAAAAACAAAAAAAQZgAAAAEAACAAAAA0i5lBLKvrtUz3d6/+FhkygpD1jLP0RtDMJ8+iJyENCQAAAAAOgAAAAAIAACAAAAA+Bv63ndltZBDKepx4xMbgX5YzOZQbz441/HImxMIUSlAAAAAUBv1gOwbN6WbBzgRv/1PuIMsgvuDHDZRAnpj1SE/Xs7Nt0bwvYUC8OQ1vCOSsE15cYIHUwqpaKMdIoaSvQC6g4rmHfIXGM84hbN9dm9XgzkAAAAA5OjXEsmmahnOEebfIomuz7Hdjfv5trqNR4TlAVOQKLe1DNfqWqyNginf5I8H3baphZORPaxK8WeWinEEee9MG</EncryptedPassword>
+    <History>False|2021-11-16T18:42:39.9614789Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="cryptoDBConnection">
+      <Value>server=EC2AMAZ-PNUL4CJ%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=1000</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="cryptolte.Models.AppDbContext">
+      <Value>server=EC2AMAZ-PNUL4CJ%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=1000</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

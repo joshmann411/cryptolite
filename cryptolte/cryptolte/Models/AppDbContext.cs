@@ -54,14 +54,15 @@ namespace cryptolte.Models
                     Id = 1,
                     Amount = "10.00",
                     Asset = _configuration.GetSection("crypto").Value.Split(",")[0] ?? "bitcoin",
-                    ContactDetailsId = 1
+                    ContactDetailsId = 1, 
+                    DateOfPurchase = DateTime.Today
                 },
                 new Purchase
                 {
                     Id = 2,
                     Amount = "101.00",
                     Asset = _configuration.GetSection("crypto").Value.Split(",")[2] ?? "bitcoin",
-                    ContactDetailsId = 2
+                    DateOfPurchase = DateTime.Today
                 });
 
             modelBuilder.Entity<Billing>().HasData(

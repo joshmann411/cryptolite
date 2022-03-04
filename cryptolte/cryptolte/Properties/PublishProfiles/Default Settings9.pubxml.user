@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAGn7zjisyXUqIYnWEPk/7KwAAAAACAAAAAAAQZgAAAAEAACAAAACYfdKrIWxKvoWhmfudOFjhGx14N4cGQAXIU/bMMDuKygAAAAAOgAAAAAIAACAAAAD9SEoHL+cD2IoapMS1DuHy+6bgU2RY1ndQWTse8RgWIVAAAABtl1k190G7D9JlUgNjuX4dPp/PV77Z6dJ72B26kZMO7RQbXBSQZtEhO0N5fhHy5Y6un+dOQv0xgkXFgj9KHHtcODYOoXpqkTierOsP/HhGN0AAAACkSFJ9FRDrhSb/AqPnsgGSJ/RBnOCKGA1RX6SZ1QjSr3JePwDviTMzUtA5iFJiXEfEk8HoO3HUO/WCH0UyfKK+</EncryptedPassword>
+    <History>False|2021-11-16T16:25:34.7345998Z;False|2021-11-16T18:24:27.3105216+02:00;False|2021-11-16T18:23:49.8786254+02:00;False|2021-11-16T18:22:59.7673763+02:00;False|2021-11-16T18:20:21.8166310+02:00;False|2021-11-16T18:10:30.0191502+02:00;False|2021-11-16T18:10:06.0286478+02:00;False|2021-11-16T18:09:13.8646520+02:00;False|2021-11-16T12:27:15.9264276+02:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="cryptoDBConnection">
+      <Value>server=EC2AMAZ-PNUL4CJ%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=1000</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="cryptolte.Models.AppDbContext">
+      <Value>server=EC2AMAZ-PNUL4CJ%3bdatabase=crypto%3bTrusted_Connection=true%3bMultipleActiveResultSets=true%3bconnect timeout=1000</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>
