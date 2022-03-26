@@ -1,8 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertService } from 'ngx-alerts';
 import { AccountService } from 'src/app/shared/services/account.service';
+import { BillingService } from 'src/app/shared/services/billing.service';
 import { ClientService } from 'src/app/shared/services/client.service';
 import { ProgressbarService } from 'src/app/shared/services/progressbar.service';
 
@@ -14,7 +17,21 @@ interface Acc {
   MinDeposit: number;
   CurrentAmount: number
   clientId: number;
+  confirmed: boolean;
+  isConfirmed: boolean;
 }
+
+interface Billing{
+  BillingId: number,
+  NameOnCard: string,
+  CCNumber: string,
+  Expiration: string,
+  Cvv: string,
+  Address: string,
+  Phone: string,
+  LinkedAccount: string
+}
+
 
 @Component({
   selector: 'app-show-dashboard',
@@ -68,32 +85,42 @@ export class ShowDashboardComponent implements OnInit {
   clientEmail: any;
   clientPhone: any;
 
+
+  //bank card vars
+  cardNumber: any = "0000000000000000"
+  nameOnCard: any = "John Doe"
+
+  mm: any = "00"
+  yy: any = "00"
+
+  togglePayment: boolean = false;
+
+  isFlipped: boolean = false;
+
+  currentClass: any = "creditcard";
+  cvv: any = "000";
+
+  billingsLinkedToThisClient: Billing[]  = [];
+
+  @ViewChild('tabGroup') tabGroup: any;
+  
+  billingCount: any;
+  //bank card vars ends
   constructor(
       private _accountService: AccountService,
       private alertService: AlertService,
       private progressService: ProgressbarService,
-      private clientService: ClientService) {
+      private clientService: ClientService,
+      private billingService: BillingService,
+      private router: Router) 
+  {
     const token = localStorage.getItem('token')??'';
 
     const decodedToken = this.helper.decodeToken(token);
 
     //extract information form decoded token     
     this.userEmail = decodedToken.email;
-    
-    console.log('User Email: ' + this.userEmail);
-
-
-    //make client service : data ready
-    //clientService.getClientByEmail(this.clientEmail);
-
-    //go fetch the accounts of the currently logged in user
-    // this._accountService.getAccountsOfClientByEmail(this.userEmail).subscribe(data => {
-    //   this.myAccounts = data;
-    //   console.log('first account: ' + this.myAccounts[0].AccoutName);
-    //   console.log('Length of my account: ' + this.myAccounts?.length);
-    // });
-    
-   }
+  }
 
 
    @HostListener('window:resize', ['$event'])
@@ -161,50 +188,68 @@ export class ShowDashboardComponent implements OnInit {
   
     //go fetch the accounts of the currently logged in user
     this._accountService.getAccountsOfClientByEmail(this.userEmail).subscribe(data => {
-      this.myAccounts = data;
-      console.log('first account: ' + this.myAccounts[0].AccoutName);
-      console.log('Length of my account: ' + this.myAccounts?.length);
+      this.myAccounts = data ?? null;
+      // console.log('All accounts: ' + JSON.stringify(this.myAccounts));
+      // console.log('first account: ' + this.myAccounts[0].AccoutName);
+      // console.log('Length of my account: ' + this.myAccounts?.length);
     });
 
     //fetch the client information
     this.clientService.getClientByEmail(this.userEmail).subscribe(data => {
-      this.thisClient = data;
+      this.thisClient = data ?? null;
 
-      console.log('Profile Details From Endpoint: ' + JSON.stringify(this.thisClient));
+      //fetch the billing for the current client if you have client
+      this.getBillingsLinkedToAccount();
+
+      // console.log('Profile Details From Endpoint: ' + JSON.stringify(this.thisClient));
 
 
       //if (condition) ? (apply this) : (apply that)
 
       //if client has a firstname and the firstname is not empty
       this.clientFirstname = (
-                                (this.thisClient.firstname?.toLowerCase() != 'null') && 
-                                (this.thisClient.firstname != '')
-                              ) ? this.thisClient.firstname : 'Enter Firstname';
+                                (this.thisClient?.firstname?.toLowerCase() != 'null') && 
+                                (this.thisClient?.firstname != '')
+                              ) ? this.thisClient?.firstname : 'Enter Firstname';
 
 
       this.clientLastname = (
-                                (this.thisClient.lastname?.toLowerCase() != 'null') && 
-                                (this.thisClient.lastname != '')
-                              ) ? this.thisClient.lastname : 'Enter Lastname';
+                                (this.thisClient?.lastname?.toLowerCase() != 'null') && 
+                                (this.thisClient?.lastname != '')
+                              ) ? this.thisClient?.lastname : 'Enter Lastname';
 
       this.clientEmail = (
-                            (this.thisClient.email?.toLowerCase() != 'null') && 
-                            (this.thisClient.email != '')
-                          ) ? this.thisClient.email : 'Enter email address';
+                            (this.thisClient?.email?.toLowerCase() != 'null') && 
+                            (this.thisClient?.email != '')
+                          ) ? this.thisClient?.email : 'Enter email address';
       
       
       this.clientPhone = (
-                            (this.thisClient.phone?.toLowerCase() != 'null') && 
-                            (this.thisClient.phone != '')
-                          ) ? this.thisClient.phone : 'Enter Phone number';
+                            (this.thisClient?.phone?.toLowerCase() != 'null') && 
+                            (this.thisClient?.phone != '')
+                          ) ? this.thisClient?.phone : 'Enter Phone number';
 
       //alert('I am: ' + JSON.stringify(this.thisClient))
       // alert('firstname: '+ this.clientFirstname + ' | lastname: ' + this.clientLastname);
-    })
+    });
 
+  
     this.activateAddEditDashboardCom = false;
     this.activateAddEditAccountPortalCom = false;
     this.activatePurchaseCom = false;
+  }
+
+  getBillingsLinkedToAccount()
+  {
+    // this.alertService.info('Getting links: ' + this.thisClient.id);
+
+    //get clienkId (linknedAddress)
+    this.billingService.GetBillings(this.thisClient.id).subscribe(data => {
+      //map response of billing cards
+      this.billingCount = data.length;
+
+      this.billingsLinkedToThisClient = data;
+    });
   }
 
   OnSubmit(f: NgForm){
@@ -266,13 +311,18 @@ export class ShowDashboardComponent implements OnInit {
 
 
   removeAccount(acct: any){
-    this.alertService.info("Requesting to remove account: " + acct.AccoutName);
-    this.alertService.info("Request sent for processing. Our agents will contact you with 72 hours")
+    var acName = acct.AccoutName ?? "";
+
+    if(confirm("Are you sure to remove account ['" +  acName + "']")) {
+      // console.log("Implement delete functionality here");
+      this.alertService.info("Requesting to remove account: " + acct.AccoutName);
+      this.alertService.info("Request sent for processing. Our agents will contact you with 72 hours")
+    }
   }
 
   getAccounts(){
-    console.log('I am here with data: ' + this._accountService.getListOfAccounts())
-    return this._accountService.getListOfAccounts();
+    // console.log('I am here with data: ' + this._accountService?.getListOfAccounts())
+    return this._accountService?.getListOfAccounts();
   }
 
   addClick(){
@@ -376,10 +426,153 @@ export class ShowDashboardComponent implements OnInit {
       
       this.activateDepositCom = true;
     }
-    else{
-      alert('Contact Admin to process withdrawal');
-
-      window.location.reload();
+    else if(action == 'Withdraw'){
+      if(confirm("Do you have your banking information linked in the profile section ?")) {
+        // console.log("Implement delete functionality here");
+        this.alertService.info('Withdrawal request sent.');
+        this.alertService.info('Awaiting confirmation will be sent to support.');
+        this.alertService.info('One of our agents will contact you shorty');
+      }
+      else{
+      
+        this.alertService.info('Go to profile tab and link your details for withdrawal');
+        this.alertService.info('Alternatively, you can contact admin support: admin@dynamocrypto.com');
+      }
     }
+    else{
+      alert('Invalid Action. Contact Admin Support. Email: admin@dynamocrypto.com');
+
+    }
+    // window.location.reload();
   }
+
+  randomInteger(myAmount: number) {
+    if(isNaN(myAmount)) // it is not a number
+    {
+      //do nothing
+      return myAmount;
+    }
+    else
+    {
+      if(myAmount < 1000){
+        // max: 39 | min: 3
+        var max = 39;
+        var min = 3;
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+      else if(myAmount < 2000 && myAmount >= 1000){
+        var max = 89;
+        var min = 17;
+
+        return Math.floor(Math.random() * (max - 1 + min)) + min;
+      }
+    }
+    //random number generator between 1 - 24
+    return Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+    
+  }
+
+  addBankDetails(){
+    this.alertService.info('Card linking in progress...');
+    this.progressService.startLoading();
+    
+    //observer
+    const addCardObserver = {  
+      next: (x: any) => { 
+        this.progressService.setSuccess();
+        //console.log('Card Added Successfully');
+        this.progressService.completeLoading();
+        this.alertService.success('Card Linked.');
+        // this.router.navigate(['dashboard']);
+        window.location.reload();
+
+      },
+      error: (err: Error) => {
+        this.progressService.setError();
+        //console.error(err); //send ERROR back to error handler
+        this.progressService.completeLoading();
+        this.alertService.danger('Card link failed. Please retry... ');
+      }
+    };
+
+
+    var billingObject = {
+      NameOnCard: this.nameOnCard,
+      CCNumber: this.cardNumber,
+      Expiration: new Date(this.yy, this.mm),
+      Cvv: this.cvv,
+      Address: " ADDRESS ", //no changes to effect from here
+      Phone: " PHONE FIELD ", //no changes should effect from here
+      LinkedAccount: this.thisClient.id.toString()
+    }
+
+    this.billingService.addNewCardForClient(billingObject).subscribe(addCardObserver => {
+      //console.log('Response: ' +  JSON.stringify(addCardObserver));
+      
+      this.progressService.completeLoading();
+      this.tabGroup.selectedIndex = 3;
+      this.alertService.info('Tab now: ' + this.tabGroup.selectedIndex);
+    });
+
+
+  }
+
+  isAddCardDisabled(){
+    if(
+        (this.nameOnCard != "John Doe" && this.OnSubmit.name.length > 5) &&
+        (this.cardNumber != "0000000000000000" && this.cardNumber.length > 13) &&
+        (this.mm != "00" && this.mm != "") && 
+        (this.yy != "00" && this.yy != "") &&
+        (this.cvv != "000" && this.cvv != "")
+      )
+    {
+        return false;
+    }
+    return true;
+  }
+
+  goToDashboard(){
+    //this.router.navigate(['dashboard']);
+    window.location.reload();
+  }
+
+  ngAfterViewInit() {
+    console.log('afterViewInit => ', this.tabGroup.selectedIndex);
+    //this.tabGroup.selectedIndex = 1;
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    console.log('tabChangeEvent => ', tabChangeEvent);
+    console.log('index => ', tabChangeEvent.index);
+  }
+
+  validateAccount(AcToValidate: any){
+    if(confirm("Did you make payment to the specified BTC wallet ? Processing only starts once payment has been received.")) {
+      // console.log("Implement delete functionality here");
+      this.alertService.info('Payment confirmation request will be sent to support.');
+    }
+    else{
+      this.alertService.info('Contact admin support: admin@dynamocrypto.com');
+    }
+    
+    //update our notification table and send ourselves email
+  }
+
+  togglePay(){
+      
+    this.togglePayment = !this.togglePayment;
+
+  }
+
+  cvvInFocus(){
+    this.currentClass = "creditcard flipped";
+  }
+
+  cvvOutFocus(){
+    this.currentClass = "creditcard";
+  }
+  
+
+ 
 }

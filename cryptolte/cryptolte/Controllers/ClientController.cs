@@ -29,7 +29,7 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetClientByEmail/{email}")]
-        public JsonResult GetClientByEmail(string email)
+        public async Task<IActionResult> GetClientByEmail(string email)
         {
             if (!string.IsNullOrEmpty(email))
             {
@@ -37,7 +37,7 @@ namespace cryptolte.Controllers
                 {
                     _logger.LogInformation($"Retrieving client with email: {email}");
 
-                    Client client = _client.GetClientByEmail(email);
+                    Client client = await _client.GetClientByEmail(email);
 
                     _logger.LogInformation($"Client retrieved");
 
@@ -61,13 +61,13 @@ namespace cryptolte.Controllers
     
         [HttpPut]
         [Route("UpdateClientDetail")]
-        public IActionResult UpdateClientDetail([FromBody] Client clientChanges)
+        public async Task<IActionResult> UpdateClientDetail([FromBody] Client clientChanges)
         {
             try
             {
                 _logger.LogInformation($"Updating client details {clientChanges.id}");
 
-                string msg = _client.UpdateClient(clientChanges);
+                var msg = await _client.UpdateClient(clientChanges);
 
                 _logger.LogInformation($"Client details of ID: {clientChanges.id} updated successfully");
                 

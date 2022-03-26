@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AccountService {
-  readonly authUrl = "https://localhost:5001/api/";
+  //readonly authUrl = "https://localhost:5201/api/";
+
+  readonly authUrl = "https://api.dynamocryptos.com:5201/api/";
+
 
   constructor(private http: HttpClient) { }
   //this method will go create a new account for user x

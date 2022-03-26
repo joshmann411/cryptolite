@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  authUrl = "https://localhost:5001/api/Identity/";
+  //readonly authUrl = "https://localhost:5201/api/Identity/";
+  
+  readonly authUrl = "https://api.dynamocryptos.com:5201/api/Identity/";
+
   confirmEmailUrl = "test.com";
 
   // baseurl: string = environment.baseUrl;
@@ -49,14 +52,15 @@ export class AuthService {
   }
 
   register(model: any){
-    let headers = new HttpHeaders({
-      'confirmEmailUrl': this.confirmEmailUrl 
-    });
+    // let headers = new HttpHeaders({
+    //   'confirmEmailUrl': this.confirmEmailUrl 
+    // });
 
-    let options = {
-      headers: headers
-    }
-    return this.http.post(this.authUrl + 'register', model, options)
+    // let options = {
+    //   headers: headers
+    // }
+
+    return this.http.post(this.authUrl + 'register', model);
   }
 
   loggedIn(): boolean{

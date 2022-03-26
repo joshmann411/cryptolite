@@ -1,4 +1,5 @@
 ﻿using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace cryptolte.Interfaces
 {
     public interface IAccountType
     {
-        IEnumerable<AccountType> GetAccTypes();
-        AccountType GetAccountType(int accTypeId);
-        string CreateNewAccType(AccountType accountType);
-        string UpdateAccountTye(AccountType accTypeChanges);
-        string DeleteAccountType(int billingId);
+        Task<IEnumerable<AccountType>> GetAccTypes();
+        Task<AccountType> GetAccountType(int accTypeId);
+        Task<IActionResult> CreateNewAccType(AccountType accountType);
+        Task<IActionResult> UpdateAccountTye(AccountType accTypeChanges);
+        Task<IActionResult> DeleteAccountType(int billingId);
     }
 }

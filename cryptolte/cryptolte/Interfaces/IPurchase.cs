@@ -1,4 +1,5 @@
 ﻿using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace cryptolte.Interfaces
 {
     public interface IPurchase
     {
-        IEnumerable<Purchase> GetPurchases();
-        Purchase GetPurchase(int Id);
-        string CreatePurchase(Purchase prchase);
-        string UpdatePurchase(Purchase purchaseChanges); //only admins can update this
-        string DeletePurchase(int purchaseId);
+        Task<IEnumerable<Purchase>> GetPurchases();
+        Task<Purchase> GetPurchase(int Id);
+        Task<IActionResult> CreatePurchase(Purchase prchase);
+        Task<IActionResult> UpdatePurchase(Purchase purchaseChanges); //only admins can update this
+        Task<IActionResult> DeletePurchase(int purchaseId);
     }
 }

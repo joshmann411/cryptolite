@@ -233,6 +233,9 @@ namespace cryptolte.Migrations
                     b.Property<bool>("confirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool?>("isConfirmed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("wallet")
                         .HasColumnType("longtext");
 
@@ -250,6 +253,7 @@ namespace cryptolte.Migrations
                             accType = "Pro",
                             clientId = 1,
                             confirmed = false,
+                            isConfirmed = true,
                             wallet = "et4yhtbveg4h576yujrb5gh7yh"
                         },
                         new
@@ -261,6 +265,7 @@ namespace cryptolte.Migrations
                             accType = "Standard",
                             clientId = 2,
                             confirmed = false,
+                            isConfirmed = true,
                             wallet = "iueyrvg4hj5t5847eudyhfn5jk43e87u"
                         });
                 });
@@ -323,6 +328,10 @@ namespace cryptolte.Migrations
                     b.Property<DateTime>("Expiration")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("LinkedAccount")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("NameOnCard")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -343,6 +352,7 @@ namespace cryptolte.Migrations
                             CCNumber = "1234567123456746274",
                             Cvv = 123,
                             Expiration = new DateTime(2022, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LinkedAccount = "3",
                             NameOnCard = "John Doe",
                             Phone = "12345678909876"
                         },
@@ -353,6 +363,7 @@ namespace cryptolte.Migrations
                             CCNumber = "3589876543456787654",
                             Cvv = 321,
                             Expiration = new DateTime(2025, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LinkedAccount = "3",
                             NameOnCard = "Eric Klapson",
                             Phone = "87654345678"
                         });
@@ -466,6 +477,9 @@ namespace cryptolte.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AccountId")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Amount")
                         .HasColumnType("longtext");
 
@@ -486,17 +500,19 @@ namespace cryptolte.Migrations
                         new
                         {
                             Id = 1,
-                            Amount = "10.00",
+                            AccountId = "3",
+                            Amount = "50.00",
                             Asset = "bitcoin",
                             ContactDetailsId = 1,
-                            DateOfPurchase = new DateTime(2022, 3, 4, 0, 0, 0, 0, DateTimeKind.Local)
+                            DateOfPurchase = new DateTime(2022, 3, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 2,
-                            Amount = "101.00",
+                            AccountId = "3",
+                            Amount = "10.00",
                             Asset = "bitcoin",
-                            DateOfPurchase = new DateTime(2022, 3, 4, 0, 0, 0, 0, DateTimeKind.Local)
+                            DateOfPurchase = new DateTime(2022, 3, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 

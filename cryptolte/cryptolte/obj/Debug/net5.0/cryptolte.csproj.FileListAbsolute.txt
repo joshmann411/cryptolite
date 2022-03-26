@@ -170,3 +170,15 @@ C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\System.Runtime.CompilerS
 C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\WatsonORM.Core.dll
 C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\WatsonORM.Mysql.dll
 C:\Devs\cryptolite\cryptolte\cryptolte\obj\Debug\net5.0\cryptolte.csproj.AssemblyReference.cache
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\MailKit.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\Microsoft.Extensions.Configuration.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\MimeKit.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\System.Text.Encodings.Web.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\System.Text.Json.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\cryptolte.JoBambi.Emailer.dll
+C:\Devs\cryptolite\cryptolte\cryptolte\bin\Debug\net5.0\cryptolte.JoBambi.Emailer.pdb

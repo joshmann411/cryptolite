@@ -34,6 +34,10 @@ import { PurchaseComponent } from './pages/dashboard/purchase/purchase.component
 import { ConvertUSDToBTCPipe } from './pages/dashboard/purchase/convert-usdto-btc.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DepositComponent } from './pages/dashboard/deposit/deposit.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { TermsComponent } from './pages/terms/terms.component';
+import { FormatCardNumberPipe } from './pages/dashboard/show-dashboard/format-card-number.pipe';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [ 
@@ -47,7 +51,10 @@ import { DepositComponent } from './pages/dashboard/deposit/deposit.component';
     AddEditWalletComponent,
     PurchaseComponent,
     ConvertUSDToBTCPipe,
-    DepositComponent
+    DepositComponent,
+    PrivacyComponent,
+    TermsComponent,
+    FormatCardNumberPipe
   ],
   imports: [
     BrowserModule,
@@ -70,7 +77,8 @@ import { DepositComponent } from './pages/dashboard/deposit/deposit.component';
     MatCardModule,
     MatTabsModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ClipboardModule 
   ],
   providers: [
     {

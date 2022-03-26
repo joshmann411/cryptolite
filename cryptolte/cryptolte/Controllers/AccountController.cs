@@ -39,13 +39,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public JsonResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 _logger.LogInformation("Retrieving list of known accounts");
 
-                IEnumerable<Account> accounts = _accountRepo.GetAccounts();
+                IEnumerable<Account> accounts = await _accountRepo.GetAccounts();
 
                 _logger.LogInformation("Accounts list retrieved");
 
@@ -64,13 +64,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public JsonResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 _logger.LogInformation($"Retrieving account with ID: {id}");
 
-                Account account = _accountRepo.GetAccount(id);
+                Account account = await _accountRepo.GetAccount(id);
 
                 _logger.LogInformation($"Retrieving account with ID: {id}");
 
@@ -88,7 +88,7 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("getAccountsOfClientByEmail/{clientEmail}")]
-        public JsonResult getAccountsOfClientByEmail(string clientEmail) //get by Email
+        public async Task<IActionResult> getAccountsOfClientByEmail(string clientEmail) //get by Email
         {
             try
             {
@@ -96,12 +96,14 @@ namespace cryptolte.Controllers
                 {
                     _logger.LogInformation("==> Retrieving accounts with client email: {0}", clientEmail);
 
+                    IEnumerable<Client> clients = await _clientRepo.GetClients();
+
                     //get client object
-                    Client cl = _clientRepo.GetClients().Where(x => x.email == clientEmail).FirstOrDefault();
+                    Client cl = clients.Where(x => x.email == clientEmail).FirstOrDefault();
 
                     if(cl != null)
                     {
-                        IEnumerable<Account> accounts = _accountRepo.GetAccountsOfClient(cl.id);
+                        IEnumerable<Account> accounts = await _accountRepo.GetAccountsOfClient(cl.id);
 
                         _logger.LogInformation("<== Retrieving accounts with client email: {0}:", clientEmail);
 
@@ -132,7 +134,7 @@ namespace cryptolte.Controllers
         [HttpPost]
         [Route("Post")]
         //[Route("Post/{contact}")]
-        public JsonResult Post([FromBody] Account account)
+        public async Task<IActionResult> Post([FromBody] Account account)
         {
             if(account != null)
             {
@@ -143,6 +145,7 @@ namespace cryptolte.Controllers
 
                 //default confirmation to false
                 account.confirmed = false;
+                account.isConfirmed = false; //redundant
 
                 //get defaulted wallet from appsettings
                 account.wallet = _configuration.GetSection("WalletAddress").Value;
@@ -151,7 +154,7 @@ namespace cryptolte.Controllers
                 {
                     _logger.LogInformation($"Adding new account with id: {account.AccoutId }");
 
-                    string msg = _accountRepo.CreateAccount(account);
+                    var msg = await _accountRepo.CreateAccount(account);
 
                     _logger.LogInformation("Added Successfully !");
 
@@ -171,7 +174,7 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetWalletAddress")]
-        public JsonResult GetWalletAddress()
+        public async Task<IActionResult> GetWalletAddress()
         {
             try
             {
@@ -192,13 +195,13 @@ namespace cryptolte.Controllers
 
         [HttpPut]
         [Route("Put")]
-        public JsonResult Put([FromBody] Account accountChanges)
+        public async Task<IActionResult> Put([FromBody] Account accountChanges)
         {
             try
             {
                 _logger.LogInformation($"Updating account changes. Object: {new JsonResult(accountChanges)}");
 
-                string response = _accountRepo.UpdateAccount(accountChanges);
+                var response = await _accountRepo.UpdateAccount(accountChanges);
 
                 _logger.LogInformation("Updated Successfully");
 
@@ -214,13 +217,13 @@ namespace cryptolte.Controllers
 
         [HttpDelete]
         [Route("Delete/{accountId}")]
-        public JsonResult Delete(int accountId)
+        public async Task<IActionResult> Delete(int accountId)
         {
             try
             {
                 _logger.LogInformation($"Deleting accountId with ID: {accountId}");
 
-                string response = _accountRepo.DeleteAccount(accountId);
+                var response = await _accountRepo.DeleteAccount(accountId);
 
                 _logger.LogInformation("Deleted Successfully !");
 

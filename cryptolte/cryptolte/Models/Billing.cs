@@ -20,9 +20,20 @@ namespace cryptolte.Models
         public DateTime Expiration { get; set; }
         [Required]
         public int Cvv { get; set; }
-        [Required]
+        
         public string Address { get; set; }
-        [Required]
+        
         public string Phone { get; set; }
+
+        [Required]
+        public string LinkedAccount { get; set; } //client id fk
+
+    }
+
+    public class BillingAddressDataModel
+    {
+        public int BillingId { get; set; }
+        public string ClientId { get; set; }
+        public string Address { get; set; }
     }
 }

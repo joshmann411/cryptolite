@@ -1,4 +1,5 @@
 ﻿using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace cryptolte.Interfaces
 {
     public interface IContact
     {
-        IEnumerable<Contact> GetContacts();
-        Contact GetContact(int contactId);
-        string CreateContact(Contact contact);
-        string UpdateContact(Contact contactChanges);
-        string DeleteContact(int contactId);
+        Task<IEnumerable<Contact>> GetContacts();
+        Task<Contact> GetContact(int contactId);
+        Task<IActionResult> CreateContact(Contact contact);
+        Task<IActionResult> UpdateContact(Contact contactChanges);
+        Task<IActionResult> DeleteContact(int contactId);
     }
 }

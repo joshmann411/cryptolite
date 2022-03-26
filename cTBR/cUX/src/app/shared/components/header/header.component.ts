@@ -46,12 +46,16 @@ export class HeaderComponent implements OnInit {
 
   loggedIn(){
     //if token is present, user is still logged in
-    console.log('is token there: ' + this.authSvc.loggedIn())
+    // console.log('is token there: ' + this.authSvc.loggedIn())
     return this.authSvc.loggedIn();
   }
 
   logout(){
     this.authSvc.logout();
+  }
+
+  goToDashboard(){
+    this.router.navigate(['dashboard']);
   }
 
   notifyProfile(){

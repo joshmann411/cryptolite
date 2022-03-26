@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
+import { ContactService } from 'src/app/shared/services/contact.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +11,15 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  cuName: any;
+  cuEmail: any;
+  cuSubject: any;
+  cuMessage: any;
+
+  constructor(
+    private router: Router,
+    private alertService: AlertService,
+    private contactService: ContactService) { }
 
   ngOnInit(): void {
   }
@@ -28,6 +39,25 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['register']); 
   
     // return this.authService.logout();
+  }
+
+  onSubmitContactUs(f: NgForm){
+
+    this.contactService.sendMessage(f.value).subscribe(data => {
+      this.alertService.info('Message sent...');
+      console.log(data);
+      window.location.reload();
+    });
+    // this.alertService.info('Contact us form values: ' + JSON.stringify(f.value));
+
+    // const dataToSend = {
+    //   name: f.value.name,
+    //   email: f.value.email,
+    //   subject: f.value.subject,
+    //   message: f.value.message
+    // }
+
+    // this.alertService.info('Contact us Details: ' + JSON.stringify(dataToSend));
   }
 
 

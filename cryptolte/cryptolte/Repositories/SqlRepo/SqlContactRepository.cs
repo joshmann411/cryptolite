@@ -1,5 +1,7 @@
 ﻿using cryptolte.Interfaces;
 using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,50 +19,50 @@ namespace cryptolte.Repositories.SqlRepo
         }
 
 
-        public string CreateContact(Contact contact)
+        public async Task<IActionResult> CreateContact(Contact contact)
         {
-            _context.Add(contact);
-            _context.SaveChanges();
-            return "Contact added successfully";
+            await _context.AddAsync(contact);
+            await _context.SaveChangesAsync();
+            return new JsonResult("Contact added successfully");
         }
 
 
-        public string DeleteContact(int contactId)
+        public async Task<IActionResult> DeleteContact(int contactId)
         {
             //_logger.LogInformation("Deleting team detail of ID: " + softwareId);
 
-            Contact contact = _context.contacts.Find(contactId);
+            Contact contact = await _context.contacts.FindAsync(contactId);
 
             if (contact != null)
             {
                 _context.Remove(contact);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return "Contact deleted successfully !";
+            return new JsonResult("Contact deleted successfully !");
         }
 
-        public Contact GetContact(int contactId)
+        public async Task<Contact> GetContact(int contactId)
         {
             //_logger.LogInformation("Attempting to get contact");
-            return _context.contacts.Find(contactId);
+            return await _context.contacts.FindAsync(contactId);
         }
 
-        public IEnumerable<Contact> GetContacts()
+        public async Task<IEnumerable<Contact>> GetContacts()
         {
             //_logger.LogInformation("Attempting to get contacts");
-            return _context.contacts;
+            return await _context.contacts.ToListAsync();
         }
 
-        public string UpdateContact(Contact contactChanges)
+        public async Task<IActionResult> UpdateContact(Contact contactChanges)
         {
             //_logger.LogInformation("Attempting to update contact changes");
 
             var tm = _context.contacts.Attach(contactChanges);
             tm.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return "Updated Successfully!";
+            return new JsonResult("Updated Successfully!");
         }
     }
 }

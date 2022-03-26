@@ -25,13 +25,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public JsonResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 _logger.LogInformation("Retrieving list of known accounts types");
 
-                IEnumerable<AccountType> accounts = _accountType.GetAccTypes();
+                IEnumerable<AccountType> accounts = await _accountType.GetAccTypes();
 
                 _logger.LogInformation("List of account types retrieved");
 
@@ -50,13 +50,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public JsonResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 _logger.LogInformation($"Retrieving account type with ID: {id}");
 
-                AccountType accountType = _accountType.GetAccountType(id);
+                AccountType accountType = await _accountType.GetAccountType(id);
 
                 _logger.LogInformation($"Retrieving account type with ID: {id}");
 
@@ -76,13 +76,13 @@ namespace cryptolte.Controllers
         [HttpPost]
         [Route("Post")]
         //[Route("Post/{contact}")]
-        public JsonResult Post([FromBody] AccountType accountType)
+        public async Task<IActionResult> Post([FromBody] AccountType accountType)
         {
             try
             {
                 _logger.LogInformation($"Adding new account type");
 
-                string msg = _accountType.CreateNewAccType(accountType);
+                var msg = await _accountType.CreateNewAccType(accountType);
 
                 _logger.LogInformation("Added Successfully !");
 
@@ -99,13 +99,13 @@ namespace cryptolte.Controllers
 
         [HttpPut]
         [Route("Put")]
-        public JsonResult Put([FromBody] AccountType accountTypeChanges)
+        public async Task<IActionResult> Put([FromBody] AccountType accountTypeChanges)
         {
             try
             {
                 _logger.LogInformation($"Updating account changes. Object: {new JsonResult(accountTypeChanges)}");
 
-                string response = _accountType.UpdateAccountTye(accountTypeChanges);
+                var response = await _accountType.UpdateAccountTye(accountTypeChanges);
 
                 _logger.LogInformation("Updated Successfully");
 
@@ -121,13 +121,13 @@ namespace cryptolte.Controllers
 
         [HttpDelete]
         [Route("Delete/{accountId}")]
-        public JsonResult Delete(int accountTypeId)
+        public async Task<IActionResult> Delete(int accountTypeId)
         {
             try
             {
                 _logger.LogInformation($"Deleting accountTypeId with ID: {accountTypeId}");
 
-                string response = _accountType.DeleteAccountType(accountTypeId);
+                var response = await _accountType.DeleteAccountType(accountTypeId);
 
                 _logger.LogInformation("Deleted Successfully !");
 

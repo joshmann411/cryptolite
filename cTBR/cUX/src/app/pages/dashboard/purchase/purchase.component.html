@@ -1,10 +1,9 @@
-<div class="row" *ngIf="!isSubmitted">
+<div *ngIf="!isSubmitted">
 
-
+  <div class="box">
     <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-      <div *ngIf="myAccounts.length > 0"> 
-        <div class="form-group">
-          
+      <div *ngIf="myAccounts.length > 0 && leastOneIsConfimed"> 
+        <div class="form-group">  
           <label for="account2Invest">
             <b>
               Select Account 
@@ -20,16 +19,48 @@
                 (change)='acc2Invest(selectedAcc)'>
                 <!-- <option>--select account--</option> -->
                 <option *ngFor="let accn of myAccounts">
-                    {{ accn.AccoutName }} ( Balance: {{ accn.CurrentAmount | currency:'USD':'symbol':'3.2-2' }})
+                  
+                  {{ accn.AccoutName }} ( Balance: {{ accn.CurrentAmount | currency:'USD':'symbol':'3.2-2' }})
+                
+                  <span *ngIf="accn.isConfirmed" style="color: green;">
+                    <!-- verified -->
+                    - (verified)                    
+                   
+                  </span>
+                  <span *ngIf="!accn.isConfirmed" style="color: red; text-decoration: line-through;">
+                    <!-- unverified -->
+                    - (invalid)
+
+                  </span>
                 </option>
             </select>
 
         </div>
 
         <div class="form-group">
+          <label 
+              for="btcAmtTst">
+              
+              <b>
+                Investment Amount 
+              </b>
+          </label>
+
+          
+            <input 
+              required
+              min="1"
+              max="{{maxDepo}}"
+              type="number" 
+              class="form-control" 
+              name="btcAmtTst"
+              [(ngModel)]="dlr"
+              >
+        </div>
+
+        <!-- <div class="form-group">
               <label 
                   for="btcAmt">
-                  <!-- Converted Amount: {{ dlr | convertUSDToBTC: asset.assetShortCode}} -->
               </label>
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -46,9 +77,16 @@
                   [(ngModel)]="dlr"
                   >
               </div>
-        </div>
+        </div> -->
       
         <div class="form-group">
+          <label 
+            for="btcAmtTst">
+            
+            <b>
+              BTC (Equivalent) 
+            </b>
+          </label>
               <!-- <label for="btcAmt">Converted Amount: {{btc}}</label> -->
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -71,34 +109,44 @@
               type="submit" 
               class="btn btn-primary form-control" 
               [disabled]="f.invalid">
-              Buy
+              Buy Now
           </button>
       </div>
-  <!--     
-        <div class="form-group">
-              <button 
-                class="btn btn-outline-primary" 
-                type="submit"
-                (click)="toggleSubmit()">
-                  Submit
-              </button>
-        </div> -->
 
       </div>
       
 
       <div *ngIf="myAccounts.length == 0">
           <p>
-            (0) account(s) found. Create new from <a href="">DASHBOARD</a> 
+            (0) account(s) found. Create new from 
+            <a [routerLink]="" (click)="goToDashboard()">DASHBOARD</a> 
           </p> 
+      </div>
+
+      <div *ngIf="myAccounts.length > 0">
+        <p>
+          ({{unvalidatedAcctCount}}) 
+          <b>
+            unvalidated 
+          </b>
+          account(s) found. Contact admin@dynamocrypto.com
+          <br>
+          <a [routerLink]="" (click)="goToDashboard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+            DASHBOARD
+          </a> 
+        </p> 
       </div>
     
     </form>
+  </div>
 
 </div>
 
 
-<!-- After Submit -->
+<!-- After Submit : DECOMMISSIONED -->
 <div *ngIf="isSubmitted">
   <div id="accordion">
     <div class="card">

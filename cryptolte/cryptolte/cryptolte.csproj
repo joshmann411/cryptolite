@@ -35,7 +35,11 @@
   <ItemGroup>
     <Folder Include="images\" />
     <Folder Include="logs\" />
-    <Folder Include="Migrations\" />
+    <Folder Include="Templates\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\cryptolte.JoBambi.Emailer\cryptolte.JoBambi.Emailer.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

@@ -3,12 +3,14 @@ using cryptolte.Models.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace cryptolte.Controllers
 {
@@ -18,9 +20,12 @@ namespace cryptolte.Controllers
     {
         private ILogger _logger;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILoggerFactory loggerFactory;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _config;
+        private readonly IEmailSender _emailSender;
         private readonly IClient _client;
         //private readonly _client
 
@@ -28,15 +33,20 @@ namespace cryptolte.Controllers
                                     ILoggerFactory loggerFactory,
                                     IJwtTokenGenerator jwtTokenGenerator,
                                     RoleManager<IdentityRole> roleManager,
+                                    IConfiguration config,
+                                    IEmailSender emailSender,
                                     SignInManager<IdentityUser> signInManager,
                                     IClient client)
         {
             _logger = loggerFactory.CreateLogger(typeof(IdentityController));
             _userManager = userManager;
+            this.loggerFactory = loggerFactory;
             _signInManager = signInManager;
             _client = client;
             _jwtTokenGenerator = jwtTokenGenerator;
             _roleManager = roleManager;
+            _config = config;
+            _emailSender = emailSender;
         }
 
         [HttpPost("Register")]
@@ -64,6 +74,29 @@ namespace cryptolte.Controllers
             {
                 var userFromDb = await _userManager.FindByNameAsync(userToCreate.UserName);
 
+                //generate email confirmation token
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(userFromDb);
+
+                //build URL
+                var uriBuilder = new UriBuilder(_config["ReturnPaths:ConfirmEmail"]);
+                var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["token"] = token;
+                query["userid"] = userFromDb.Id;
+                uriBuilder.Query = query.ToString();
+                var urlString = uriBuilder.ToString();
+
+                //to email
+                List<string> toAddrs = new List<string>()
+                {
+                    userFromDb.Email
+                };
+
+                //action (NeW Registration)
+                string action = "1";
+
+#warning thisMethodShouldBeMadeAsync
+                _emailSender.SendEmail(toAddrs, action, urlString);
+
                 //add role to user
                 _logger.LogInformation($"Attach user from DB: {userFromDb} to role: {model.Role ?? "Client"}");
 
@@ -78,7 +111,7 @@ namespace cryptolte.Controllers
 
                 //add info to client obj (at this point we only have email)
                 // --> populate other information at a later stage
-                _client.AddClient(new Models.Client
+                await _client.AddClient(new Models.Client
                 {
                     email = model.Email
                 });

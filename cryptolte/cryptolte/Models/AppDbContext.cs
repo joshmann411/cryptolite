@@ -57,17 +57,19 @@ namespace cryptolte.Models
                 new Purchase
                 {
                     Id = 1,
-                    Amount = "10.00",
+                    Amount = "50.00",
                     Asset = "bitcoin",
                     //Asset = _configuration.GetSection("crypto").Value.Split(",")[0] ?? "bitcoin",
-                    ContactDetailsId = 1, 
+                    ContactDetailsId = 1,
+                    AccountId = "3",
                     DateOfPurchase = DateTime.Today
                 },
                 new Purchase
                 {
                     Id = 2,
-                    Amount = "101.00",
+                    Amount = "10.00",
                     Asset = "bitcoin",
+                    AccountId = "3",
                     //Asset = _configuration.GetSection("crypto").Value.Split(",")[2] ?? "bitcoin",
                     DateOfPurchase = DateTime.Today
                 });
@@ -80,7 +82,8 @@ namespace cryptolte.Models
                     Expiration = new DateTime(2022, 05, 14),
                     Cvv = 123,
                     Address = "123 Test Street, YouknowWhatItIs Road",
-                    Phone = "12345678909876"
+                    Phone = "12345678909876",
+                    LinkedAccount = "3"
                 },
                 new Billing
                 {
@@ -90,7 +93,8 @@ namespace cryptolte.Models
                     Expiration = new DateTime(2025, 07, 04),
                     Cvv = 321,
                     Address = "321 Test Street, yemen avenue",
-                    Phone = "87654345678"
+                    Phone = "87654345678",
+                    LinkedAccount = "3"
                 });
 
             modelBuilder.Entity<AccountType>().HasData(
@@ -123,7 +127,8 @@ namespace cryptolte.Models
                     clientId = 1,
                     wallet = "et4yhtbveg4h576yujrb5gh7yh",
                     confirmed = false,
-                    CurrentAmount = 1000
+                    CurrentAmount = 1000,
+                    isConfirmed = true
                 },
                 new Account
                 {
@@ -134,7 +139,8 @@ namespace cryptolte.Models
                     clientId = 2,
                     wallet = "iueyrvg4hj5t5847eudyhfn5jk43e87u",
                     confirmed = false,
-                    CurrentAmount = 1000
+                    CurrentAmount = 1000,
+                    isConfirmed = true
                 });
 
             modelBuilder.Entity<Client>().HasData(

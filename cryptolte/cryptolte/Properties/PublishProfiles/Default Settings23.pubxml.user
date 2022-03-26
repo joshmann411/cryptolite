@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAMp9DOWAWmk24BG9uENsEpwAAAAACAAAAAAAQZgAAAAEAACAAAAAtw0wRgdhIhKoemPjlWlOi5kGFMWWmay2CDmXBNx9gXgAAAAAOgAAAAAIAACAAAAB6YIsVSenNbnctG0/aeH+ELF0s90nCt38CCVV0OEhe+lAAAACabKe/6Rf9fE0m8PwDrrZInxUYdJWu1lGttkXLdbJlGr6nMfMlEBTVbj08siVl+trtSP8mJQ0XBj87dvduxV0KcUavZXFFrZJT99TDtvE/FEAAAADPLb893ZPirBmUD1ZHd8cH43OANiJjy3SGXtUrvxLokNdxV3/gjsaELsiqH6ywPdJLcxi9chCLZV4/IIYNEDbl</EncryptedPassword>
+    <History>True|2022-03-08T13:33:11.7080523Z;True|2022-03-08T13:33:42.5525699+02:00;True|2022-03-07T10:32:43.5258016+02:00;True|2022-03-06T10:21:46.1132750+02:00;True|2022-03-05T10:16:18.1194709+02:00;True|2022-03-05T08:08:08.4360686+02:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="cryptoDBConnection">
+      <Value>Server=35.178.248.140%3bDatabase=cryptoDB%3bUser ID=Admin%3bPassword=_develop123</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

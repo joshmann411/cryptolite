@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         this.progressBar.setError();
         console.error(err);
         this.progressBar.completeLoading();
-        this.alertService.danger('Incorrect username and/or password (Authentication failed)');
+        this.alertService.danger('Authentication failed. Incorrect username and/or password. ');
       }
     };
 

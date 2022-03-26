@@ -18,5 +18,6 @@ namespace cryptolte.Models
         public string email { get; set; }
         public string gender { get; set; }
         public string maritalStatus { get; set; }
+        public DateTime? dateClientAdded { get; set; } = DateTime.Now;
     }
 }

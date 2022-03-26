@@ -82,6 +82,7 @@ namespace cryptolte
 
 
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IContact, SqlContactRepository>();
             services.AddScoped<IPurchase, SqlPurchaseRepository>();
             services.AddScoped<IBilling, SqlBillingRepository>();
@@ -190,10 +191,6 @@ namespace cryptolte
                 
             app.UseAuthorization();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
 
             app.UseEndpoints(endpoints =>
             {

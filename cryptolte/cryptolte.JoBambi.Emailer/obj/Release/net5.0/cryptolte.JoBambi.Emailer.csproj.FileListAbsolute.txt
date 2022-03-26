@@ -1,0 +1,12 @@
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\bin\Release\net5.0\cryptolte.JoBambi.Emailer.deps.json
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\bin\Release\net5.0\cryptolte.JoBambi.Emailer.dll
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\bin\Release\net5.0\ref\cryptolte.JoBambi.Emailer.dll
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\bin\Release\net5.0\cryptolte.JoBambi.Emailer.pdb
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.csproj.AssemblyReference.cache
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.AssemblyInfoInputs.cache
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.AssemblyInfo.cs
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.csproj.CoreCompileInputs.cache
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.dll
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\ref\cryptolte.JoBambi.Emailer.dll
+C:\Devs\cryptolite\cryptolte\cryptolte.JoBambi.Emailer\obj\Release\net5.0\cryptolte.JoBambi.Emailer.pdb

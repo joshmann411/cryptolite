@@ -8,9 +8,20 @@ import { Router } from '@angular/router';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
   }
 
+  goToDashboard(){
+    this.router.navigate(['dashboard']);
+  }
+
+  goToTerms(){
+    this.router.navigate(['terms']);
+  }
+
+  goToPrivacy(){
+    this.router.navigate(['privacy']);
+  }
 }

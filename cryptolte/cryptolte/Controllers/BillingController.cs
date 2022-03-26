@@ -26,13 +26,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public JsonResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 _logger.LogInformation("Retrieving list of known billings");
 
-                IEnumerable<Billing> billings = _billingRepo.GetBillings();
+                IEnumerable<Billing> billings = await _billingRepo.GetBillings();
 
                 _logger.LogInformation("billings list retrieved");
 
@@ -49,13 +49,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public JsonResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 _logger.LogInformation($"Retrieving billing with ID: {id}");
 
-                Billing billing = _billingRepo.GetBilling(id);
+                Billing billing = await _billingRepo.GetBilling(id);
 
                 _logger.LogInformation($"Retrieving billing with ID: {id}");
 
@@ -71,16 +71,98 @@ namespace cryptolte.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("Post")]
-        //[Route("Post/{contact}")]
-        public JsonResult Post([FromBody] Billing billing)
+
+        [HttpGet]
+        [Route("GetBillingsLinkedToAccount/{clientId}")]
+        public async Task<IActionResult> GetBillingsLinkedToAccount(string clientId)
         {
             try
             {
-                _logger.LogInformation($"Adding new billing with id: {billing.BillingId}");
+                //all billings
+                IEnumerable<Billing> _billings = await _billingRepo.GetBillings();
 
-                string msg = _billingRepo.CreateBilling(billing);
+                //billings for client of concern
+                IEnumerable<Billing> billingsOfConcern = _billings.Where(x => x.LinkedAccount == clientId);
+
+                return new JsonResult(billingsOfConcern);
+            }
+            catch(Exception ex)
+            {
+                //log error
+                _logger.LogError($"Error occurred while getting billings that are linked to client: {clientId}");
+
+                return new JsonResult("Error Occurred");
+            
+            }
+        }
+
+        [HttpPost]
+        [Route("Post")]
+        //[Route("Post/{contact}")]
+        public async Task<IActionResult> Post([FromBody] Billing billing)
+        {
+            var msg = string.Empty;
+
+            JsonResult jMsg = new JsonResult("");
+
+            //get all billing linked to the client
+            IEnumerable<Billing> billings = await _billingRepo.GetBillings();
+
+            //accounts for a specific user
+            IEnumerable<Billing> concernedBilling = billings.Where(x => x.LinkedAccount == billing.LinkedAccount);
+
+            //count accounts linked to a specific user
+            int cbCount = concernedBilling.Count();
+
+            //if the user already have more than 1 account(s)
+            if (cbCount > 0)
+            {
+                //see if there is any match on the card number that we already know of
+                int countCardNumberThatMatchesIncomingOne = concernedBilling.Count(x => x.CCNumber == billing.CCNumber);
+            
+                //if it is more than 1
+                //if the HOLDER NAME and CARD NUM. counts > 1 
+                if(countCardNumberThatMatchesIncomingOne > 0) //there is at least 1 of that that we know of
+                {
+                    //then you can't add the same this
+                    msg = "Card exists already"; 
+
+                }
+                else
+                {
+                    //we do not know about this card. Please add
+                    jMsg = await AddCardBilling(billing);
+
+                    //assign appr to msg
+                    msg = jMsg.Value.ToString();
+                }
+
+                return new JsonResult(msg);
+            }
+
+            jMsg = await AddCardBilling(billing);
+
+            //assign appr to msg
+            msg = jMsg.Value.ToString();
+
+            return new JsonResult(msg);
+
+        }
+
+        /// <summary>
+        /// INTERNAL METHOD: not an endpoint
+        /// </summary>
+        /// <param name="_billing"></param>
+        /// <returns></returns>
+        internal async Task<JsonResult> AddCardBilling(Billing _billing)
+        {
+            try
+            {
+                _logger.LogInformation($"Adding new billing");
+
+                var resp = await _billingRepo.CreateBilling(_billing);
+
+                string msg = "Card Added Successfully";
 
                 _logger.LogInformation("Added Successfully !");
 
@@ -89,21 +171,27 @@ namespace cryptolte.Controllers
             catch (Exception ex)
             {
                 //log 
-                _logger.LogError($"Error while attempting to add new billing with id {billing.BillingId}. Error {ex.Message}");
+                _logger.LogError($"Error while attempting to add new billing. Error {ex.Message}");
 
                 return new JsonResult("Error occurred while adding new billing", ex.Message.ToString());
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateBillingAddressOfAccount([FromBody] BillingAddressDataModel billingAddressDAO)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPut]
         [Route("Put")]
-        public JsonResult Put([FromBody] Billing billingChanges)
+        public async Task<IActionResult> Put([FromBody] Billing billingChanges)
         {
             try
             {
                 _logger.LogInformation($"Updating billing changes. Object: {new JsonResult(billingChanges)}");
 
-                string response = _billingRepo.UpdateBilling(billingChanges);
+                var response = await _billingRepo.UpdateBilling(billingChanges);
 
                 _logger.LogInformation("Updated Successfully");
 
@@ -119,13 +207,13 @@ namespace cryptolte.Controllers
 
         [HttpDelete]
         [Route("Delete/{billingId}")]
-        public JsonResult Delete(int billingId)
+        public async Task<IActionResult> Delete(int billingId)
         {
             try
             {
                 _logger.LogInformation($"Deleting billingId with ID: {billingId}");
 
-                string response = _billingRepo.DeleteBilling(billingId);
+                var response = await _billingRepo.DeleteBilling(billingId);
 
                 _logger.LogInformation("Deleted Successfully !");
 

@@ -34,7 +34,7 @@
       "ancmHostingModel": "OutOfProcess",
       "dotnetRunMessages": "true",
       "nativeDebugging": false,
-      "applicationUrl": "https://localhost:5001",
+      "applicationUrl": "https://localhost:5201",
       "jsWebView2Debugging": false
     },
     "Docker": {

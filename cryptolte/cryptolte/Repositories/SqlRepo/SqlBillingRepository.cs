@@ -1,5 +1,7 @@
 ﻿using cryptolte.Interfaces;
 using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,43 +18,43 @@ namespace cryptolte.Repositories.SqlRepo
             _context = context;
         }
 
-        public string CreateBilling(Billing billing)
+        public async Task<IActionResult> CreateBilling(Billing billing)
         {
-            _context.Add(billing);
-            _context.SaveChanges();
-            return "Billing added successfully";
+            await _context.AddAsync(billing);
+            await _context.SaveChangesAsync();
+            return new JsonResult("Billing added successfully");
         }
 
-        public string DeleteBilling(int billingId)
+        public async Task<IActionResult> DeleteBilling(int billingId)
         {
-            Billing billing = _context.billings.Find(billingId);
+            Billing billing = await _context.billings.FindAsync(billingId);
 
             if (billing != null)
             {
                 _context.Remove(billing);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return "BIlling deleted successfully !";
+            return new JsonResult("BIlling deleted successfully !");
         }
 
-        public Billing GetBilling(int billingId)
+        public async Task<Billing> GetBilling(int billingId)
         {
-            return _context.billings.Find(billingId);
+            return await _context.billings.FindAsync(billingId);
         }
 
-        public IEnumerable<Billing> GetBillings()
+        public async Task<IEnumerable<Billing>> GetBillings()
         {
-            return _context.billings;
+            return await _context.billings.ToListAsync();
         }
 
-        public string UpdateBilling(Billing billingChanges)
+        public async Task<IActionResult> UpdateBilling(Billing billingChanges)
         {
             var tm = _context.billings.Attach(billingChanges);
             tm.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return "Updated Successfully!";
+            return new JsonResult("Updated Successfully!");
         }
     }
 }

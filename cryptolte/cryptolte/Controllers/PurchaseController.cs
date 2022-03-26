@@ -29,13 +29,13 @@ namespace cryptolte.Controllers
         
         [HttpGet]
         [Route("Get")]
-        public JsonResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 _logger.LogInformation("Retrieving list of known clients");
 
-                IEnumerable<Purchase> purchases = _purchaseRepo.GetPurchases();
+                IEnumerable<Purchase> purchases = await _purchaseRepo.GetPurchases();
 
                 _logger.LogInformation("clients list retrieved");
 
@@ -52,13 +52,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public JsonResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 _logger.LogInformation($"Retrieving purchase with ID: {id}");
 
-                Purchase purchase = _purchaseRepo.GetPurchase(id);
+                Purchase purchase = await _purchaseRepo.GetPurchase(id);
 
                 _logger.LogInformation($"Retrieving purchase with ID: {id}");
 
@@ -81,13 +81,13 @@ namespace cryptolte.Controllers
         [HttpPost]
         [Route("Post")]
         //[Route("Post/{purchase}")]
-        public JsonResult Post([FromBody] Purchase purchase)
+        public async Task<IActionResult> Post([FromBody] Purchase purchase)
         {
             try
             {
                 _logger.LogInformation($"Adding new purchase with id: {purchase.Id}");
 
-                string msg = _purchaseRepo.CreatePurchase(purchase);;
+                var msg = await _purchaseRepo.CreatePurchase(purchase);
 
                 _logger.LogInformation("Added Successfully !");
 
@@ -104,13 +104,13 @@ namespace cryptolte.Controllers
 
         [HttpPut]
         [Route("Put")]
-        public JsonResult Put([FromBody] Purchase purchaseChanges)
+        public async Task<IActionResult> Put([FromBody] Purchase purchaseChanges)
         {
             try
             {
                 _logger.LogInformation($"Updating transaction changes. Object: {new JsonResult(purchaseChanges)}");
 
-                string response = _purchaseRepo.UpdatePurchase(purchaseChanges);
+                var response = await _purchaseRepo.UpdatePurchase(purchaseChanges);
 
                 _logger.LogInformation("Updated Successfully");
 
@@ -126,13 +126,13 @@ namespace cryptolte.Controllers
 
         [HttpDelete]
         [Route("Delete/{purchaseId}")]
-        public JsonResult Delete(int purchaseId)
+        public async Task<IActionResult> Delete(int purchaseId)
         {
             try
             {
                 _logger.LogInformation($"Deleting purchase with ID: {purchaseId}");
 
-                string response = _purchaseRepo.DeletePurchase(purchaseId);
+                var response = await _purchaseRepo.DeletePurchase(purchaseId);
 
                 _logger.LogInformation("Deleted Successfully !");
 

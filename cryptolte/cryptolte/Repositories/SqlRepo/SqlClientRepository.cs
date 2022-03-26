@@ -1,5 +1,7 @@
 ﻿using cryptolte.Interfaces;
 using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,24 +18,26 @@ namespace cryptolte.Repositories.SqlRepo
             _context = context;
         }
 
-        public string AddClient(Client client)
+        public async Task<IActionResult> AddClient(Client client)
         {
-            _context.Add(client);
-            _context.SaveChanges();
-            return "Client added successfully";
+            await _context.AddAsync(client);
+            await _context.SaveChangesAsync();
+            return new JsonResult("Client added successfully");
         }
 
-        public Client GetClient(int id)
+        public async Task<Client> GetClient(int id)
         {
             //_logger.LogInformation("Attempting to retrieve business with ID: " + Id);
-            return _context.clients.Find(id);
+            return await _context.clients.FindAsync(id);
         }
 
-        public Client GetClientByEmail(string email)
+        public async Task<Client> GetClientByEmail(string email)
         {
             if (!string.IsNullOrEmpty(email))
             {
-                Client client = GetClients().Where(x => x.email == email).FirstOrDefault();
+                IEnumerable<Client> clients = await GetClients();
+
+                Client client = clients.Where(x => x.email == email).FirstOrDefault();
 
                 return client;
             }
@@ -41,32 +45,32 @@ namespace cryptolte.Repositories.SqlRepo
             return null;
         }
 
-        public IEnumerable<Client> GetClients()
+        public async Task<IEnumerable<Client>> GetClients()
         {
-            return _context.clients;
+            return await _context.clients.ToListAsync();
         }
 
-        public string RemoveClient(int id)
+        public async Task<IActionResult> RemoveClient(int id)
         {
-            Client client = _context.clients.Find(id);
+            Client client = await _context.clients.FindAsync(id);
 
             if (client != null)
             {
                 _context.Remove(client);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return "Client deleted Successfully !";
+            return new JsonResult("Client deleted Successfully !");
         }
 
-        public string UpdateClient(Client clientChanges)
+        public async Task<IActionResult> UpdateClient(Client clientChanges)
         {
             var tm = _context.clients.Attach(clientChanges);
             tm.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             _context.Dispose();
 
-            return "Updated Successfully !";
+            return new JsonResult("Updated Successfully !");
         }
     }
 }

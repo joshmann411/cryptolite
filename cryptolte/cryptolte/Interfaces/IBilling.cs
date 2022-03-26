@@ -1,4 +1,5 @@
 ﻿using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace cryptolte.Interfaces
 {
     public interface IBilling
     {
-        IEnumerable<Billing> GetBillings();
-        Billing GetBilling(int billingId);
-        string CreateBilling(Billing billing);
-        string UpdateBilling(Billing billingChanges);
-        string DeleteBilling(int billingId);
+        Task<IEnumerable<Billing>> GetBillings();
+        Task<Billing> GetBilling(int billingId);
+        Task<IActionResult> CreateBilling(Billing billing);
+        Task<IActionResult> UpdateBilling(Billing billingChanges);
+        Task<IActionResult> DeleteBilling(int billingId);
     }
 }

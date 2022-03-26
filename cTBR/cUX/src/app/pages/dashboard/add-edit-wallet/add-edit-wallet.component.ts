@@ -170,4 +170,20 @@ export class AddEditWalletComponent implements OnInit {
     window.location.reload();
   }
 
+  onSubmitPayment(f: NgForm){
+    console.log('payment values: ' + JSON.stringify(f.value));
+
+    // var acName = acct.AccoutName ?? "";
+
+    if(confirm("Have you made payment to the wallet ? Processing only starts once payment has been received.")) {
+      // console.log("Implement delete functionality here");
+      this._alertService.info("Payment verification in initiated");
+    }
+  }
+
+  RequestPaymentInstruction(){
+    this._alertService.info('Request received. You will get a email notification shortly.')
+  }
+
+
 }

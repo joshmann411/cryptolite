@@ -1,5 +1,7 @@
 ﻿using cryptolte.Interfaces;
 using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,50 +18,50 @@ namespace cryptolte.Repositories.SqlRepo
             _context = context;
         }
 
-        public string CreateAccount(Account account)
+        public async Task<IActionResult> CreateAccount(Account account)
         {
-            _context.Add(account);
-            _context.SaveChanges();
-            return "Account added successfully";
+            await _context.AddAsync(account);
+            await _context.SaveChangesAsync();
+            return new JsonResult("Account added successfully");
         }
 
-        public string DeleteAccount(int accountId)
+        public async Task<IActionResult> DeleteAccount(int accountId)
         {
-            Account account = _context.accounts.Find(accountId);
+            Account account = await _context.accounts.FindAsync(accountId);
 
             if (account != null)
             {
                 _context.Remove(account);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return "BIlling deleted successfully !";
+            return new JsonResult("BIlling deleted successfully !");
         }
 
-        public Account GetAccount(int accountId)
+        public async Task<Account> GetAccount(int accountId)
         {
-            return _context.accounts.Find(accountId);
+            return await _context.accounts.FindAsync(accountId);
         }
 
-        public IEnumerable<Account> GetAccounts()
+        public async Task<IEnumerable<Account>> GetAccounts()
         {
-            return _context.accounts;
+            return await _context.accounts.ToListAsync();
         }
 
-        public IEnumerable<Account> GetAccountsOfClient(int clientId)
+        public async Task<IEnumerable<Account>> GetAccountsOfClient(int clientId)
         {
             //_logger.LogInformation("Attempting to retrieve list of accounts of client");
 
-            return _context.accounts.Where(x => x. clientId == clientId).OrderBy(x => x.clientId);
+            return await _context.accounts.Where(x => x. clientId == clientId).OrderBy(x => x.clientId).ToListAsync();
         }
 
-        public string UpdateAccount(Account accountChanges)
+        public async Task<IActionResult> UpdateAccount(Account accountChanges)
         {
             var tm = _context.accounts.Attach(accountChanges);
             tm.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return "Updated Successfully!";
+            return new JsonResult("Updated Successfully!");
         }
     }
 }

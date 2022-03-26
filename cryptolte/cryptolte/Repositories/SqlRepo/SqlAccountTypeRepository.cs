@@ -1,5 +1,7 @@
 ﻿using cryptolte.Interfaces;
 using cryptolte.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,43 +18,43 @@ namespace cryptolte.Repositories.SqlRepo
             _context = context;
         }
 
-        public string CreateNewAccType(AccountType accountType)
+        public async Task<IActionResult> CreateNewAccType(AccountType accountType)
         {
-            _context.Add(accountType);
-            _context.SaveChanges();
-            return "Account type added successfully";
+            await _context.AddAsync(accountType);
+            await _context.SaveChangesAsync();
+            return new JsonResult("Account type added successfully");
         }
 
-        public string DeleteAccountType(int billingId)
+        public async Task<IActionResult> DeleteAccountType(int billingId)
         {
-            AccountType accountType = _context.accountType.Find(billingId);
+            AccountType accountType = await _context.accountType.FindAsync(billingId);
 
             if (accountType != null)
             {
                 _context.Remove(accountType);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return "Account type deleted successfully !";
+            return new JsonResult("Account type deleted successfully !");
         }
 
-        public AccountType GetAccountType(int accTypeId)
+        public async Task<AccountType> GetAccountType(int accTypeId)
         {
-            return _context.accountType.Find(accTypeId);
+            return await _context.accountType.FindAsync(accTypeId);
         }
 
-        public IEnumerable<AccountType> GetAccTypes()
+        public async Task<IEnumerable<AccountType>> GetAccTypes()
         {
-            return _context.accountType;
+            return await _context.accountType.ToListAsync();
         }
 
-        public string UpdateAccountTye(AccountType accTypeChanges)
+        public async Task<IActionResult> UpdateAccountTye(AccountType accTypeChanges)
         {
             var tm = _context.accountType.Attach(accTypeChanges);
             tm.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return "Updated Successfully!";
+            return new JsonResult("Updated Successfully!");
         }
     }
 }

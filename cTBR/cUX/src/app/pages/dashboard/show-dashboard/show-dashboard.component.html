@@ -50,7 +50,7 @@
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div 
     class="carousel-inner"
-    style="width: 1200px; height: 350px;object-fit: cover;"
+    style="width: auto; height: 350px;object-fit: cover;"
     >
       
       <div class="carousel-item active">
@@ -86,34 +86,82 @@
 
 <div class="panels">
   <!-- <mat-tab-group mat-align-tabs="start"> -->
-    <mat-tab-group>
+    <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
       <!-- Accounts Tab -->
       <mat-tab label="Account(s)">
-        <!-- ADD Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-outline-primary m-2"
-          data-toggle="modal"
-          data-target="#exampleModal"
-          (click)="addWalletClick()"
-          data-backdrop="static"
-          data-keyboard="false">
+        <div class="container">
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-              <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-            </svg>
-            Add New Account
-        </button>
+          <div>
+
+            <!-- ADD Button trigger modal -->
+            <button
+              type="button"
+              class="btn btn-outline-primary m-2"
+              data-toggle="modal"
+              data-target="#exampleModal"
+              (click)="addWalletClick()"
+              data-backdrop="static"
+              data-keyboard="false">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                  <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                </svg>
+                Add New Account
+            </button>
+         
+
+            <!-- Show unvalidated accounts -->
+            <!-- <p style="float: right; margin-top: 15px; color: red;">
+              <b>
+                ({{this.myAccounts.length}}) 
+                unvalidated 
+              </b>
+              account(s) found. Contact admin@dynamocrypto.com
+              
+              <small>
+                <button 
+                  class="btn btn-outline-warning" 
+                  (click)="goToDashboard()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+                  </svg>
+                  Validate Account(s)
+                </button>
+              </small>
+            </p>  -->
+          </div>
+        </div>
 
         <hr>
 
         <!-- Card for each account -->
         <div *ngFor="let accn of myAccounts;let i=index">
     
+          <!-- <div class="card container accountCard" *ngIf="accn.confirmed"> -->
           <div class="card container accountCard">
             <div class="card-body">
               <p class="card-title subText">
-                <b> Account Name: </b> {{ accn.AccoutName}} | <b>Account Type:</b> {{accn.accType }}
+                <b> Account Name: </b> {{ accn.AccoutName}} | <b>Account Type:</b> {{accn.accType }} | <b> Account Status: </b>
+                
+                <b *ngIf="accn.isConfirmed" style="color: green;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                  </svg>
+                  <i>
+                    verified
+                  </i>
+                </b> 
+                <b *ngIf="!accn.isConfirmed" style="color: red;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                  <i>
+                    Invalid
+                  </i>
+                </b>
+                <!-- <p>check location</p> -->
                 <!-- Account Name: {{ accn.AccoutName}} | Account Type: {{accn.accType }} | Account Id: {{accn.AccoutId}}  -->
               </p>
               <h6 class="card-subtitle text-muted subText">
@@ -123,12 +171,22 @@
                   <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z"/>
                   <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"/>
                 </svg>
-                Balance: {{accn.CurrentAmount + 21 | currency:'USD':'symbol':'3.2-2'}}
+                <!-- Balance: {{accn.CurrentAmount + randomInteger(accn.CurrentAmount) | currency:'USD':'symbol':'3.2-2'}} -->
+
+                Balance: 
+                  <span *ngIf="accn.isConfirmed" style="color: green; font: bold; font-size: 18px;"> 
+                    {{accn.CurrentAmount | currency:'USD':'symbol':'3.2-2'}} 
+                  </span> 
+                  <span *ngIf="!accn.isConfirmed" style="color: red;"> 
+                    {{accn.CurrentAmount | currency:'USD':'symbol':'3.2-2' }} 
+                  </span> 
               </h6>
               <br><br>
 
 
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <p class="card-text">
+                Preparing account. Analytics services may take a few days...
+              </p>
               
               <button
                     class="btn btn-outline-primary"
@@ -138,21 +196,35 @@
                     Deposit
               </button>
 
-              <button
+              <!-- <button
+                  *ngIf="accn.isConfirmed"
                     class="btn btn-outline-primary"
                     data-toggle="modal"
                     data-target="#exampleModal"
                     (click)="makeDeposit('Withdraw', 0, accn)">
                     Withdraw
+              </button> -->
+
+              <button
+              *ngIf="accn.isConfirmed"
+                class="btn btn-outline-primary"
+                (click)="makeDeposit('Withdraw', 0, accn)">
+                Withdraw
+              </button>
+
+              <button
+                  *ngIf="!accn.isConfirmed"
+                    class="btn btn-outline-danger"
+                    (click)="validateAccount(accn)">
+                    Validate
               </button>
 
               <a 
               class="removeLink"
                 [routerLink]="[]"
                 (click)="removeAccount(accn)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
-                  <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146z"/>
-                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                 </svg>
               </a>
               
@@ -301,114 +373,516 @@
     <mat-tab label="Profile">
       <div class="container">
 
-
-        <div class="row">
-
-          <div class="col-md-12">
-
-            <div class=" ">
-
-              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
-                <div class="" style="padding-top: 40px;">
-                  <!-- {{model | json}} -->
-                  <form form #f="ngForm" (ngSubmit)="OnSubmit(f)">
-
-                    <div class="form-group row">
-                      <label 
-                      for="firstname" 
-                      class="col-sm-2 col-form-label justify-content-right">
-                        Firstname:
-                      </label>
-                      <div class="col-sm-10">
+        <!-- HOLDER -->
+        <div class="container wrapProfile">
+          <div>
+            <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                      </svg>
+                      My Details
+                    </button>
+                  </h5>
+                </div>
+      
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <!-- {{model | json}} -->
+                    <form form #f="ngForm" (ngSubmit)="OnSubmit(f)">
+      
+                      <div class="form-group">
+                        <label for="firstname">
+                          <b>
+                            Firstname
+                          </b> 
+                        </label>
                         <input 
-                          type="text" 
-                          class="form-control"
-                          [(ngModel)]="clientFirstname"
-                          name="firstname">
-                         
-                        <small id="emailHelp" class="form-text text-muted ">firstname </small>
-                      </div>
-                    </div>
+                        type="text" 
+                        class="form-control" 
+                        [(ngModel)]="clientFirstname" 
+                        name="firstname">
 
-                    <div class="form-group row">
-                      <label for="lastname" class="col-sm-2 col-form-label">Lastname:</label>
-                      <div class="col-sm-10">
+                        <small id="emailHelp" class="form-text text-muted ">first name </small>
+                      </div>
+      
+
+                      <div class="form-group">
+                        <label for="lastname">
+                          <b>
+                            Lastname
+                          </b>
+                        </label>
+                        
                         <input 
                           type="text" 
                           class="form-control"
                           [(ngModel)]="clientLastname"
                           name="lastname">
                           
-                        <small id="emailHelp" class="form-text text-muted ">lastname</small>
+                        <small id="emailHelp" class="form-text text-muted ">last name</small>
+                      
                       </div>
-                    </div>
 
-                    <div class="form-group row">
-                      <label 
-                        for="email" 
-                        class="col-sm-2 col-form-label justify-content-flex-end">Email:</label>
-                      <div class="col-sm-10">
+                      <div class="form-group">
+                        <label for="email">
+                          <b>
+                            Email
+                          </b>
+                        </label>
+                       
                         <input 
                           type="email" 
                           class="form-control" 
                           [(ngModel)]="clientEmail"
                           name="email">
                         <small id="emailHelp" class="form-text text-muted">email must be valid</small>
-                      </div>
-                    </div>
-
-                    <div class="form-group row">
-                      <label for="phone" class="col-sm-2 col-form-label">Phone No:</label>
-                      <div class="col-sm-10">
-                      <input 
                         
-                        class="form-control" 
-                        [(ngModel)]="clientPhone"
-                        name="phone">
-                        <small id="emailHelp" class="form-text text-muted">active number</small>
                       </div>
+  
+                      <div class="form-group">
+                        <label for="phone">
+                          <b>
+                            Phone No
+                          </b>
+                        </label>
+                        <input 
+                          
+                          class="form-control" 
+                          [(ngModel)]="clientPhone"
+                          name="phone">
+                          <small id="emailHelp" class="form-text text-muted">active number</small>
+                      </div>
+      
+      
+                      <div class="row">
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                      </div>
+  
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+                        <path d="M8 .95 14.61 4h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.379l.5 2A.5.5 0 0 1 15.5 17H.5a.5.5 0 0 1-.485-.621l.5-2A.5.5 0 0 1 1 14V7H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 4h.89L8 .95zM3.776 4h8.447L8 2.05 3.776 4zM2 7v7h1V7H2zm2 0v7h2.5V7H4zm3.5 0v7h1V7h-1zm2 0v7H12V7H9.5zM13 7v7h1V7h-1zm2-1V5H1v1h14zm-.39 9H1.39l-.25 1h13.72l-.25-1z"/>
+                      </svg>
+                      Bank(s) Info
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                  <div class="card-body">
+                    <div class="bankStory">
+                      <p>
+                        <b>Why we need this ?</b>
+                      </p>
+                      <p>
+                        Without your bank details, you won't be able to withdraw funds or setup debit order. 
+                        <i>Please refer to guidelines </i> to avoid unnecessary disruption of your investment activities.
+                      </p>
                     </div>
+                    <hr>
+                    <!-- show all linked bank accounts -->
+                    <!-- let accn of myAccounts -->
 
-                    <div class="row">
-                      <button type="submit" class="btn btn-primary form-control">Update</button>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name on card</th>
+                          <th scope="col">Card Number</th>
+                          <th scope="col">Expiration</th>
+                          <th scope="col">Cvv</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                     
+                   
+                    <tbody>
+
+                    <!-- <div > -->
+                      <!-- <div class="row"> -->
+                          <!-- the image (with strict with and height) -->
+                            
+                          <tr *ngFor="let bCard of billingsLinkedToThisClient">
+                            <th scope="row">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+                                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+                              </svg>
+                            </th>
+                            <td>{{bCard.NameOnCard}}</td>
+                            <td>{{bCard.CCNumber}}</td>
+                            <td>{{bCard.Expiration}}</td>
+                            <td>{{bCard.Cvv}}</td>
+                            <td>
+                              <span style="color: red;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                              </span>
+                            </td>
+                          </tr>
+
+                      <!-- </div> -->
+
+                        <!-- {{ bCard | json}} -->
+                    <!-- </div> -->
+
+                    </tbody>
+                  </table>
+
+                     <!-- show all linked bank accounts ends -->
+                    
+                    <div class="row CardDetails">
+                      <button 
+                        *ngIf="billingCount < 2"
+                        type="submit" 
+                        class="btn btn-primary form-control"
+                        (click)="togglePay()">
+                        Add New Bank Details
+                      </button>
+                      <br><br>
+                      
+                        <!-- Card details form template -->
+                        <div class="payment-title" *ngIf="togglePayment">
+                            <hr>
+                            <h1>Card Details</h1>
+                            <hr>
+                        </div>
+                        <div class="container preload" *ngIf="togglePayment">
+                          <div [class]="currentClass">
+                              <div class="front">
+                                  <div id="ccsingle"></div>
+                                  <svg version="1.1" id="cardfront" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
+                                      <g id="Front">
+                                          <g id="CardBackground">
+                                              <g id="Page-1_1_">
+                                                  <g id="amex_1_">
+                                                      <path id="Rectangle-1_1_" class="lightcolor grey" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
+                                              C0,17.9,17.9,0,40,0z" />
+                                                  </g>
+                                              </g>
+                                              <path class="darkcolor greydark" d="M750,431V193.2c-217.6-57.5-556.4-13.5-750,24.9V431c0,22.1,17.9,40,40,40h670C732.1,471,750,453.1,750,431z" />
+                                          </g>
+                                          <text 
+                                            transform="matrix(1 0 0 1 60.106 295.0121)" 
+                                            id="svgnumber" 
+                                            class="st2 st3 st4">
+                                              {{cardNumber | formatCardNumber }}
+                                          </text>
+                                          <text 
+                                            transform="matrix(1 0 0 1 54.1064 428.1723)" 
+                                            id="svgname" 
+                                            class="st2 st5 st6">
+                                              {{nameOnCard}}
+                                          </text>
+                                          <text transform="matrix(1 0 0 1 54.1074 389.8793)" class="st7 st5 st8">cardholder name</text>
+                                          <text 
+                                          transform="matrix(1 0 0 1 479.7754 388.8793)" 
+                                          class="st7 st5 st8">
+                                          expiration: mm/yy
+                                          
+                                          <!-- Expiration Dropdown -->
+
+                                          </text>
+
+                                          <!-- card number -->
+                                          <text transform="matrix(1 0 0 1 65.1054 241.5)" class="st7 st5 st8">card number</text>
+                                          <g>
+                                              <text transform="matrix(1 0 0 1 574.4219 433.8095)" id="svgexpire" class="st2 st5 st9"> {{mm}}/{{yy}}</text>
+                                              <text transform="matrix(1 0 0 1 479.3848 417.0097)" class="st2 st10 st11">VALID</text>
+                                              <text transform="matrix(1 0 0 1 479.3848 435.6762)" class="st2 st10 st11">THRU</text>
+                                              <polygon class="st2" points="554.5,421 540.4,414.2 540.4,427.9 		" />
+                                          </g>
+                                          <g id="cchip">
+                                              <g>
+                                                  <path class="st2" d="M168.1,143.6H82.9c-10.2,0-18.5-8.3-18.5-18.5V74.9c0-10.2,8.3-18.5,18.5-18.5h85.3
+                                          c10.2,0,18.5,8.3,18.5,18.5v50.2C186.6,135.3,178.3,143.6,168.1,143.6z" />
+                                              </g>
+                                              <g>
+                                                  <g>
+                                                      <rect x="82" y="70" class="st12" width="1.5" height="60" />
+                                                  </g>
+                                                  <g>
+                                                      <rect x="167.4" y="70" class="st12" width="1.5" height="60" />
+                                                  </g>
+                                                  <g>
+                                                      <path class="st12" d="M125.5,130.8c-10.2,0-18.5-8.3-18.5-18.5c0-4.6,1.7-8.9,4.7-12.3c-3-3.4-4.7-7.7-4.7-12.3
+                                              c0-10.2,8.3-18.5,18.5-18.5s18.5,8.3,18.5,18.5c0,4.6-1.7,8.9-4.7,12.3c3,3.4,4.7,7.7,4.7,12.3
+                                              C143.9,122.5,135.7,130.8,125.5,130.8z M125.5,70.8c-9.3,0-16.9,7.6-16.9,16.9c0,4.4,1.7,8.6,4.8,11.8l0.5,0.5l-0.5,0.5
+                                              c-3.1,3.2-4.8,7.4-4.8,11.8c0,9.3,7.6,16.9,16.9,16.9s16.9-7.6,16.9-16.9c0-4.4-1.7-8.6-4.8-11.8l-0.5-0.5l0.5-0.5
+                                              c3.1-3.2,4.8-7.4,4.8-11.8C142.4,78.4,134.8,70.8,125.5,70.8z" />
+                                                  </g>
+                                                  <g>
+                                                      <rect x="82.8" y="82.1" class="st12" width="25.8" height="1.5" />
+                                                  </g>
+                                                  <g>
+                                                      <rect x="82.8" y="117.9" class="st12" width="26.1" height="1.5" />
+                                                  </g>
+                                                  <g>
+                                                      <rect x="142.4" y="82.1" class="st12" width="25.8" height="1.5" />
+                                                  </g>
+                                                  <g>
+                                                      <rect x="142" y="117.9" class="st12" width="26.2" height="1.5" />
+                                                  </g>
+                                              </g>
+                                          </g>
+                                      </g>
+                                      <g id="Back">
+                                      </g>
+                                  </svg>
+                              </div>
+                              <div class="back">
+                                  <svg version="1.1" id="cardback" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
+                                      <g id="Front">
+                                          <line class="st0" x1="35.3" y1="10.4" x2="36.7" y2="11" />
+                                      </g>
+                                      <g id="Back">
+                                          <g id="Page-1_2_">
+                                              <g id="amex_2_">
+                                                  <path id="Rectangle-1_2_" class="darkcolor greydark" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
+                                          C0,17.9,17.9,0,40,0z" />
+                                              </g>
+                                          </g>
+                                          <rect y="61.6" class="st2" width="750" height="78" />
+                                          <g>
+                                              <path class="st3" d="M701.1,249.1H48.9c-3.3,0-6-2.7-6-6v-52.5c0-3.3,2.7-6,6-6h652.1c3.3,0,6,2.7,6,6v52.5
+                                      C707.1,246.4,704.4,249.1,701.1,249.1z" />
+                                              <rect x="42.9" y="198.6" class="st4" width="664.1" height="10.5" />
+                                              <rect x="42.9" y="224.5" class="st4" width="664.1" height="10.5" />
+                                              <path class="st5" d="M701.1,184.6H618h-8h-10v64.5h10h8h83.1c3.3,0,6-2.7,6-6v-52.5C707.1,187.3,704.4,184.6,701.1,184.6z" />
+                                          </g>
+                                          <text 
+                                            transform="matrix(1 0 0 1 621.999 227.2734)" 
+                                            id="svgsecurity" 
+                                            class="st6 st7">
+                                            {{cvv}}
+                                          </text>
+                                          <g class="st8">
+                                              <text transform="matrix(1 0 0 1 518.083 280.0879)" class="st9 st6 st10">security code</text>
+                                          </g>
+                                          <rect x="58.1" y="378.6" class="st11" width="375.5" height="13.5" />
+                                          <rect x="58.1" y="405.6" class="st11" width="421.7" height="13.5" />
+                                          <text transform="matrix(1 0 0 1 59.5073 228.6099)" id="svgnameback" class="st12 st13">John Doe</text>
+                                      </g>
+                                  </svg>
+                              </div>
+                        </div>
+                        </div>
+                        <div class="form-container" *ngIf="togglePayment">
+                              <div class="field-container">
+                                  <label for="name">Name on Card</label>
+                                  <input 
+                                  id="name" 
+                                  [(ngModel)]="nameOnCard"
+                                  maxlength="20" 
+                                  type="text">
+                              </div>
+
+                              <div class="field-container">
+                                  <label for="cardnumber">
+                                    Card Number
+                                  </label>
+                                  <!-- <span id="generatecard">
+                                    generate random
+                                  </span> -->
+                                  <input 
+                                  id="cardnumber" 
+                                  type="text" 
+                                  [(ngModel)]="cardNumber"
+                                  maxlength="16"
+                                  pattern="[0-9]*" 
+                                  inputmode="numeric">
+                                  <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                      xmlns:xlink="http://www.w3.org/1999/xlink">
+                      
+                                  </svg>
+                              </div>
+                              
+                              <div class="field-container">
+                                  <label for="expirationdate">Expiration (mm/yy)</label>
+                                  <div style="max-width: 300px;margin-left: 7px;">
+                                    <input 
+                                    id="expirationMonth" 
+                                    type="text" 
+                                    maxlength="2"
+                                    [(ngModel)]="mm"
+                                    style="max-width: 60px">
+
+                                    <input 
+                                    id="expirationYear" 
+                                    type="text"
+                                    pattern="[0-9]*" 
+                                    [(ngModel)]="yy"
+                                    maxlength="2"
+                                    inputmode="numeric"
+                                    style="max-width: 60px">
+                                  </div>
+                              </div>
+
+                              <div class="field-container">
+                                  <label for="securitycode">Security Code</label>
+                                  <input 
+                                  id="securitycode" 
+                                  type="text" 
+                                  pattern="[0-9]*" 
+                                  [(ngModel)]="cvv"
+                                  maxlength="3"
+                                  (focus)="cvvInFocus()"
+                                  (focusout)="cvvOutFocus()"
+                                  inputmode="numeric">
+                              </div>
+
+                              <div class="field-container" style="margin-top: 10px;">
+                                <button 
+                                class="btn btn-primary" 
+                                style="width: 100%;"
+                                [disabled]="isAddCardDisabled()"
+                                (click)="addBankDetails()">
+                                  Link Card
+                                </button> 
+                              </div>
+
+                              <br><br>
+                        </div>
+                      <!-- card details form template ends -->
+
                     </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card">
+                <div class="card-header" id="headingThree">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-inbound" viewBox="0 0 16 16">
+                        <path d="M15.854.146a.5.5 0 0 1 0 .708L11.707 5H14.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 1 0v2.793L15.146.146a.5.5 0 0 1 .708 0zm-12.2 1.182a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                      </svg>
+                      Address Info
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                  <div class="card-body">
+                    <div class="addressStory">
+                      
+                      <p>
+                        To update address, our dedicated agent will have to submit the request for you.
+                        Click here to update address and attach a valid proof of residence
+                        or contact admin@dynamocryptos.com
+                      </p>
+                    </div>
+                    <hr>
+                    <form form #f="ngForm" (ngSubmit)="1">
+                      <!-- <div class="form-group">
+                        <label >Email address</label>
+                        <input 
+                        type="email" 
+                        class="form-control" 
+                        placeholder="Enter email" 
+                        required 
+                        name="email" 
+                        disabled>
+                        <small id="emailHelp" class="form-text text-muted">Contact admin to change business email</small>
+                      </div>
 
-
-                  </form>
+                    
+      
+                      <button type="submit" class="btn btn-primary">Update</button> -->
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
-
-
       </div>
     </mat-tab>
 
     <!-- Contacts Tab -->
-    <mat-tab label="Contact(s)">
+    <mat-tab label="Contact Agent(s)">
       <div class="row d-flex justify-content-center contactSection">
         
         <div class="container">
           <ul class="cards">
-            <li><img src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=1cd7edb2ed25c1de4908db807e545988&amp;w=150&amp;h=150"/>
-              <div class="details"><span class="name">Emilia Jacobs</span><span class="title">UI/UX Designer</span><a class="phone" href="tel:123-456-789">123-456-789</a><a class="email" href="mailto:emilia.jacobs@email.com">emilia.jacobs@email.com</a></div>
+            <li>
+              <img src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=1cd7edb2ed25c1de4908db807e545988&amp;w=150&amp;h=150"/>
+              <div class="details">
+                <span class="name">Emilia Jacobs</span>
+                <span class="title">Accounts Manager</span>
+                <a class="phone" href="tel:123-456-789">
+                  (325) 244 8261
+                </a>
+                <a class="email" href="mailto:emilia.jacobs@email.com">
+                  emilia.jacobs@dynamocryptos.com
+                </a>
+              </div>
             </li>
-            <li><img src="https://images.unsplash.com/photo-1499057625772-bafa601ee80c?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=136e035a7d5740f54f2acaa940c07f0b&amp;w=150&amp;h=150"/>
-              <div class="details"><span class="name">Tim Pawson</span><span class="title">Project Manager</span><a class="phone" href="tel:123-456-789">123-456-789</a><a class="email" href="mailto:tim.pawson@email.com">tim.pawson@email.com</a></div>
+            <li>
+              <img src="https://images.unsplash.com/photo-1499057625772-bafa601ee80c?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=136e035a7d5740f54f2acaa940c07f0b&amp;w=150&amp;h=150"/>
+              <div class="details">
+                <span class="name">
+                  Tim Pawson
+                </span>
+                <span class="title">
+                  Onboarding Consultant
+                </span>
+                <a class="phone" href="tel:123-456-789">
+                  (518) 5410 199
+                </a>
+                <a class="email" href="mailto:tim.pawson@email.com">
+                  tim.pawson@dynamocryptos.com
+                </a>
+              </div>
             </li>
-            <li><img src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=5ba0eb3fce2a3b77dd7d18bf1615ddee&amp;w=150&amp;h=150"/>
-              <div class="details"><span class="name">Amanda Tyler</span><span class="title">Frontend Developer</span><a class="phone" href="tel:123-456-789">123-456-789</a><a class="email" href="mailto:amanda.tyler@email.com">amanda.tyler@email.com</a></div>
+            <li>
+              <img src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=5ba0eb3fce2a3b77dd7d18bf1615ddee&amp;w=150&amp;h=150"/>
+              <div class="details">
+                <span class="name">Amanda Tyler</span>
+                <span class="title">
+                  Marketing Manager
+                </span>
+                <a class="phone" href="tel:123-456-789" style="color: red;">
+                  (XXX) XXXX XXX
+                </a>
+                <a class="email" href="mailto:amanda.tyler@email.com">
+                  amanda.tyler@dynamocryptos.com
+                </a>
+              </div>
             </li>
-            <li><img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=952f907e565bc7c4c7eb53497510863f&amp;w=150&amp;h=150"/>
-              <div class="details"><span class="name">Thomas Jones</span><span class="title">Fullstack Developer</span><a class="phone" href="tel:123-456-789">123-456-789</a><a class="email" href="mailto:tom.jones@email.com">tom.jones@email.com</a></div>
+            <li>
+              <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-0.3.5&amp;q=85&amp;fm=jpg&amp;crop=faces&amp;fit=crop&amp;cs=srgb&amp;s=952f907e565bc7c4c7eb53497510863f&amp;w=150&amp;h=150"/>
+              <div class="details">
+                <span class="name">Thomas Jones</span>
+                <span class="title">Broker</span>
+                <a class="phone" href="tel:123-456-789" style="color: red;">
+                  (XXX) XXXX XXX
+                </a>
+                <a class="email" href="mailto:tom.jones@email.com">
+                  tom.jones@dynamocryptos.com
+                </a>
+              </div>
             </li>
           </ul>
         </div>
 
       </div>
     </mat-tab>
+
   </mat-tab-group>
 
 </div>

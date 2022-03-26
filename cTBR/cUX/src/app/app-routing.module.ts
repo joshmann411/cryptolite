@@ -6,9 +6,11 @@ import { ColExampleComponent } from './pages/col-example/col-example.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { RowExampleComponent } from './pages/row-example/row-example.component';
+import { TermsComponent } from './pages/terms/terms.component';
 
 const routes: Routes = [
   {
@@ -24,7 +26,9 @@ const routes: Routes = [
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
       {path: 'reset-password', component: ResetPasswordComponent},
-      {path: 'dashboard', component: DashboardComponent}
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'terms', component: TermsComponent},
+      {path: 'privacy', component: PrivacyComponent},
     ],
   },
   {
@@ -46,7 +50,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

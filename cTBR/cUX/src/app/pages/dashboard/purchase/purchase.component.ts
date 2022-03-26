@@ -16,6 +16,8 @@ export class PurchaseComponent implements OnInit {
   btc: number = 0;
   dlr: number = 0;
 
+  leastOneIsConfimed: boolean = false;
+
   isSubmitted: boolean = false;
 
   myAccounts: any;
@@ -23,6 +25,8 @@ export class PurchaseComponent implements OnInit {
   selectedAcc: any;
 
   maxDepo: number = 0;
+
+  unvalidatedAcctCount: number = 0;
 
   constructor(private accountSvc: AccountService,
             private alertService: AlertService,
@@ -34,8 +38,15 @@ export class PurchaseComponent implements OnInit {
     this.accountSvc.getAccountsOfClientByEmail(myEmail).subscribe(data => {
       this.myAccounts = data;
 
-      console.log('all accounts: ' + JSON.stringify(this.myAccounts));
-    })
+      // console.log('all accounts: ' + JSON.stringify(this.myAccounts));
+      this.AtLeastOneAccountIsConfirmed();
+
+      this.calcUnvalidated();
+    });
+
+    
+
+    // alert('Now least one is confirmed: ' + this.leastOneIsConfimed);
 
   }
 
@@ -56,10 +67,43 @@ export class PurchaseComponent implements OnInit {
   acc2Invest(selAccount: any){
     
 
-    this.maxDepo = selAccount.split(':')[1].replace('$','');
+    this.maxDepo = selAccount.split(':')[1].replace('$','').replace(".00", "");
 
-    alert('Selected: ' + JSON.stringify(selAccount) + ' | Max: ' + this.maxDepo);
+    // alert('Selected: ' + JSON.stringify(selAccount) + ' | Max: ' + this.maxDepo);
   }
 
+  goToDashboard(){
+    //this.router.navigate(['dashboard']);
+    window.location.reload();
+  }
 
+  AtLeastOneAccountIsConfirmed()
+  {
+
+    for (let i = 0; i < this.myAccounts.length; i++) {
+      // console.log("Account " + i + ": " + JSON.stringify(this.myAccounts[i]));
+
+      //if one of this happens to be confirmed then show
+      if(this.myAccounts[i].isConfirmed){
+        this.leastOneIsConfimed = true;
+      }
+    }
+
+    // alert('Now least one is confirmed: ' + this.leastOneIsConfimed);
+  }
+
+  calcUnvalidated(){
+    let counter = 0
+
+    for(let i = 0; i < this.myAccounts.length; i++){
+      if(!this.myAccounts[i].isConfirmed){
+        counter++;
+      }
+    }
+    // this.alertService.info('counter: ' + counter);
+
+    this.unvalidatedAcctCount = counter;
+  }
+
+  
 }

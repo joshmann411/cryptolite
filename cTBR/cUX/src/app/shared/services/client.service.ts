@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ClientService {
-  readonly authUrl = "https://localhost:5001/api/";
+  //readonly authUrl = "https://localhost:5201/api/";
+  
+  readonly authUrl = "https://api.dynamocryptos.com:5201/api/";
+
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +19,7 @@ export class ClientService {
     );
   }
 
-  UpdateClientDetails(val: any): Observable<any>{
+  UpdateClientDetails(val: any): Observable<any> {
     const body = val;
 
     //alert('BODY to send: ' + JSON.stringify(body));

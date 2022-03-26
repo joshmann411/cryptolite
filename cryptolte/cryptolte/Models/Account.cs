@@ -17,6 +17,10 @@ namespace cryptolte.Models
         public string wallet { get; set; }
         public bool confirmed { get; set; }
         public int clientId { get; set; } //link to the  clients table
+        
+        public bool? isConfirmed { get; set; } = false;
+
+        public DateTime? creationDate { get; set; } = DateTime.Now;
     }
 
     //enum AccountType

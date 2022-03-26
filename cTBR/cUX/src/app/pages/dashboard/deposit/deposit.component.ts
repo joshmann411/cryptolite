@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'ngx-alerts';
+import { ClipboardService } from 'ngx-clipboard';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { ProgressbarService } from 'src/app/shared/services/progressbar.service';
 
@@ -26,10 +27,13 @@ export class DepositComponent implements OnInit {
   //holds wallet
   walletAddr: any = '';
 
+  isHidden: boolean = true;
+
   constructor(private _accountSvc: AccountService,
             private _alertService: AlertService,
             private _progressSvc: ProgressbarService,
-            private router: Router) { }
+            private router: Router,
+            private clipboardApi: ClipboardService) { }
 
   ngOnInit(): void {
     this.selectedAcc = this.depWithAccount;
@@ -43,7 +47,7 @@ export class DepositComponent implements OnInit {
     this._alertService.info('Deposit in progress');
     this._progressSvc.startLoading();
     
-    console.log(f.value); //REMOVE 
+    // console.log(f.value); //REMOVE 
     
     const depositIntoAccountObserver = {  
       next: (x: any) => { 
@@ -72,19 +76,44 @@ export class DepositComponent implements OnInit {
       clientId: this.selectedAcc.clientId
     }
 
-    console.log('THIS acc: '+ JSON.stringify(this.upAccount));
+    // console.log('THIS acc: '+ JSON.stringify(this.upAccount));
 
     this._accountSvc.getWallet().subscribe(data => {
-      console.log('wallet address: ' + data);
+      // console.log('wallet address: ' + data);
       this.walletAddr = data
     });
+    
     // this._accountSvc.updateAccount(f.value).subscribe((addAccountObserver)=> {
 
     // })
   }
 
-  // acc2Append(accId: number){
-  //   alert('Selected Acc: ' + accId);
-  // }
+  
+  RequestPaymentInstruction(){
+    this.isHidden = !this.isHidden;
+    // this._alertService.info('Request received. You will get a email notification shortly.')
+  
+  }
 
+  refreshDashboard(){
+    window.location.reload();
+  }
+
+  onSubmitPayment(f: NgForm){
+    // console.log('payment values: ' + JSON.stringify(f.value));
+
+    // var acName = acct.AccoutName ?? "";
+
+    if(confirm("Have you made payment to the wallet ? Processing only starts once payment has been received.")) {
+      // console.log("Implement delete functionality here");
+      this._alertService.info("Payment verification in initiated");
+    }
+  }
+
+  copyWallet(){
+    // this._alertService.info('Wallet: ' + this.walletAddr);
+    //this.clipboardApi.copy(this.walletAddr);
+    // this.clipboardApi.copyFromContent('HELLO');
+    // this._alertService.info('Address Copied to clipboard');
+  }
 }

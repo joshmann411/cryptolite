@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,13 +27,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public JsonResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 _logger.LogInformation("Retrieving list of known contacts");
 
-                IEnumerable<Contact> contacts = _contactRepo.GetContacts();
+                IEnumerable<Contact> contacts = await _contactRepo.GetContacts();
 
                 _logger.LogInformation("contacts list retrieved");
 
@@ -49,13 +50,13 @@ namespace cryptolte.Controllers
 
         [HttpGet]
         [Route("GetById/{id}")]
-        public JsonResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 _logger.LogInformation($"Retrieving contacts with ID: {id}");
 
-                Contact contact = _contactRepo.GetContact(id);
+                Contact contact = await _contactRepo.GetContact(id);
 
                 _logger.LogInformation($"Retrieving contacts with ID: {id}");
 
@@ -74,13 +75,13 @@ namespace cryptolte.Controllers
         [HttpPost]
         [Route("Post")]
         //[Route("Post/{contact}")]
-        public JsonResult Post([FromBody] Contact contact)
+        public async Task<IActionResult> Post([FromBody] Contact contact)
         {
             try
             {
                 _logger.LogInformation($"Adding new contact with id: {contact.ContactId}");
 
-                string msg = _contactRepo.CreateContact(contact);
+                var msg = await _contactRepo.CreateContact(contact);
 
                 _logger.LogInformation("Added Successfully !");
 
@@ -97,13 +98,13 @@ namespace cryptolte.Controllers
 
         [HttpPut]
         [Route("Put")]
-        public JsonResult Put([FromBody] Contact contactChanges)
+        public async Task<IActionResult> Put([FromBody] Contact contactChanges)
         {
             try
             {
                 _logger.LogInformation($"Updating contact changes. Object: {new JsonResult(contactChanges)}");
 
-                string response = _contactRepo.UpdateContact(contactChanges);
+                var response = await _contactRepo.UpdateContact(contactChanges);
 
                 _logger.LogInformation("Updated Successfully");
 
@@ -119,13 +120,13 @@ namespace cryptolte.Controllers
 
         [HttpDelete]
         [Route("Delete/{contactId}")]
-        public JsonResult Delete(int contactId)
+        public async Task<IActionResult> Delete(int contactId)
         {
             try
             {
                 _logger.LogInformation($"Deleting contactId with ID: {contactId}");
 
-                string response = _contactRepo.DeleteContact(contactId);
+                var response = await _contactRepo.DeleteContact(contactId);
 
                 _logger.LogInformation("Deleted Successfully !");
 
@@ -138,5 +139,75 @@ namespace cryptolte.Controllers
                 return new JsonResult("Error while deleting contact", ex.Message.ToString());
             }
         }
+
+        [HttpPost]
+        [Route("WriteContactUsToFile")]
+        public async Task<IActionResult> WriteContactUsToFile([FromBody] ContactUs contactUs)
+        {
+            if (contactUs != null)
+            {
+                try
+                {
+                    //write the details down to a new file
+                    //string wrknDir = Directory.GetCurrentDirectory();
+
+                    string contactPath = "C://ContactUs//";
+
+                    // path does not exist
+                    if (!Directory.Exists(contactPath))
+                    {
+                        //create it
+                        Directory.CreateDirectory(contactPath);
+                    }
+
+                    string txt2Write = string.Format($"Name: {contactUs.Name} \n Email: {contactUs.Email} \n " +
+                           $"Subject: {contactUs.Subject} \n Message: {contactUs.Message}");
+
+
+
+                    string filePath = contactPath + contactUs.Name + DateTime.Today.Year + DateTime.Today.Month + DateTime.Today.Day + ".txt";
+
+                    //if file does not exist
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        //create 
+                        using(FileStream fs = System.IO.File.Create(filePath))
+                        {
+                            //System.IO.File.Create(filePath);
+                            //write data so long
+                            //await fs.WriteAsync(txt2Write);
+
+                            using (var writer = new StreamWriter(fs))
+                            {
+                                await writer.WriteAsync(txt2Write);
+                            }
+
+                            return new JsonResult("Message received. We will be in touch with you");
+                        }
+                    }
+                   
+                    //just go ahead and write
+                    var stream = new FileStream(filePath, FileMode.Open);
+
+                    using (var writer = new StreamWriter(stream))
+                    {
+                        await writer.WriteAsync(txt2Write);
+                    }
+
+                    return new JsonResult("Message received. We will be in touch with you");
+
+                }
+                catch (Exception ex)
+                {
+                    string err = ex.Message.ToString();
+
+                    return new JsonResult("Fatal Error");
+                }
+            }
+
+
+            return new JsonResult("Data is null");
+        }
+
     }
 }
